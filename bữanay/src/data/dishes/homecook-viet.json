@@ -1,0 +1,2324 @@
+[
+  {
+    "id": "vn-hc-01",
+    "name": "Ức gà áp chảo chanh tỏi + khoai lang luộc + bông cải",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 phần (150g ức gà, 130g khoai lang, 120g bông cải)",
+    "calories": 445,
+    "protein": 40,
+    "carbs": 44,
+    "fiber": 7,
+    "fat": 11,
+    "sodiumMg": 420,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "34.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "40g đạm sạch và tinh bột chậm từ khoai lang giúp giữ cơ, giảm mỡ.",
+    "swapTip": "Có thể thay khoai lang bằng 1 chén cơm gạo lứt nhỏ.",
+    "recipe": {
+      "ingredients": [
+        "150g ức gà phi lê",
+        "1 củ khoai lang nhỏ (~130g)",
+        "120g bông cải xanh",
+        "1 thìa cà phê dầu ô liu, tỏi, chanh, muối tiêu"
+      ],
+      "steps": [
+        "Luộc khoai lang và bông cải xanh trong nước sôi khoảng 8 phút rồi vớt ra.",
+        "Ướp ức gà với tỏi băm, muối tiêu và vài giọt nước cốt chanh trong 5 phút.",
+        "Áp chảo ức gà với 1 thìa dầu ô liu lửa vừa mỗi mặt 4 phút đến khi chín vàng."
+      ],
+      "cookTip": "Đậy nắp chảo 2 phút cuối giúp ức gà chín đều bên trong mà không bị khô."
+    }
+  },
+  {
+    "id": "vn-hc-02",
+    "name": "Trứng ốp la + bánh mì nguyên cám + cà chua dưa leo",
+    "slots": ["Sáng", "Xế"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 quả trứng, 2 lát bánh mì nguyên cám, cà chua dưa leo",
+    "calories": 355,
+    "protein": 20,
+    "carbs": 34,
+    "fiber": 5,
+    "fat": 15,
+    "sodiumMg": 460,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "18.000đ",
+    "prepMinutes": 7,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "gluten"],
+    "whyItFits": "Siêu nhanh 7 phút cho buổi sáng bận rộn, đủ đạm và chất xơ.",
+    "swapTip": "Dùng 1 trứng nguyên quả + 2 lòng trắng nếu đang giảm mỡ máu.",
+    "recipe": {
+      "ingredients": [
+        "2 quả trứng gà",
+        "2 lát bánh mì nguyên cám",
+        "1 quả cà chua nhỏ, nửa quả dưa leo",
+        "1/2 thìa cà phê dầu hoặc bơ lạt"
+      ],
+      "steps": [
+        "Làm nóng chảo chống dính với nửa thìa dầu, ốp la 2 quả trứng lửa nhỏ.",
+        "Áp chảo nhanh 2 lát bánh mì 1 phút cho giòn mặt.",
+        "Thái lát cà chua, dưa leo xếp ăn kèm."
+      ],
+      "cookTip": "Rắc chút tiêu đen và lá oregano khô để dậy mùi mà không cần thêm muối."
+    }
+  },
+  {
+    "id": "vn-hc-03",
+    "name": "Thịt nạc thăn luộc + rau muống luộc + cơm trắng vừa",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g thịt nạc luộc, 150g rau muống, 1 chén cơm",
+    "calories": 470,
+    "protein": 33,
+    "carbs": 56,
+    "fiber": 5,
+    "fat": 12,
+    "sodiumMg": 580,
+    "sugarG": 1,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "30.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Cơm nhà sạch dầu mỡ, tận dụng luôn nước luộc rau làm canh thanh mát.",
+    "swapTip": "Vắt thêm chanh vào nước rau luộc để tăng khả năng hấp thu sắt.",
+    "recipe": {
+      "ingredients": [
+        "120g thịt heo nạc thăn hoặc nạc vai",
+        "150g rau muống nhặt sạch",
+        "1 chén cơm trắng (~140g)",
+        "1 củ hành tím, nước mắm tỏi ớt loãng"
+      ],
+      "steps": [
+        "Luộc thịt cùng hành tím đập dập trong 12 phút đến khi chín mềm.",
+        "Vớt thịt ra để nguội bớt rồi thái lát mỏng.",
+        "Tận dụng nồi nước sôi cho thêm vài hạt muối, luộc rau muống 3 phút giữ màu xanh."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-04",
+    "name": "Đậu hũ non hấp trứng thịt bằm nấm hương",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 hộp đậu hũ non, 1 trứng, 60g nạc băm, 1 chén cơm",
+    "calories": 440,
+    "protein": 29,
+    "carbs": 50,
+    "fiber": 4,
+    "fat": 14,
+    "sodiumMg": 640,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ", "Lò vi sóng"],
+    "avoidIf": [],
+    "allergens": ["đậu nành", "trứng"],
+    "whyItFits": "Mềm mịn, ít dầu, cực tốt cho người đau dạ dày hoặc ăn tối nhẹ.",
+    "swapTip": "Có thể thay thịt heo băm bằng nấm đông cô băm cho ngày ăn chay.",
+    "recipe": {
+      "ingredients": [
+        "1 hộp đậu hũ non (200g)",
+        "60g thịt nạc vai băm nhuyễn",
+        "1 quả trứng gà, 2 tai nấm hương ngâm mềm",
+        "1 thìa cà phê nước tương, hành lá"
+      ],
+      "steps": [
+        "Cắt lát đậu hũ non xếp vào tô chịu nhiệt.",
+        "Đánh tan trứng với thịt băm, nấm hương thái nhỏ, chút nước tương và 2 thìa nước lọc.",
+        "Đổ hỗn hợp lên đậu hũ rồi hấp cách thủy 12 phút (hoặc quay vi sóng có đậy nắp 6 phút)."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-05",
+    "name": "Cá basa phi lê nướng nồi chiên không dầu + xà lách",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "160g phi lê cá basa, xà lách cà chua, 1 chén cơm nhỏ",
+    "calories": 455,
+    "protein": 31,
+    "carbs": 45,
+    "fiber": 4,
+    "fat": 16,
+    "sodiumMg": 520,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "35.000đ",
+    "prepMinutes": 18,
+    "tools": ["Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Cá basa giá rẻ, nhiều đạm và mỡ tốt tự nhiên, nướng không cần dầu.",
+    "swapTip": "Lót giấy nến đục lỗ để mỡ thừa chảy xuống khay dưới.",
+    "recipe": {
+      "ingredients": [
+        "160g phi lê cá basa",
+        "100g xà lách, cà chua bi",
+        "1 thìa cà phê nghệ bột, tỏi băm, tiêu, nửa thìa nước mắm"
+      ],
+      "steps": [
+        "Thấm khô miếng cá, ướp nghệ, tỏi, nước mắm và tiêu trong 5 phút.",
+        "Cho vào nồi chiên không dầu nướng ở 185°C trong 12 phút.",
+        "Ăn kèm xà lách, cà chua bi và cơm nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-06",
+    "name": "Canh chua cá lóc bông điên điển + 1 chén cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g cá lóc, bạc hà, đậu bắp, cà chua, 1 chén cơm",
+    "calories": 430,
+    "protein": 30,
+    "carbs": 58,
+    "fiber": 6,
+    "fat": 8,
+    "sodiumMg": 790,
+    "sugarG": 5,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "45.000đ",
+    "prepMinutes": 20,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": ["Đau dạ dày"],
+    "allergens": ["hải sản"],
+    "whyItFits": "Nhiều rau đậu bắp giàu chất xơ hòa tan tốt cho đường ruột và mỡ máu.",
+    "swapTip": "Người đau dạ dày hãy giảm độ chua me và không ăn ớt.",
+    "recipe": {
+      "ingredients": [
+        "130g cá lóc cắt khúc",
+        "50g đậu bắp, 50g dọc mùng, 1 quả cà chua, 30g giá đỗ",
+        "Me vắt lấy nước, rau om, ngò gai, 1 thìa nước mắm"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước với nước cốt me và cà chua bổ múi cau.",
+        "Thả cá lóc vào nấu 6 phút cho chín tới, hớt bọt sạch.",
+        "Cho đậu bắp, dọc mùng vào đun thêm 2 phút rồi tắt bếp thả giá, rau om."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-07",
+    "name": "Tôm sú hấp sả gừng + bầu luộc chấm kho quẹt nhạt",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g tôm sú, 150g bầu luộc, 1 chén cơm",
+    "calories": 410,
+    "protein": 32,
+    "carbs": 56,
+    "fiber": 4,
+    "fat": 6,
+    "sodiumMg": 690,
+    "sugarG": 3,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "55.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Đạm từ tôm cực sạch béo, bầu luộc mát lành giúp dễ ngủ buổi tối.",
+    "swapTip": "Có thể bỏ hoàn toàn cơm nếu ăn vào bữa tối khuya.",
+    "recipe": {
+      "ingredients": [
+        "150g tôm sú rửa sạch cắt râu",
+        "150g bầu non gọt vỏ thái miếng",
+        "2 cây sả đập dập, vài lát gừng"
+      ],
+      "steps": [
+        "Xếp sả và gừng dưới đáy xửng hấp, cho tôm lên trên hấp 5 phút đến khi đỏ đều.",
+        "Luộc bầu trong nồi nước sôi khoảng 4 phút rồi vớt ra đĩa.",
+        "Thưởng thức nóng cùng muối tiêu chanh hoặc nước mắm loãng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-08",
+    "name": "Canh cải ngọt thịt bằm nấm rơm + cơm nóng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh lớn (80g nạc băm, 150g cải, 60g nấm), 1 chén cơm",
+    "calories": 420,
+    "protein": 24,
+    "carbs": 58,
+    "fiber": 6,
+    "fat": 10,
+    "sodiumMg": 680,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "25.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Rẻ, dễ nấu chỉ trong 1 nồi nhỏ và bổ sung nhiều rau xanh.",
+    "swapTip": "Xay nhuyễn 1/2 phần nấm nếu muốn nước canh ngọt thanh không cần hạt nêm.",
+    "recipe": {
+      "ingredients": [
+        "80g thịt nạc băm",
+        "150g rau cải ngọt, 60g nấm rơm",
+        "1 củ hành tím, tiêu, nửa thìa nước mắm"
+      ],
+      "steps": [
+        "Phi nhanh hành tím với nửa thìa dầu (hoặc xào không dầu), cho thịt băm đảo săn.",
+        "Đổ 450ml nước vào đun sôi, thả nấm rơm nấu 3 phút.",
+        "Cho cải ngọt vào nấu thêm 2 phút rồi nêm nhạt và tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-09",
+    "name": "Trứng hấp vân cà rốt nấm mèo + cơm gạo lứt",
+    "slots": ["Sáng", "Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 trứng gà, cà rốt, mộc nhĩ, 120g cơm lứt",
+    "calories": 385,
+    "protein": 19,
+    "carbs": 42,
+    "fiber": 5,
+    "fat": 15,
+    "sodiumMg": 490,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "22.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": ["trứng"],
+    "whyItFits": "Nấu chung luôn trên xửng hấp của nồi cơm điện, tiết kiệm thời gian rửa nồi.",
+    "swapTip": "Ăn kèm dưa leo thái lát để tăng cảm giác giòn tươi.",
+    "recipe": {
+      "ingredients": [
+        "2 quả trứng gà",
+        "30g cà rốt băm nhỏ, 1 tai mộc nhĩ ngâm thái sợi",
+        "Hành lá, chút tiêu và nước mắm"
+      ],
+      "steps": [
+        "Đánh đều trứng cùng cà rốt, mộc nhĩ, hành lá và 1 thìa nước lọc.",
+        "Đổ vào chén nhỏ đặt lên xửng hấp của nồi cơm điện trong 12 phút.",
+        "Lấy ra ăn nóng cùng cơm lứt hoặc cơm trắng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-10",
+    "name": "Ức gà sốt cam nồi chiên không dầu + xà lách",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g ức gà, nước cam tươi, xà lách bắp cải tím",
+    "calories": 360,
+    "protein": 38,
+    "carbs": 26,
+    "fiber": 5,
+    "fat": 11,
+    "sodiumMg": 430,
+    "sugarG": 8,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "34.000đ",
+    "prepMinutes": 18,
+    "tools": ["Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Vị cam chua ngọt tự nhiên khiến ức gà đỡ khô ngán mà vẫn rất ít calo.",
+    "swapTip": "Thêm 1 củ khoai nhỏ nếu bạn cần thêm tinh bột trước buổi tập.",
+    "recipe": {
+      "ingredients": [
+        "150g ức gà cắt miếng vừa",
+        "Nước ép nửa quả cam vàng, 1 thìa cà phê mật ong, tỏi băm",
+        "120g xà lách và bắp cải tím"
+      ],
+      "steps": [
+        "Ướp gà với nước cam, tỏi băm, mật ong và chút muối trong 5 phút.",
+        "Nướng nồi chiên không dầu ở 180°C trong 12 phút, lật mặt ở phút thứ 7.",
+        "Bày gà lên đĩa xà lách trộn giấm táo loãng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-11",
+    "name": "Miến nấu ức gà nấm hương (1 nồi 10 phút)",
+    "slots": ["Sáng", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô (120g ức gà, 50g miến dong, nấm hương, cải xanh)",
+    "calories": 350,
+    "protein": 31,
+    "carbs": 42,
+    "fiber": 4,
+    "fat": 6,
+    "sodiumMg": 620,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Cực nhanh chỉ 10 phút với 1 cái nồi duy nhất, ấm bụng ít béo.",
+    "swapTip": "Thay miến bằng mì rau củ hoặc bún gạo lứt tùy sở thích.",
+    "recipe": {
+      "ingredients": [
+        "120g ức gà thái lát mỏng",
+        "50g miến dong ngâm mềm",
+        "3 tai nấm hương, 80g cải thìa"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước cùng nấm hương và vài lát gừng trong 3 phút.",
+        "Thả ức gà vào nấu chín khoảng 3 phút.",
+        "Cho miến và cải thìa vào đun sôi lại 1 phút rồi nêm nhạt, múc ra tô."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-12",
+    "name": "Bò xào thiên lý ít dầu + cơm trắng vừa",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "110g thịt bò nạc, 120g hoa thiên lý, 1 chén cơm",
+    "calories": 470,
+    "protein": 31,
+    "carbs": 56,
+    "fiber": 5,
+    "fat": 13,
+    "sodiumMg": 610,
+    "sugarG": 2,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "52.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Hoa thiên lý giàu chất xơ mát gan, kết hợp thịt bò bổ máu.",
+    "swapTip": "Xào nhanh lửa lớn bằng chảo chống dính với 1 thìa dầu để giữ độ giòn.",
+    "recipe": {
+      "ingredients": [
+        "110g thịt bò thăn thái mỏng",
+        "120g hoa thiên lý rửa sạch",
+        "Tỏi băm, 1 thìa cà phê dầu hào, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Ướp thịt bò với tỏi băm, dầu hào và chút tiêu trong 5 phút.",
+        "Đảo nhanh bò trên chảo nóng 1 phút rồi trút riêng ra đĩa.",
+        "Cho hoa thiên lý và 2 thìa nước lọc vào xào 2 phút rồi trút bò vào đảo đều."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-13",
+    "name": "Cơm ức gà nấu nồi cơm điện một bước",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g ức gà, 120g gạo, nấm, cà rốt, bắp ngọt",
+    "calories": 490,
+    "protein": 35,
+    "carbs": 62,
+    "fiber": 5,
+    "fat": 11,
+    "sodiumMg": 590,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 25,
+    "tools": ["Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Dành cho bạn ở trọ chỉ có 1 nồi cơm điện, không cần đứng canh bếp.",
+    "swapTip": "Rưới 1 thìa dầu mè và rắc hành lá khi cơm chín để thơm hơn.",
+    "recipe": {
+      "ingredients": [
+        "130g ức gà cắt hạt lựu ướp chút nước tương",
+        "100g gạo vo sạch, nước vừa nấu",
+        "30g cà rốt hạt lựu, 30g bắp ngọt, nấm hương"
+      ],
+      "steps": [
+        "Cho gạo và nước vào nồi cơm điện như bình thường.",
+        "Xếp ức gà, cà rốt, bắp và nấm hương lên trên mặt gạo.",
+        "Bật nút Cook, đợi nồi nhảy Warm ủ thêm 10 phút rồi trộn đều thưởng thức."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-14",
+    "name": "Cá hồi áp chảo măng tây bơ tỏi nhẹ",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g cá hồi, 100g măng tây, 1 củ khoai nhỏ",
+    "calories": 455,
+    "protein": 31,
+    "carbs": 28,
+    "fiber": 4,
+    "fat": 24,
+    "sodiumMg": 390,
+    "sugarG": 2,
+    "budgetLevel": "flexible",
+    "estimatedCostVnd": "95.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Dồi dào Omega-3 chống viêm tốt cho não bộ và tim mạch.",
+    "swapTip": "Áp chảo mặt da cá trước để lấy chính mỡ cá tiết ra chiên măng tây.",
+    "recipe": {
+      "ingredients": [
+        "130g phi lê cá hồi",
+        "100g măng tây cắt bỏ phần gốc già",
+        "Muối tiêu, tỏi đập dập, vài giọt chanh"
+      ],
+      "steps": [
+        "Thấm khô cá hồi, rắc nhẹ muối tiêu hai mặt.",
+        "Đặt mặt da cá xuống chảo chống dính nóng lửa vừa 3 phút cho giòn, lật thêm 2 phút.",
+        "Bỏ măng tây và tỏi vào áp chảo chung 3 phút đến khi măng xanh bóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-15",
+    "name": "Đậu hũ non sốt cà chua nấm đùi gà + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "200g đậu hũ, 80g nấm đùi gà, 2 cà chua, 1 chén cơm",
+    "calories": 415,
+    "protein": 20,
+    "carbs": 58,
+    "fiber": 7,
+    "fat": 11,
+    "sodiumMg": 560,
+    "sugarG": 5,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "25.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Đậm đà dễ đưa cơm, giàu chất chống oxy hóa lycopene từ cà chua.",
+    "swapTip": "Không chiên đậu ngập dầu trước khi sốt để giữ calo nhẹ.",
+    "recipe": {
+      "ingredients": [
+        "200g đậu hũ trắng hoặc đậu non cắt vuông",
+        "2 quả cà chua băm nhỏ, 80g nấm đùi gà thái lát",
+        "Hành lá, 1 thìa nước tương, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Xào cà chua với chút dầu và 3 thìa nước cho nhừ thành sốt.",
+        "Thả nấm đùi gà vào đảo 3 phút cho thấm sốt.",
+        "Cho nhẹ tay đậu hũ vào rim lửa nhỏ 4 phút rồi rắc hành lá."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-16",
+    "name": "Canh bí đao nấu tôm khô thanh nhiệt + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh bí đao tôm, 1 quả trứng luộc, 1 chén cơm",
+    "calories": 410,
+    "protein": 21,
+    "carbs": 58,
+    "fiber": 5,
+    "fat": 10,
+    "sodiumMg": 620,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "24.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "trứng"],
+    "whyItFits": "Giải nhiệt cực tốt, nhẹ bụng buổi tối mà vẫn đủ đạm từ tôm và trứng.",
+    "swapTip": "Có thể thay tôm khô bằng 70g tôm tươi băm cho ngọt nước hơn.",
+    "recipe": {
+      "ingredients": [
+        "200g bí đao gọt vỏ cắt lát",
+        "20g tôm khô ngâm mềm giã dập (hoặc 70g tôm tươi)",
+        "1 quả trứng luộc ăn kèm, hành ngò"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước với tôm khô 4 phút để lấy vị ngọt tự nhiên.",
+        "Thả bí đao vào nấu thêm 4 phút cho chín trong vừa tới.",
+        "Nêm nhạt, rắc hành ngò và ăn cùng cơm + trứng luộc."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-17",
+    "name": "Thịt bò cuộn nấm kim châm áp chảo",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g ba chỉ bò nạc/thăn, 1 gói nấm kim châm, 1 chén cơm nhỏ",
+    "calories": 450,
+    "protein": 30,
+    "carbs": 44,
+    "fiber": 4,
+    "fat": 17,
+    "sodiumMg": 680,
+    "sugarG": 3,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "55.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ", "Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Ngon như đi ăn tiệm nhưng kiểm soát được độ dầu mỡ và muối.",
+    "swapTip": "Dùng thịt bắp hoặc thăn bò thái lát mỏng thay ba chỉ nhiều mỡ.",
+    "recipe": {
+      "ingredients": [
+        "120g thịt bò thái lát bản dài",
+        "1 gói nấm kim châm cắt gốc rửa sạch",
+        "1 thìa nước tương pha nửa thìa mật ong"
+      ],
+      "steps": [
+        "Chia nấm thành từng nhúm nhỏ rồi cuộn chặt bằng lát thịt bò.",
+        "Áp chảo phần mép cuộn trước 2 phút cho định hình rồi lật đều các mặt 3 phút.",
+        "Phết hỗn hợp nước tương mật ong lên bề mặt 30 giây cuối rồi tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-18",
+    "name": "Cháo yến mạch thịt bằm bí đỏ (nấu 8 phút)",
+    "slots": ["Sáng", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "50g yến mạch cán dẹt, 70g nạc băm, 80g bí đỏ",
+    "calories": 350,
+    "protein": 22,
+    "carbs": 41,
+    "fiber": 6,
+    "fat": 10,
+    "sodiumMg": 490,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "20.000đ",
+    "prepMinutes": 8,
+    "tools": ["Bếp gas / bếp từ", "Lò vi sóng"],
+    "avoidIf": [],
+    "allergens": ["gluten"],
+    "whyItFits": "Nấu cực nhanh như cháo Việt, chất xơ beta-glucan cực tốt cho tim mạch.",
+    "swapTip": "Dùng yến mạch cán vỡ hoặc xay sơ nếu muốn sánh mịn nhanh hơn.",
+    "recipe": {
+      "ingredients": [
+        "50g yến mạch cán dẹt",
+        "70g thịt nạc băm, 80g bí đỏ cắt hạt lựu nhỏ",
+        "Hành lá, chút nước mắm, tiêu"
+      ],
+      "steps": [
+        "Nấu sôi 400ml nước với bí đỏ và thịt băm trong 4 phút đến khi bí mềm.",
+        "Đổ yến mạch vào khuấy đều lửa nhỏ thêm 3 phút cho sánh lại.",
+        "Nêm nhạt, rắc hành lá và tiêu dùng nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-19",
+    "name": "Trứng cuộn rong biển ít dầu + salad dưa leo",
+    "slots": ["Sáng", "Xế", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "3 quả trứng gà, 1 lá rong biển, 100g dưa leo",
+    "calories": 270,
+    "protein": 21,
+    "carbs": 7,
+    "fiber": 2,
+    "fat": 17,
+    "sodiumMg": 440,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "18.000đ",
+    "prepMinutes": 8,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng"],
+    "whyItFits": "Ít tinh bột (Low-carb), giàu đạm và i-ốt tự nhiên từ rong biển.",
+    "swapTip": "Cuộn thêm cà rốt bào sợi hoặc ức gà xé vào giữa nếu muốn tăng độ no.",
+    "recipe": {
+      "ingredients": [
+        "3 quả trứng gà",
+        "1 lá rong biển bản lớn",
+        "Nửa quả dưa leo, chút muối tiêu"
+      ],
+      "steps": [
+        "Đánh tan trứng với chút muối tiêu rồi tráng mỏng trên chảo chống dính.",
+        "Khi mặt trứng còn hơi ướt, đặt lá rong biển lên trên.",
+        "Cuộn tròn từ mép lại, rán thêm 30 giây mỗi mặt rồi cắt khoanh."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-20",
+    "name": "Cá thu sốt cà chua ít dầu + đậu bắp luộc",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g cá thu, 120g đậu bắp, 1 chén cơm",
+    "calories": 485,
+    "protein": 31,
+    "carbs": 56,
+    "fiber": 5,
+    "fat": 15,
+    "sodiumMg": 690,
+    "sugarG": 4,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "48.000đ",
+    "prepMinutes": 20,
+    "tools": ["Bếp gas / bếp từ", "Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Cá thu giàu chất béo lành mạnh và đạm, làm theo cách áp chảo đỡ ngấy.",
+    "swapTip": "Áp chảo cá hoặc nướng nồi chiên không dầu trước thay cho chiên ngập dầu.",
+    "recipe": {
+      "ingredients": [
+        "1 khứa cá thu (~130g)",
+        "2 quả cà chua băm nhỏ, hành tím",
+        "120g đậu bắp luộc ăn kèm"
+      ],
+      "steps": [
+        "Áp chảo hoặc nướng nồi chiên không dầu miếng cá cho săn vàng 2 mặt.",
+        "Đun cà chua với hành tím và 3 thìa nước thành sốt sệt, nêm nửa thìa nước mắm.",
+        "Đặt cá vào rim nhẹ 5 phút cho thấm vị."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-21",
+    "name": "Canh rong biển nấu đậu hũ thịt bằm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh lớn (100g đậu non, 70g nạc, rong biển) + cơm nhỏ",
+    "calories": 385,
+    "protein": 24,
+    "carbs": 48,
+    "fiber": 4,
+    "fat": 10,
+    "sodiumMg": 670,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Thanh mát, bổ sung khoáng chất và rất nhẹ nhàng cho bữa tối.",
+    "swapTip": "Ngâm rong biển khô 5 phút và vắt sạch nước để hết mùi tanh.",
+    "recipe": {
+      "ingredients": [
+        "10g rong biển khô nấu canh",
+        "100g đậu hũ non cắt khối, 70g thịt nạc băm",
+        "Vài lát gừng, 1/2 thìa dầu mè"
+      ],
+      "steps": [
+        "Ngâm rong biển khô cho nở rồi rửa sạch cắt khúc vừa ăn.",
+        "Đun sôi 450ml nước với gừng và thịt băm 3 phút.",
+        "Thả rong biển và đậu non vào đun thêm 3 phút, nhỏ vài giọt dầu mè khi tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-22",
+    "name": "Bún gạo lứt trộn ức gà xé dưa leo sốt mè",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "60g bún gạo lứt khô, 120g ức gà, dưa leo, xà lách",
+    "calories": 425,
+    "protein": 35,
+    "carbs": 50,
+    "fiber": 6,
+    "fat": 9,
+    "sodiumMg": 580,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Bún gạo lứt giữ chỉ số đường huyết ổn định hơn bún trắng.",
+    "swapTip": "Luộc bún xong xả qua nước lọc nguội giúp sợi bún dai không dính.",
+    "recipe": {
+      "ingredients": [
+        "60g bún gạo lứt khô",
+        "120g ức gà luộc xé sợi",
+        "Dưa leo, cà rốt bào, 1 thìa nước tương + giấm + dầu mè"
+      ],
+      "steps": [
+        "Luộc bún gạo lứt 7 phút đến khi mềm rồi xả nước nguội để ráo.",
+        "Luộc ức gà cùng chút gừng 10 phút rồi xé sợi.",
+        "Trộn đều bún, gà, dưa leo với nước sốt chua ngọt ít đường."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-23",
+    "name": "Cánh/đùi gà nướng mật ong tỏi nồi chiên không dầu",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 má đùi gà bỏ da (~150g), su hào cà rốt luộc, cơm nhỏ",
+    "calories": 470,
+    "protein": 33,
+    "carbs": 52,
+    "fiber": 4,
+    "fat": 14,
+    "sodiumMg": 650,
+    "sugarG": 5,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "35.000đ",
+    "prepMinutes": 22,
+    "tools": ["Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Thịt má đùi mềm ngon hơn ức gà mà vẫn giữ lượng béo vừa phải khi bỏ da.",
+    "swapTip": "Khứa 2 đường trên miếng thịt để thấm gia vị nhanh trong 5 phút.",
+    "recipe": {
+      "ingredients": [
+        "1 má đùi gà lọc xương hoặc bỏ da",
+        "1 thìa nước tương, nửa thìa mật ong, tỏi băm",
+        "120g su hào cà rốt luộc"
+      ],
+      "steps": [
+        "Ướp thịt gà với tỏi, nước tương, mật ong và tiêu trong 5–10 phút.",
+        "Cho vào nồi chiên không dầu nướng 185°C trong 16 phút (trở mặt giữa chừng).",
+        "Ăn kèm rau củ luộc và 1 chén cơm nhỏ."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-24",
+    "name": "Tôm rim tiêu nhạt + canh mồng tơi mướp + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g tôm thẻ, 1 tô canh mồng tơi, 1 chén cơm",
+    "calories": 440,
+    "protein": 30,
+    "carbs": 58,
+    "fiber": 5,
+    "fat": 9,
+    "sodiumMg": 760,
+    "sugarG": 3,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "45.000đ",
+    "prepMinutes": 16,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Mâm cơm gia đình cân bằng vị giác, mồng tơi hỗ trợ tiêu hóa rất tốt.",
+    "swapTip": "Dùng đường ăn kiêng hoặc chỉ nửa thìa nhỏ mật ong khi rim tôm.",
+    "recipe": {
+      "ingredients": [
+        "120g tôm thẻ cắt đầu bỏ chỉ lưng",
+        "100g rau mồng tơi, nửa quả mướp hương",
+        "Hành tỏi băm, tiêu, nửa thìa nước mắm"
+      ],
+      "steps": [
+        "Đảo tôm trên chảo nóng với hành tỏi, nước mắm và tiêu khoảng 5 phút đến khi săn.",
+        "Nấu sôi 400ml nước, thả mướp và mồng tơi vào đun 3 phút làm canh."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-25",
+    "name": "Mực hấp hành gừng + rau cải luộc chấm xì dầu",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "160g mực ống, 150g cải xanh, 1 chén cơm",
+    "calories": 410,
+    "protein": 31,
+    "carbs": 54,
+    "fiber": 4,
+    "fat": 7,
+    "sodiumMg": 690,
+    "sugarG": 2,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "52.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": ["Mỡ máu cao"],
+    "allergens": ["hải sản"],
+    "whyItFits": "Hấp giữ nguyên vị ngọt tự nhiên và không tốn một giọt dầu ăn nào.",
+    "swapTip": "Hấp mực vừa chín tới 4–5 phút để mực giòn không bị dai.",
+    "recipe": {
+      "ingredients": [
+        "160g mực ống làm sạch cắt khoanh",
+        "Gừng thái sợi, hành lá cắt khúc",
+        "150g rau cải xanh luộc"
+      ],
+      "steps": [
+        "Xếp gừng và đầu hành dưới đáy đĩa, đặt mực lên trên hấp cách thủy 5 phút.",
+        "Luộc rau cải xanh 3 phút rồi ăn nóng với cơm và nước tương tỏi ớt."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-26",
+    "name": "Bánh mì kẹp ức gà xé phô mai tan chảy lò vi sóng",
+    "slots": ["Sáng", "Xế"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 ổ bánh mì nhỏ, 90g ức gà luộc sẵn, 1 lát phô mai nhẹ",
+    "calories": 380,
+    "protein": 28,
+    "carbs": 42,
+    "fiber": 3,
+    "fat": 11,
+    "sodiumMg": 640,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "26.000đ",
+    "prepMinutes": 5,
+    "tools": ["Lò vi sóng"],
+    "avoidIf": [],
+    "allergens": ["sữa", "gluten"],
+    "whyItFits": "Chuẩn bị đúng 5 phút bằng lò vi sóng cho buổi sáng vội đi học/đi làm.",
+    "swapTip": "Kẹp thêm xà lách và cà chua sau khi quay nóng bánh.",
+    "recipe": {
+      "ingredients": [
+        "1 ổ bánh mì vừa hoặc 2 lát bánh mì sandwich",
+        "90g ức gà luộc xé (làm sẵn tủ lạnh)",
+        "1 lát phô mai light, xà lách, cà chua"
+      ],
+      "steps": [
+        "Xẻ bánh mì, nhồi ức gà và phô mai vào giữa.",
+        "Quay lò vi sóng 45 giây cho gà nóng và phô mai vừa chảy.",
+        "Kẹp thêm xà lách và cà chua vào là ăn ngay."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-27",
+    "name": "Nấm đùi gà áp chảo sốt tiêu đen + đậu hũ + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g nấm đùi gà, 120g đậu hũ, rau luộc, 1 chén cơm",
+    "calories": 420,
+    "protein": 20,
+    "carbs": 60,
+    "fiber": 7,
+    "fat": 11,
+    "sodiumMg": 610,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "26.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Món chay cực ngon miệng nhờ kết cấu giòn dai của nấm đùi gà.",
+    "swapTip": "Khứa carô mặt nấm giúp sốt tiêu bám đều và thấm hơn.",
+    "recipe": {
+      "ingredients": [
+        "150g nấm đùi gà bổ đôi khứa carô",
+        "120g đậu hũ trắng",
+        "1 thìa nước tương, nửa thìa dầu hào chay, tiêu xay"
+      ],
+      "steps": [
+        "Áp chảo nấm và đậu hũ trên chảo ít dầu 5 phút đến khi vàng cạnh.",
+        "Pha nước tương, dầu hào chay, tiêu và 2 thìa nước đổ vào rim 2 phút.",
+        "Ăn kèm cơm nóng và rau luộc."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-28",
+    "name": "Thịt heo nạc áp chảo sả ớt + dưa chuột",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g nạc thăn thái lát, sả, 1 quả dưa leo, 1 chén cơm",
+    "calories": 465,
+    "protein": 33,
+    "carbs": 54,
+    "fiber": 4,
+    "fat": 13,
+    "sodiumMg": 640,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "30.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": ["Đau dạ dày"],
+    "allergens": [],
+    "whyItFits": "Thịt thăn mềm thơm mùi sả mà không bị ngập dầu như thịt ram.",
+    "swapTip": "Bỏ ớt nếu bạn bị đau dạ dày, giữ lại phần sả băm cho thơm.",
+    "recipe": {
+      "ingredients": [
+        "130g thịt nạc thăn thái bản mỏng",
+        "1 cây sả băm nhỏ, tỏi, nửa thìa nước mắm, chút tiêu",
+        "1 quả dưa leo thái lát"
+      ],
+      "steps": [
+        "Ướp thịt với sả tỏi và nước mắm 5 phút.",
+        "Áp chảo từng mặt 3 phút lửa vừa đến khi cạnh xém vàng thơm.",
+        "Thưởng thức cùng dưa leo giòn và cơm."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-29",
+    "name": "Trứng chần nấu mì rau củ + cải thìa",
+    "slots": ["Sáng", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 vắt mì rau củ (65g), 2 trứng gà, 100g cải thìa",
+    "calories": 395,
+    "protein": 20,
+    "carbs": 48,
+    "fiber": 4,
+    "fat": 13,
+    "sodiumMg": 680,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "20.000đ",
+    "prepMinutes": 8,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "gluten"],
+    "whyItFits": "Thay thế hoàn hảo cho mì gói chiên nhiều dầu mỡ và muối.",
+    "swapTip": "Thêm vài lát ức gà hoặc tôm nếu muốn đạt trên 30g đạm.",
+    "recipe": {
+      "ingredients": [
+        "1 vắt mì rau củ hoặc mì chũ không chiên (~65g)",
+        "2 quả trứng gà, 100g cải thìa",
+        "Hành lá, chút bột canh/nước mắm"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước, nêm nhạt vừa ăn rồi thả mì vào nấu 3 phút.",
+        "Đập trực tiếp 2 quả trứng vào nồi nấu thêm 2 phút cho chín lòng đào hoặc chín kỹ.",
+        "Thả cải thìa vào trụng 1 phút cuối rồi múc ra tô."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-30",
+    "name": "Canh bí đỏ đậu phộng thịt bằm + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh bí đỏ, 70g nạc băm, 1 chén cơm",
+    "calories": 455,
+    "protein": 22,
+    "carbs": 64,
+    "fiber": 5,
+    "fat": 12,
+    "sodiumMg": 560,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "24.000đ",
+    "prepMinutes": 18,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu phộng"],
+    "whyItFits": "Bổ mắt, nhiều chất xơ và cực kỳ hợp cho người muốn tăng cân lành mạnh.",
+    "swapTip": "Bỏ đậu phộng và thêm 1 quả trứng luộc nếu bạn bị dị ứng lạc.",
+    "recipe": {
+      "ingredients": [
+        "150g bí đỏ gọt vỏ cắt miếng",
+        "70g thịt nạc băm, 15g đậu phộng giã dập",
+        "Ngò om hoặc hành lá"
+      ],
+      "steps": [
+        "Nấu sôi 450ml nước cùng đậu phộng giã dập trước 7 phút cho bùi mềm.",
+        "Cho bí đỏ và thịt băm vào nấu thêm 7 phút đến khi bí chín bở.",
+        "Nêm nhạt, rắc hành lá ăn cùng cơm."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-31",
+    "name": "Cá diêu hồng hấp gừng hành nấm mèo + rau luộc",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "160g phi lê cá diêu hồng, nấm mèo, rau cải, 1 chén cơm",
+    "calories": 420,
+    "protein": 33,
+    "carbs": 52,
+    "fiber": 4,
+    "fat": 9,
+    "sodiumMg": 590,
+    "sugarG": 2,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "42.000đ",
+    "prepMinutes": 18,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "đậu nành"],
+    "whyItFits": "Cá hấp thanh đạm, hầu như không dầu mỡ, tốt cho người mỡ máu cao.",
+    "swapTip": "Dùng phi lê cá để dễ ăn và tiết kiệm thời gian sơ chế.",
+    "recipe": {
+      "ingredients": [
+        "160g phi lê cá diêu hồng",
+        "Gừng thái chỉ, hành lá, 1 tai mộc nhĩ thái sợi",
+        "1 thìa nước tương pha 1 thìa nước lọc"
+      ],
+      "steps": [
+        "Đặt cá lên đĩa sâu lòng, rải gừng và mộc nhĩ lên trên, rưới nước tương pha.",
+        "Hấp cách thủy 10 phút đến khi thịt cá chín trắng đục.",
+        "Rắc hành lá cắt khúc đậy nắp 1 phút rồi ăn nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-32",
+    "name": "Gà xé trộn bắp cải tím cà rốt sốt sữa chua",
+    "slots": ["Trưa", "Xế", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g ức gà xé, 150g bắp cải tím, 1/2 hộp sữa chua không đường",
+    "calories": 310,
+    "protein": 35,
+    "carbs": 20,
+    "fiber": 5,
+    "fat": 9,
+    "sodiumMg": 420,
+    "sugarG": 5,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["sữa"],
+    "whyItFits": "Thay sốt mayonnaise béo bằng sữa chua không đường giảm tới 200 kcal.",
+    "swapTip": "Thêm ít nước cốt chanh và mù tạt vàng vào sữa chua để tăng vị.",
+    "recipe": {
+      "ingredients": [
+        "130g ức gà luộc chín xé sợi",
+        "150g bắp cải tím và cà rốt thái sợi mỏng",
+        "50g sữa chua không đường, nửa thìa chanh, chút muối tiêu"
+      ],
+      "steps": [
+        "Trộn sữa chua không đường với chanh, muối tiêu làm sốt.",
+        "Cho bắp cải, cà rốt và ức gà xé vào tô lớn.",
+        "Rưới sốt vào trộn đều là thưởng thức ngay."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-33",
+    "name": "Bún bò xào sả ớt tại nhà ít dầu",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "100g bò thăn, 130g bún tươi, xà lách, dưa leo",
+    "calories": 440,
+    "protein": 29,
+    "carbs": 52,
+    "fiber": 5,
+    "fat": 12,
+    "sodiumMg": 680,
+    "sugarG": 4,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "48.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Tự pha nước mắm loãng ít đường tại nhà kiểm soát hoàn toàn gia vị.",
+    "swapTip": "Dùng bún gạo lứt thay bún trắng nếu muốn no lâu hơn.",
+    "recipe": {
+      "ingredients": [
+        "100g thịt bò thái mỏng ướp sả băm và tỏi",
+        "130g bún tươi, xà lách, dưa leo, giá đỗ",
+        "1 thìa nước mắm pha chanh tỏi loãng"
+      ],
+      "steps": [
+        "Áp chảo nhanh thịt bò ướp sả trên lửa lớn trong 2 phút cho vừa chín mềm.",
+        "Xếp xà lách, dưa leo, giá và bún vào tô.",
+        "Cho bò xào lên trên và rưới 1–2 thìa nước mắm loãng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-34",
+    "name": "Canh khổ qua nhồi thịt nạc nấm mèo + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 khúc khổ qua nhồi thịt nấm (90g thịt), 1 chén cơm",
+    "calories": 420,
+    "protein": 24,
+    "carbs": 54,
+    "fiber": 5,
+    "fat": 12,
+    "sodiumMg": 610,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "30.000đ",
+    "prepMinutes": 22,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Khổ qua hỗ trợ ổn định đường huyết tự nhiên và thanh mát cơ thể.",
+    "swapTip": "Bỏ bớt lõi trắng bên trong khổ qua để giảm vị đắng.",
+    "recipe": {
+      "ingredients": [
+        "1 trái khổ qua cắt khúc bỏ ruột",
+        "90g thịt nạc băm trộn mộc nhĩ thái nhỏ và tiêu",
+        "Hành ngò"
+      ],
+      "steps": [
+        "Trộn thịt băm với mộc nhĩ, chút nước mắm và tiêu rồi nhồi chặt vào khúc khổ qua.",
+        "Đun sôi 500ml nước, thả khổ qua vào nấu lửa vừa 15 phút đến khi mềm.",
+        "Nêm nhạt, rắc hành ngò ăn cùng cơm nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-35",
+    "name": "Cháo nấm thịt gà băm gừng ấm bụng",
+    "slots": ["Sáng", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô lớn (100g ức gà băm, nấm rơm, 45g gạo nấu cháo)",
+    "calories": 330,
+    "protein": 27,
+    "carbs": 41,
+    "fiber": 3,
+    "fat": 6,
+    "sodiumMg": 540,
+    "sugarG": 1,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "25.000đ",
+    "prepMinutes": 20,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Nhẹ bụng, ấm áp vào buổi tối mưa hoặc ngày mệt mỏi cần dễ tiêu.",
+    "swapTip": "Giã gạo sơ trước khi nấu giúp cháo nhừ chỉ trong 12 phút.",
+    "recipe": {
+      "ingredients": [
+        "45g gạo tẻ vo sạch",
+        "100g ức gà băm nhỏ, 60g nấm rơm thái lát",
+        "Vài sợi gừng, hành lá"
+      ],
+      "steps": [
+        "Nấu gạo với 600ml nước khoảng 15 phút đến khi hạt gạo nở mềm.",
+        "Thả gà băm và nấm rơm vào khuấy đều đun thêm 5 phút.",
+        "Nêm chút muối/nước mắm, rắc gừng sợi và hành lá."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-36",
+    "name": "Sườn non kho tiêu nhạt nồi cơm điện + rau luộc",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g sườn non, 150g su su luộc, 1 chén cơm",
+    "calories": 510,
+    "protein": 25,
+    "carbs": 56,
+    "fiber": 4,
+    "fat": 20,
+    "sodiumMg": 790,
+    "sugarG": 4,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "45.000đ",
+    "prepMinutes": 28,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": ["Mỡ máu cao"],
+    "allergens": [],
+    "whyItFits": "Món mặn đậm đà cho những ngày thèm cơm nhà chuẩn vị mà vẫn kiểm soát khẩu phần.",
+    "swapTip": "Chần sườn qua nước sôi 2 phút trước khi kho để loại bỏ bớt mỡ thừa.",
+    "recipe": {
+      "ingredients": [
+        "120g sườn non chần sạch",
+        "1 thìa nước mắm, nửa thìa đường, hành tỏi, tiêu",
+        "150g su su luộc"
+      ],
+      "steps": [
+        "Ướp sườn với nước mắm, đường, hành tỏi trong 10 phút.",
+        "Đổ sườn vào nồi cùng nửa chén nước, rim lửa nhỏ 20 phút đến khi sệt lại.",
+        "Luộc su su ăn kèm cơm nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-37",
+    "name": "Bánh mì đen kẹp trứng bác hành tây + cà chua",
+    "slots": ["Sáng"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 lát bánh mì đen, 2 quả trứng gà, hành tây, cà chua",
+    "calories": 350,
+    "protein": 19,
+    "carbs": 35,
+    "fiber": 6,
+    "fat": 14,
+    "sodiumMg": 450,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "22.000đ",
+    "prepMinutes": 8,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "gluten"],
+    "whyItFits": "Bánh mì đen giàu chất xơ gấp đôi bánh mì trắng, giúp no tới trưa.",
+    "swapTip": "Trộn 1 thìa sữa tươi không đường vào trứng khi đánh để trứng bác xốp mềm.",
+    "recipe": {
+      "ingredients": [
+        "2 lát bánh mì đen nguyên cám",
+        "2 quả trứng gà, 20g hành tây thái hạt lựu",
+        "Cà chua bi, 1/2 thìa dầu ô liu"
+      ],
+      "steps": [
+        "Phi thơm hành tây trên chảo chống dính với nửa thìa dầu.",
+        "Đổ trứng đánh tan vào đảo nhẹ lửa nhỏ 2 phút thành trứng bác mềm.",
+        "Đặt lên lát bánh mì đen ăn kèm cà chua bi."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-38",
+    "name": "Đậu cô ve xào ức gà tỏi + cơm gạo lứt",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g ức gà, 130g đậu cô ve, 120g cơm lứt",
+    "calories": 445,
+    "protein": 36,
+    "carbs": 48,
+    "fiber": 7,
+    "fat": 11,
+    "sodiumMg": 540,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Đậu cô ve giòn ngọt giàu xơ kết hợp đạm gà giúp no bụng dài lâu.",
+    "swapTip": "Chần sơ đậu cô ve 2 phút trước khi xào để dùng cực ít dầu mà đậu vẫn xanh.",
+    "recipe": {
+      "ingredients": [
+        "130g ức gà thái lát mỏng",
+        "130g đậu cô ve tước xơ cắt vát",
+        "Tỏi băm, 1 thìa dầu hào, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Xào ức gà với tỏi trên lửa vừa 3 phút đến khi săn.",
+        "Thả đậu cô ve và 2 thìa nước lọc vào đảo 4 phút cho chín tới.",
+        "Nêm 1 thìa dầu hào rồi ăn cùng cơm lứt."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-39",
+    "name": "Canh sấu nấu thịt nạc băm cà chua + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh chua nhẹ (80g nạc băm), 1 trứng luộc, 1 chén cơm",
+    "calories": 445,
+    "protein": 26,
+    "carbs": 56,
+    "fiber": 3,
+    "fat": 13,
+    "sodiumMg": 590,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "25.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": ["Đau dạ dày"],
+    "allergens": ["trứng"],
+    "whyItFits": "Vị chua thanh dễ ăn cơm trong những ngày trời oi nóng.",
+    "swapTip": "Thêm giá đỗ và rau muống luộc nếu muốn bổ sung thêm chất xơ.",
+    "recipe": {
+      "ingredients": [
+        "80g thịt nạc băm",
+        "2 quả cà chua bổ múi, 2 quả sấu (hoặc nước me loãng)",
+        "1 quả trứng luộc ăn kèm, hành lá"
+      ],
+      "steps": [
+        "Đảo thịt băm với cà chua trên nồi nóng 2 phút.",
+        "Đổ 450ml nước và sấu vào nấu sôi 6 phút rồi dằm nhẹ sấu cho ra vị chua.",
+        "Nêm nhạt, rắc hành lá ăn kèm cơm và trứng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-40",
+    "name": "Cơm nắm cá ngừ ngâm nước + rong biển + dưa leo",
+    "slots": ["Sáng", "Trưa", "Xế"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g cơm dẻo, 80g cá ngừ đóng hộp ngâm nước, dưa leo",
+    "calories": 365,
+    "protein": 24,
+    "carbs": 48,
+    "fiber": 3,
+    "fat": 8,
+    "sodiumMg": 560,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 6,
+    "tools": ["Lò vi sóng"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Không cần bếp nấu — cực tiện mang đi làm hoặc đi học chỉ với 6 phút.",
+    "swapTip": "Chọn hộp cá ngừ ngâm nước (in water) thay cho ngâm dầu để tiết kiệm calo.",
+    "recipe": {
+      "ingredients": [
+        "1 chén cơm nóng hoặc cơm gạo lứt",
+        "80g cá ngừ đóng hộp chắt ráo nước",
+        "1 thìa sữa chua không đường (hoặc chút mayo light), lá rong biển, dưa leo"
+      ],
+      "steps": [
+        "Trộn cá ngừ chắt ráo với chút tiêu và 1 thìa sữa chua cho kết dính.",
+        "Bọc nhân cá ngừ vào giữa cơm, nắm chặt rồi quấn dải rong biển ngoài.",
+        "Ăn kèm thanh dưa leo tươi."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-41",
+    "name": "Bầu nhồi thịt hấp hành gừng + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 khoanh bầu nhồi 100g thịt nấm, 1 chén cơm",
+    "calories": 425,
+    "protein": 25,
+    "carbs": 56,
+    "fiber": 4,
+    "fat": 11,
+    "sodiumMg": 560,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 18,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Ngọt thanh tự nhiên, không dầu mỡ và cực kỳ mềm dễ tiêu hóa.",
+    "swapTip": "Dùng ức gà xay trộn nấm hương thay thịt heo để giảm thêm chất béo.",
+    "recipe": {
+      "ingredients": [
+        "2 khoanh bầu dày 3cm khoét bỏ ruột",
+        "100g thịt nạc băm trộn nấm hương thái nhỏ",
+        "Hành lá, chút tiêu, nước mắm"
+      ],
+      "steps": [
+        "Trộn nhân thịt với nấm và chút nước mắm rồi nhồi vào lòng khoanh bầu.",
+        "Đặt vào xửng hấp cách thủy khoảng 14 phút cho chín mềm.",
+        "Ăn nóng kèm cơm và nước tiết ra từ đĩa hấp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-42",
+    "name": "Gà kho sả nghệ ít dầu nồi cơm điện + rau luộc",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "140g thịt ức/đùi gà, 120g rau luộc, 1 chén cơm",
+    "calories": 475,
+    "protein": 35,
+    "carbs": 55,
+    "fiber": 4,
+    "fat": 12,
+    "sodiumMg": 690,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "33.000đ",
+    "prepMinutes": 22,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Nghệ giúp chống viêm và bảo vệ niêm mạc dạ dày rất tốt.",
+    "swapTip": "Nấu phần gà riêng trong tô đặt vào hấp cùng khi cơm gần cạn.",
+    "recipe": {
+      "ingredients": [
+        "140g thịt gà lọc da cắt miếng",
+        "1 thìa sả băm, nửa thìa bột nghệ, nửa thìa nước mắm",
+        "120g rau cải hoặc su su luộc"
+      ],
+      "steps": [
+        "Ướp thịt gà với sả, bột nghệ và nước mắm trong 10 phút.",
+        "Đảo săn trên nồi với 3 thìa nước lọc rồi đậy vung rim 12 phút.",
+        "Dùng kèm rau luộc và cơm."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-43",
+    "name": "Canh rau ngót nấu thịt nạc băm + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh rau ngót (80g thịt băm), 1 quả trứng luộc, 1 chén cơm",
+    "calories": 425,
+    "protein": 26,
+    "carbs": 56,
+    "fiber": 6,
+    "fat": 11,
+    "sodiumMg": 560,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "25.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng"],
+    "whyItFits": "Rau ngót giàu vitamin C và chất xơ giúp thanh nhiệt, cực kỳ dễ nấu tại nhà.",
+    "swapTip": "Vò nhẹ lá rau ngót trước khi nấu để nước canh ngọt và lá rau mềm hơn.",
+    "recipe": {
+      "ingredients": [
+        "120g lá rau ngót tuốt sạch vò nhẹ",
+        "80g thịt nạc băm, 1 quả trứng luộc ăn kèm",
+        "Nửa thìa nước mắm, hành tím"
+      ],
+      "steps": [
+        "Đảo nhanh thịt băm với hành tím cho săn lại rồi đổ 450ml nước đun sôi.",
+        "Thả rau ngót vào đun thêm 3 phút, nêm nhạt và tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-44",
+    "name": "Cá nục kho cà chua rục xương ít dầu + rau luộc",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g cá nục, 2 quả cà chua, 120g rau luộc, 1 chén cơm",
+    "calories": 475,
+    "protein": 31,
+    "carbs": 56,
+    "fiber": 5,
+    "fat": 14,
+    "sodiumMg": 680,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "30.000đ",
+    "prepMinutes": 22,
+    "tools": ["Bếp gas / bếp từ", "Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Cá nục giá siêu rẻ mà giàu Omega-3 và đạm biển không kém cá hồi.",
+    "swapTip": "Dùng cá nục tươi hấp hoặc áp chảo sơ trước khi kho để không tốn nhiều dầu.",
+    "recipe": {
+      "ingredients": [
+        "150g cá nục làm sạch cắt khúc",
+        "2 quả cà chua băm nhuyễn, tỏi, hành tím, 1 thìa nước mắm",
+        "120g rau cải hoặc bắp cải luộc"
+      ],
+      "steps": [
+        "Xào cà chua với hành tỏi và 3 thìa nước lọc thành sốt.",
+        "Xếp cá vào rim lửa nhỏ 15 phút cho thấm đều sốt cà, ăn kèm rau luộc."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-45",
+    "name": "Trứng bác cà chua hành lá + đậu hũ luộc + cơm",
+    "slots": ["Sáng", "Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "2 quả trứng gà, 100g đậu hũ trắng, 2 cà chua, 1 chén cơm",
+    "calories": 445,
+    "protein": 24,
+    "carbs": 54,
+    "fiber": 5,
+    "fat": 15,
+    "sodiumMg": 490,
+    "sugarG": 5,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "20.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "đậu nành"],
+    "whyItFits": "Bữa cơm sinh viên siêu tiết kiệm chỉ 10 phút, đủ đạm động & thực vật.",
+    "swapTip": "Xào cà chua chín mềm trước khi đổ trứng vào đảo nhẹ lửa nhỏ.",
+    "recipe": {
+      "ingredients": [
+        "2 quả trứng gà, 2 quả cà chua thái múi cau",
+        "100g đậu hũ trắng luộc/hấp nóng",
+        "Hành lá, 1/2 thìa dầu ô liu, chút nước mắm"
+      ],
+      "steps": [
+        "Đảo cà chua với chút dầu và 2 thìa nước 3 phút cho chín mềm.",
+        "Đổ trứng đánh tan vào đảo đều 2 phút rồi rắc hành lá, ăn cùng đậu hũ luộc."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-46",
+    "name": "Canh tần ô (cải cúc) nấu cá thác lác + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh cải cúc với 100g chả cá thác lác, 1 chén cơm",
+    "calories": 415,
+    "protein": 25,
+    "carbs": 56,
+    "fiber": 5,
+    "fat": 10,
+    "sodiumMg": 620,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Cải cúc thơm dịu hỗ trợ giấc ngủ buổi tối, chả cá giàu đạm ít béo.",
+    "swapTip": "Quết chả cá với thì là và tiêu xay trước khi thả vào nước sôi.",
+    "recipe": {
+      "ingredients": [
+        "100g chả cá thác lác tươi quết tiêu hành",
+        "150g rau cải cúc (tần ô) rửa sạch cắt khúc",
+        "Vài lát gừng"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước với gừng, dùng thìa xắn từng viên chả cá thả vào nấu 4 phút.",
+        "Thả rau cải cúc vào đun sôi lại 1 phút rồi nêm nhạt, tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-47",
+    "name": "Thịt bò xào đậu rồng tỏi + cơm gạo lứt",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "110g thịt bò nạc, 120g đậu rồng, 120g cơm lứt",
+    "calories": 465,
+    "protein": 31,
+    "carbs": 52,
+    "fiber": 6,
+    "fat": 15,
+    "sodiumMg": 590,
+    "sugarG": 3,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "50.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Đậu rồng giòn sần sật rất giàu canxi và chất xơ thực vật.",
+    "swapTip": "Thái vát đậu rồng mỏng 1cm để xào chín nhanh mà giữ màu xanh mướt.",
+    "recipe": {
+      "ingredients": [
+        "110g thịt bò thăn thái mỏng",
+        "120g đậu rồng cắt vát",
+        "Tỏi băm, 1 thìa dầu hào, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Đảo nhanh bò với tỏi trên lửa lớn 1.5 phút rồi trút ra đĩa.",
+        "Xào đậu rồng với 2 thìa nước 3 phút rồi trút bò vào đảo chung."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-48",
+    "name": "Gà luộc lá chanh xé + gỏi dưa leo hành tây",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g thịt gà ta bỏ da, dưa leo, hành tây, 1/2 chén cơm",
+    "calories": 375,
+    "protein": 36,
+    "carbs": 32,
+    "fiber": 4,
+    "fat": 11,
+    "sodiumMg": 520,
+    "sugarG": 4,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "42.000đ",
+    "prepMinutes": 18,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Đậm hương vị cơm nhà truyền thống, ít tinh bột, rất giàu đạm cho bữa tối.",
+    "swapTip": "Ngâm hành tây thái lát vào nước đá pha giấm 5 phút để hết hăng."
+    ,"recipe": {
+      "ingredients": [
+        "150g thịt gà (đùi hoặc ức) luộc cùng lá chanh và gừng",
+        "1 quả dưa leo, nửa củ hành tây, rau răm",
+        "Muối tiêu chanh hoặc nước mắm gừng"
+      ],
+      "steps": [
+        "Luộc chín gà trong 12 phút, để nguội bớt rồi xé bỏ da.",
+        "Trộn thịt gà với dưa leo, hành tây, rau răm và chút nước cốt chanh muối tiêu."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-49",
+    "name": "Canh bầu nấu ngao (nghêu) gừng hành + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh (300g ngao cả vỏ, 150g bầu), 1 chén cơm, 1 trứng ốp",
+    "calories": 420,
+    "protein": 24,
+    "carbs": 56,
+    "fiber": 4,
+    "fat": 11,
+    "sodiumMg": 640,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "trứng"],
+    "whyItFits": "Ngao cực giàu kẽm và vitamin B12 tự nhiên, nước canh ngọt lịm không cần bột ngọt.",
+    "swapTip": "Chừa phần cặn cát ở đáy nồi nước luộc ngao khi rót sang nấu bầu.",
+    "recipe": {
+      "ingredients": [
+        "300g ngao rửa sạch ngâm nước muối",
+        "150g bầu gọt vỏ băm sợi hoặc thái miếng, vài lát gừng",
+        "1 quả trứng luộc ăn kèm"
+      ],
+      "steps": [
+        "Luộc ngao với gừng 4 phút cho há miệng rồi tách lấy ruột và gạn lấy nước trong.",
+        "Đun sôi lại nước ngao, thả bầu vào nấu 3 phút rồi cho ruột ngao vào tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-50",
+    "name": "Nạc vai heo nướng mật ong sả NCKD + xà lách",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g thịt nạc vai, xà lách, dưa leo, 1 chén cơm nhỏ",
+    "calories": 480,
+    "protein": 31,
+    "carbs": 50,
+    "fiber": 4,
+    "fat": 17,
+    "sodiumMg": 610,
+    "sugarG": 5,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "35.000đ",
+    "prepMinutes": 20,
+    "tools": ["Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Mềm mọng hơn nạc thăn nhờ chút vân mỡ tự nhiên nhưng mỡ thừa đã chảy xuống khay dưới.",
+    "swapTip": "Cắt thịt dày khoảng 1.5cm để nướng 14 phút chín mềm bên trong.",
+    "recipe": {
+      "ingredients": [
+        "130g thịt nạc vai cắt lát dày 1.5cm",
+        "1 thìa sả băm, 1 thìa nước tương, nửa thìa mật ong, tỏi",
+        "100g xà lách dưa leo"
+      ],
+      "steps": [
+        "Ướp thịt với sả tỏi, nước tương và mật ong trong 10 phút.",
+        "Nướng nồi chiên không dầu 185°C trong 14 phút (lật mặt ở phút thứ 8)."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-51",
+    "name": "Tôm xào bông cải xanh nấm đông cô + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g tôm bóc vỏ, 130g bông cải, 50g nấm, 1 chén cơm",
+    "calories": 430,
+    "protein": 30,
+    "carbs": 56,
+    "fiber": 6,
+    "fat": 9,
+    "sodiumMg": 620,
+    "sugarG": 3,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "45.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "đậu nành"],
+    "whyItFits": "Nhiều vitamin C từ bông cải giúp da sáng khỏe, tôm cung cấp đạm siêu sạch.",
+    "swapTip": "Luộc sơ bông cải 1 phút trước khi xào cùng tôm giúp món ăn ráo dầu.",
+    "recipe": {
+      "ingredients": [
+        "120g tôm thẻ bóc vỏ rút chỉ lưng",
+        "130g bông cải xanh, 50g nấm đông cô tươi",
+        "Tỏi băm, 1 thìa dầu hào, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Xào nhanh tôm với tỏi 2 phút cho săn hồng.",
+        "Cho bông cải đã chần sơ và nấm vào đảo đều 3 phút rồi nêm 1 thìa dầu hào."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-52",
+    "name": "Canh rau dền nấu tôm tươi + trứng rán ngải cứu",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh rau dền tôm (80g tôm), 2 trứng rán ngải cứu, 1 chén cơm",
+    "calories": 475,
+    "protein": 29,
+    "carbs": 54,
+    "fiber": 5,
+    "fat": 16,
+    "sodiumMg": 610,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "32.000đ",
+    "prepMinutes": 15,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "trứng"],
+    "whyItFits": "Bổ máu tự nhiên nhờ sắt trong rau dền đỏ kết hợp đạm tôm và trứng.",
+    "swapTip": "Rán trứng với chảo chống dính chỉ phết nửa thìa dầu là đủ thơm ngon.",
+    "recipe": {
+      "ingredients": [
+        "150g rau dền đỏ/xanh nhặt sạch, 80g tôm tươi băm",
+        "2 quả trứng gà, 1 nắm ngải cứu non thái nhỏ"
+      ],
+      "steps": [
+        "Nấu sôi nước với tôm băm, thả rau dền nấu 3 phút thành canh.",
+        "Trộn trứng với ngải cứu thái nhỏ rồi rán vàng 2 mặt trên chảo chống dính."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-53",
+    "name": "Đậu hũ trắng hấp xì dầu gừng hành + cơm gạo lứt",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "250g đậu hũ non/trắng, nấm hương, 120g cơm lứt",
+    "calories": 385,
+    "protein": 21,
+    "carbs": 52,
+    "fiber": 6,
+    "fat": 11,
+    "sodiumMg": 590,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "18.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ", "Lò vi sóng"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Món chay cực rẻ, làm trong 10 phút với hàm lượng đạm thực vật rất dễ tiêu.",
+    "swapTip": "Thêm vài lát gừng sợi và dầu mè giúp đậu hũ dậy mùi thơm như ngoài hàng.",
+    "recipe": {
+      "ingredients": [
+        "250g đậu hũ non hoặc đậu hũ trắng cắt miếng",
+        "1 thìa nước tương pha 1 thìa nước lọc, vài giọt dầu mè",
+        "Hành lá, gừng thái sợi"
+      ],
+      "steps": [
+        "Xếp đậu hũ vào đĩa sâu lòng, rải gừng sợi lên mặt.",
+        "Hấp cách thủy hoặc quay lò vi sóng 5 phút, chắt bớt nước rồi rưới nước tương dầu mè."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-54",
+    "name": "Mướp đắng (khổ qua) xào trứng gà ít dầu + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "150g khổ qua, 2 quả trứng gà, 1 chén cơm",
+    "calories": 405,
+    "protein": 19,
+    "carbs": 52,
+    "fiber": 5,
+    "fat": 13,
+    "sodiumMg": 480,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "18.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng"],
+    "whyItFits": "Thanh nhiệt cực tốt và giúp giảm hấp thu đường sau bữa ăn.",
+    "swapTip": "Ngâm khổ qua thái mỏng trong nước đá 5 phút giúp bớt đắng và giòn hơn.",
+    "recipe": {
+      "ingredients": [
+        "1 quả khổ qua (~150g) bỏ ruột thái lát mỏng",
+        "2 quả trứng gà, hành tím, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Đảo nhanh khổ qua trên chảo nóng 3 phút cho vừa chín tái.",
+        "Đổ trứng đánh tan vào đảo đều thêm 2 phút cho quyện rồi tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-55",
+    "name": "Cơm trộn cá hồi đóng hộp & trứng luộc (nồi cơm điện)",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 chén cơm nóng, 80g cá hồi hộp/áp chảo, 1 trứng, rong biển",
+    "calories": 470,
+    "protein": 29,
+    "carbs": 48,
+    "fiber": 3,
+    "fat": 18,
+    "sodiumMg": 560,
+    "sugarG": 2,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "45.000đ",
+    "prepMinutes": 10,
+    "tools": ["Nồi cơm điện đa năng"],
+    "avoidIf": [],
+    "allergens": ["hải sản", "trứng", "đậu nành"],
+    "whyItFits": "Không cần đứng xào nấu, tận dụng cá hồi đóng hộp hoặc cá đã làm sẵn.",
+    "swapTip": "Trộn kèm 100g dưa leo cắt hạt lựu cho giòn mát.",
+    "recipe": {
+      "ingredients": [
+        "1 chén cơm nóng",
+        "80g cá hồi ngâm nước chắt ráo, 1 quả trứng luộc",
+        "Rong biển vụn, nửa thìa nước tương, vài giọt dầu mè"
+      ],
+      "steps": [
+        "Dằm nhẹ cá hồi và trứng luộc vào tô cơm nóng.",
+        "Thêm rong biển vụn, nước tương và dầu mè trộn đều."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-56",
+    "name": "Bún chả lá lốt thịt nạc nướng NCKD rau sống",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "6 cuốn chả lá lốt (110g thịt nạc), 130g bún, rau sống",
+    "calories": 445,
+    "protein": 28,
+    "carbs": 52,
+    "fiber": 5,
+    "fat": 14,
+    "sodiumMg": 690,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "34.000đ",
+    "prepMinutes": 18,
+    "tools": ["Nồi chiên không dầu", "Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Chả lá lốt thơm lừng mà không bị ngấm đầy dầu chiên chảo như truyền thống.",
+    "swapTip": "Quét 1 lớp cực mỏng dầu ăn lên mặt lá lốt trước khi cho vào nồi chiên không dầu.",
+    "recipe": {
+      "ingredients": [
+        "110g thịt nạc vai băm trộn hành tím, tiêu, chút nước mắm",
+        "6 lá lốt rửa sạch",
+        "130g bún tươi, xà lách, dưa leo, nước mắm pha loãng"
+      ],
+      "steps": [
+        "Cuộn nhân thịt vào mặt trái lá lốt thành 6 cuốn gọn.",
+        "Nướng nồi chiên không dầu 180°C trong 12 phút (hoặc áp chảo chống dính).",
+        "Ăn kèm bún tươi và rau sống."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-57",
+    "name": "Canh hẹ đậu hũ non nấu thịt bằm + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh (200g đậu non, 70g thịt băm, lá hẹ), 1 chén cơm",
+    "calories": 405,
+    "protein": 24,
+    "carbs": 54,
+    "fiber": 4,
+    "fat": 10,
+    "sodiumMg": 580,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "24.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Nấu cực nhanh trong 10 phút, lá hẹ giàu chất chống oxy hóa hỗ trợ tiêu hóa.",
+    "swapTip": "Cho lá hẹ vào sau cùng rồi tắt bếp ngay để giữ mùi thơm và độ xanh.",
+    "recipe": {
+      "ingredients": [
+        "1 hộp đậu hũ non cắt miếng vuông",
+        "70g thịt nạc băm, 50g lá hẹ cắt khúc",
+        "Nửa thìa nước mắm, tiêu"
+      ],
+      "steps": [
+        "Đun sôi 450ml nước cùng thịt băm 3 phút.",
+        "Thả đậu non đun thêm 2 phút rồi cho lá hẹ vào tắt bếp."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-58",
+    "name": "Ức gà xào ớt chuông hành tây hạt điều ít dầu",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "130g ức gà, 100g ớt chuông + hành tây, 15g hạt điều, 1/2 chén cơm",
+    "calories": 430,
+    "protein": 35,
+    "carbs": 34,
+    "fiber": 5,
+    "fat": 17,
+    "sodiumMg": 520,
+    "sugarG": 5,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "40.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Món xào kiểu Á giàu Vitamin C từ ớt chuông và chất béo tốt từ hạt điều.",
+    "swapTip": "Cho hạt điều rang vào đảo 30 giây cuối cùng để hạt giữ nguyên độ giòn.",
+    "recipe": {
+      "ingredients": [
+        "130g ức gà thái vuông 2cm",
+        "100g ớt chuông xanh đỏ và hành tây thái miếng",
+        "15g hạt điều rang chín, 1 thìa nước tương pha nửa thìa dầu hào"
+      ],
+      "steps": [
+        "Xào ức gà với nửa thìa dầu trên lửa vừa 4 phút cho chín vàng cạnh.",
+        "Cho ớt chuông, hành tây vào đảo 3 phút, rưới sốt rồi tắt bếp rắc hạt điều."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-59",
+    "name": "Cá diêu hồng/cá rô phi nướng giấy bạc NCKD + rau sống",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "180g phi lê cá, sả gừng hành thì là, 100g bún tươi + rau",
+    "calories": 405,
+    "protein": 35,
+    "carbs": 42,
+    "fiber": 4,
+    "fat": 10,
+    "sodiumMg": 590,
+    "sugarG": 2,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "42.000đ",
+    "prepMinutes": 18,
+    "tools": ["Nồi chiên không dầu"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Nướng trong giấy bạc giúp cá giữ trọn nước ngọt mà không cần quét dầu.",
+    "swapTip": "Có thể cuốn ăn kèm bánh tráng mỏng và rau sống cực kỳ thanh mát.",
+    "recipe": {
+      "ingredients": [
+        "180g phi lê cá rô phi/diêu hồng",
+        "Sả thái lát, gừng sợi, thì là, 1 thìa nước mắm tiêu",
+        "100g bún tươi và rau xà lách"
+      ],
+      "steps": [
+        "Đặt cá vào giấy bạc cùng sả gừng thì là và rưới nước mắm tiêu rồi gói kín.",
+        "Nướng nồi chiên không dầu 190°C trong 14 phút là chín thơm."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-60",
+    "name": "Cháo đậu xanh thịt nạc băm (nồi cơm điện)",
+    "slots": ["Sáng", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô lớn (40g gạo, 20g đậu xanh, 80g thịt băm)",
+    "calories": 355,
+    "protein": 24,
+    "carbs": 47,
+    "fiber": 5,
+    "fat": 8,
+    "sodiumMg": 520,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "22.000đ",
+    "prepMinutes": 25,
+    "tools": ["Nồi cơm điện đa năng", "Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": [],
+    "whyItFits": "Đậu xanh giúp giải nhiệt và tăng thêm 5g chất xơ tự nhiên cho tô cháo sáng.",
+    "swapTip": "Ngâm gạo và đậu xanh với nước ấm 15 phút trước khi nấu cho nhanh nhừ.",
+    "recipe": {
+      "ingredients": [
+        "40g gạo tẻ + 20g đậu xanh cà vỏ",
+        "80g thịt nạc băm, hành lá, chút muối"
+      ],
+      "steps": [
+        "Cho gạo, đậu xanh và 650ml nước vào nồi cơm điện nấu 20 phút.",
+        "Thả thịt băm khuấy đều nấu thêm 5 phút rồi rắc hành lá."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-61",
+    "name": "Bò bóp thấu rau răm dưa leo ít đường",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g thịt bò tái mềm, dưa leo, hành tây, rau răm, 15g đậu phộng",
+    "calories": 340,
+    "protein": 31,
+    "carbs": 21,
+    "fiber": 4,
+    "fat": 15,
+    "sodiumMg": 640,
+    "sugarG": 5,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "52.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu phộng"],
+    "whyItFits": "Bữa tối ít tinh bột cực kỳ ngon miệng, giàu sắt và kẽm từ thịt bò.",
+    "swapTip": "Bóp bò với nước cốt chanh hoặc khế chua trước cho mềm rồi mới trộn rau.",
+    "recipe": {
+      "ingredients": [
+        "120g thịt bò thăn thái mỏng chần tái nhanh 30 giây",
+        "1 quả dưa leo, hành tây ngâm đá, rau răm, 15g đậu phộng giã",
+        "1 thìa nước mắm, nước nửa quả chanh, 1/2 thìa mật ong"
+      ],
+      "steps": [
+        "Chần tái hoặc áp chảo thật nhanh thịt bò 30 giây.",
+        "Trộn thịt bò với dưa leo, hành tây, rau răm và nước mắm chanh tỏi, rắc đậu phộng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-62",
+    "name": "Đậu hũ chiên giòn NCKD + rau muống luộc mắm tỏi + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "200g đậu hũ, 150g rau muống luộc, 1 chén cơm",
+    "calories": 420,
+    "protein": 23,
+    "carbs": 56,
+    "fiber": 6,
+    "fat": 12,
+    "sodiumMg": 590,
+    "sugarG": 2,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "20.000đ",
+    "prepMinutes": 16,
+    "tools": ["Nồi chiên không dầu", "Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Đậu giòn rụm bên ngoài, mềm béo bên trong mà tiết kiệm được cả trăm calo dầu chiên.",
+    "swapTip": "Xịt nhẹ một lớp sương dầu ô liu lên mặt đậu trước khi nướng 190°C.",
+    "recipe": {
+      "ingredients": [
+        "200g đậu hũ trắng cắt miếng vuông",
+        "150g rau muống luộc",
+        "Mắm tôm hoặc nước mắm tỏi ớt chanh"
+      ],
+      "steps": [
+        "Thấm ráo đậu hũ, nướng NCKD 190°C trong 14 phút cho vàng giòn các mặt.",
+        "Luộc rau muống ăn kèm đậu hũ và cơm nóng."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-63",
+    "name": "Canh mây cà chua trứng đậu non + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "1 tô canh (2 quả trứng, 150g đậu non, cà chua), 1 chén cơm",
+    "calories": 430,
+    "protein": 24,
+    "carbs": 56,
+    "fiber": 4,
+    "fat": 13,
+    "sodiumMg": 560,
+    "sugarG": 4,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "22.000đ",
+    "prepMinutes": 8,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "đậu nành"],
+    "whyItFits": "Món canh quốc dân chỉ mất 8 phút nấu từ những nguyên liệu luôn có sẵn trong tủ lạnh.",
+    "swapTip": "Rót trứng đánh tan theo dòng tròn mảnh khi nước sôi vừa giúp tạo vân mây đẹp.",
+    "recipe": {
+      "ingredients": [
+        "2 quả trứng gà đánh tan",
+        "2 quả cà chua thái múi, 150g đậu hũ non cắt khối",
+        "Hành lá, chút nước mắm"
+      ],
+      "steps": [
+        "Xào sơ cà chua 2 phút rồi đổ 450ml nước đun sôi.",
+        "Thả đậu non đun 2 phút, hạ lửa vừa rồi rót từ từ trứng vào khuấy nhẹ."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-64",
+    "name": "Cơm rang gạo lứt ức gà đậu Hà Lan ít dầu",
+    "slots": ["Sáng", "Trưa"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "120g cơm lứt, 110g ức gà, 50g đậu Hà Lan cà rốt, 1 trứng",
+    "calories": 465,
+    "protein": 34,
+    "carbs": 52,
+    "fiber": 6,
+    "fat": 13,
+    "sodiumMg": 580,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "30.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["trứng", "đậu nành"],
+    "whyItFits": "Cơm rang hạt tơi khô ráo, không hề bóng mỡ mà vẫn đạt trên 34g đạm.",
+    "swapTip": "Trộn thẳng 1 quả trứng sống vào cơm nguội trước khi bỏ lên chảo để hạt cơm tơi vàng.",
+    "recipe": {
+      "ingredients": [
+        "120g cơm gạo lứt nguội trộn cùng 1 quả trứng gà",
+        "110g ức gà cắt hạt lựu, 50g đậu Hà Lan + cà rốt",
+        "1 thìa nước tương, nửa thìa dầu ăn"
+      ],
+      "steps": [
+        "Đảo ức gà với đậu cà rốt 3 phút cho chín.",
+        "Đổ cơm trộn trứng vào đảo lửa vừa 4 phút cho ráo tơi rồi nêm 1 thìa nước tương."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-65",
+    "name": "Su su xào thịt bò nạc tỏi + cơm trắng",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "100g thịt bò nạc, 180g su su thái sợi, 1 chén cơm",
+    "calories": 455,
+    "protein": 29,
+    "carbs": 58,
+    "fiber": 5,
+    "fat": 12,
+    "sodiumMg": 580,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "42.000đ",
+    "prepMinutes": 12,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Su su ngọt giòn ít calo giúp tăng khối lượng món ăn tạo cảm giác no lâu.",
+    "swapTip": "Cho 2 thìa nước lọc thay dầu ăn khi xào su su cho nhanh mềm.",
+    "recipe": {
+      "ingredients": [
+        "100g thịt bò thăn thái mỏng",
+        "1 quả su su (~180g) gọt vỏ thái sợi hoặc lát mỏng",
+        "Tỏi băm, 1 thìa dầu hào, 1 thìa dầu ăn"
+      ],
+      "steps": [
+        "Xào nhanh bò với tỏi 1.5 phút rồi trút ra đĩa.",
+        "Xào su su với 2 thìa nước 4 phút cho chín mềm rồi cho bò vào đảo chung."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-66",
+    "name": "Tôm hấp nước dừa xiêm + rau củ luộc + cơm",
+    "slots": ["Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "140g tôm sú/thẻ, 120g rau củ luộc, 1 chén cơm",
+    "calories": 430,
+    "protein": 31,
+    "carbs": 58,
+    "fiber": 5,
+    "fat": 7,
+    "sodiumMg": 560,
+    "sugarG": 6,
+    "budgetLevel": "balanced",
+    "estimatedCostVnd": "50.000đ",
+    "prepMinutes": 10,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["hải sản"],
+    "whyItFits": "Vị ngọt thanh của nước dừa tự nhiên giúp tôm cực kỳ ngọt thịt mà 0% dầu mỡ.",
+    "swapTip": "Đun sôi nước dừa trước 2 phút rồi mới thả tôm vào hấp 4 phút."
+    ,"recipe": {
+      "ingredients": [
+        "140g tôm sú rửa sạch cắt râu",
+        "150ml nước dừa tươi, hành tây cắt múi",
+        "120g cà rốt và su hào luộc"
+      ],
+      "steps": [
+        "Đun sôi nước dừa tươi cùng hành tây trên nồi nhỏ.",
+        "Thả tôm vào hấp 4 phút đến khi đỏ đều là dùng được ngay."
+      ]
+    }
+  },
+  {
+    "id": "vn-hc-67",
+    "name": "Miến trộn thập cẩm ức gà mộc nhĩ cà rốt (ít dầu)",
+    "slots": ["Sáng", "Trưa", "Tối"],
+    "diningMode": "home_cook",
+    "cuisine": "vietnam",
+    "portionEstimate": "60g miến dong khô, 110g ức gà xé, cà rốt, mộc nhĩ, cải ngọt",
+    "calories": 395,
+    "protein": 31,
+    "carbs": 52,
+    "fiber": 5,
+    "fat": 7,
+    "sodiumMg": 620,
+    "sugarG": 3,
+    "budgetLevel": "economy",
+    "estimatedCostVnd": "28.000đ",
+    "prepMinutes": 14,
+    "tools": ["Bếp gas / bếp từ"],
+    "avoidIf": [],
+    "allergens": ["đậu nành"],
+    "whyItFits": "Dùng miến dong luộc trộn rau và gà thay miến xào dầu mỡ nên rất nhẹ calo.",
+    "swapTip": "Trộn 1 thìa nước tương + nửa thìa dầu mè sau khi luộc miến để sợi miến bóng mượt.",
+    "recipe": {
+      "ingredients": [
+        "60g miến dong ngâm mềm luộc 2 phút rồi xả nước nguội",
+        "110g ức gà luộc xé, cà rốt thái sợi, mộc nhĩ chần chín, cải ngọt",
+        "1 thìa nước tương, nửa thìa dầu mè, tiêu"
+      ],
+      "steps": [
+        "Luộc chín miến, cải ngọt, cà rốt và mộc nhĩ rồi để thật ráo nước.",
+        "Trộn đều cùng ức gà xé và sốt nước tương dầu mè."
+      ]
+    }
+  }
+]
