@@ -31,6 +31,7 @@ import { NotificationsPopover } from './NotificationsPopover';
 
 interface DashboardScreenProps {
   profile: UserProfile;
+  hasCustomProfile?: boolean;
   totals: DailyTotals;
   todayMeals?: MealEntry[];
   waterCups: number;
@@ -51,6 +52,7 @@ interface DashboardScreenProps {
 
 export function DashboardScreen({
   profile,
+  hasCustomProfile = true,
   totals,
   todayMeals = [],
   waterCups,
@@ -131,26 +133,55 @@ export function DashboardScreen({
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-[6px]">
           <p className="text-[10px] font-bold tracking-[0.04em] text-[#9E8E78] m-0 leading-tight">
-            BMI {profile.bmi} · {getGoalLabel(profile.goal).toUpperCase()}
+            {hasCustomProfile
+              ? `BMI ${profile.bmi} · ${getGoalLabel(profile.goal).toUpperCase()}`
+              : 'MỨC THAM KHẢO BAN ĐẦU'}
           </p>
-          <span className="shrink-0 rounded-full px-[7px] py-[1.5px] text-[9px] font-extrabold bg-[#D4F7EE] text-[#037A5B] whitespace-nowrap">
-            {mascotMood.label}
+          <span
+            className={`shrink-0 rounded-full px-[7px] py-[1.5px] text-[9px] font-extrabold whitespace-nowrap ${
+              hasCustomProfile
+                ? 'bg-[#D4F7EE] text-[#037A5B]'
+                : 'bg-[#FFEEDD] text-[#CC5F1A]'
+            }`}
+          >
+            {hasCustomProfile ? mascotMood.label : 'Chưa lập hồ sơ'}
           </span>
         </div>
-        <p className="text-[13px] font-medium text-[#2D2416] leading-[1.45] m-0 mt-[3px]">
-          Bạn đã đủ{' '}
-          <span className="font-extrabold text-[#FF8A3D]">
-            {mascot.highlight}
-          </span>
-          {mascot.suffix}
-        </p>
-        <button
-          type="button"
-          onClick={onOpenCompanion}
-          className="mt-[6px] inline-flex items-center gap-[4px] px-[9px] py-[3px] rounded-full bg-[#FFFDF5] border border-[#DDD0B0] hover:border-[#FF8A3D] text-[10px] font-extrabold text-[#CC5F1A] cursor-pointer transition-colors whitespace-nowrap"
-        >
-          Trò chuyện nhanh với Mầm →
-        </button>
+        {hasCustomProfile ? (
+          <p className="text-[13px] font-medium text-[#2D2416] leading-[1.45] m-0 mt-[3px]">
+            Bạn đã đủ{' '}
+            <span className="font-extrabold text-[#FF8A3D]">
+              {mascot.highlight}
+            </span>
+            {mascot.suffix}
+          </p>
+        ) : (
+          <p className="text-[13px] font-medium text-[#2D2416] leading-[1.45] m-0 mt-[3px]">
+            Đang hiển thị mức tham khảo{' '}
+            <span className="font-extrabold text-[#FF8A3D]">
+              {formatViNumber(profile.targetCalories)} kcal
+            </span>
+            . Bạn có thể đăng nhập hoặc điền chỉ số riêng trong Hồ sơ bất cứ lúc nào!
+          </p>
+        )}
+        <div className="mt-[6px] flex flex-wrap items-center gap-[6px]">
+          {!hasCustomProfile && (
+            <button
+              type="button"
+              onClick={() => onNavigate('profile')}
+              className="inline-flex items-center gap-[4px] px-[9px] py-[3px] rounded-full bg-[#FF8A3D] text-white text-[10px] font-extrabold cursor-pointer hover:brightness-105 transition-all whitespace-nowrap"
+            >
+              Điền chỉ số của bạn →
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onOpenCompanion}
+            className="inline-flex items-center gap-[4px] px-[9px] py-[3px] rounded-full bg-[#FFFDF5] border border-[#DDD0B0] hover:border-[#FF8A3D] text-[10px] font-extrabold text-[#CC5F1A] cursor-pointer transition-colors whitespace-nowrap"
+          >
+            Trò chuyện nhanh với Mầm →
+          </button>
+        </div>
       </div>
     </section>
   );
