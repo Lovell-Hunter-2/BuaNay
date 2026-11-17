@@ -29,7 +29,6 @@ import {
   formatReminderMessage,
   sendSafeBrowserNotification,
 } from './components/NotificationsPopover';
-import { OnboardingScreen } from './components/OnboardingScreen';
 import { ProfileScreen } from './components/ProfileScreen';
 import { ReportsScreen } from './components/ReportsScreen';
 import { auth } from './firebase';
@@ -498,9 +497,27 @@ export default function App() {
     });
   };
 
+  const hasCustomProfile = profile !== null;
+  const activeProfile = useMemo<UserProfile>(
+    () =>
+      profile ??
+      buildUserProfile({
+        name: 'bạn',
+        gender: 'female',
+        age: 24,
+        heightCm: 162,
+        weightKg: 55,
+        goal: 'maintain',
+        activityLevel: 'light',
+        dietaryTags: ['Ưu tiên cơm nhà'],
+        dietaryNote: '',
+      }),
+    [profile]
+  );
+
   const totals = useMemo(
-    () => computeDailyTotals(todayMeals, profile?.targetCalories ?? 2000),
-    [todayMeals, profile?.targetCalories]
+    () => computeDailyTotals(todayMeals, activeProfile.targetCalories),
+    [todayMeals, activeProfile.targetCalories]
   );
 
   const streakDays = useMemo(
@@ -509,13 +526,13 @@ export default function App() {
   );
 
   const weeklyStats = useMemo(
-    () => getLast7DaysStats(mealsByDate, profile?.targetCalories ?? 2000),
-    [mealsByDate, profile?.targetCalories]
+    () => getLast7DaysStats(mealsByDate, activeProfile.targetCalories),
+    [mealsByDate, activeProfile.targetCalories]
   );
 
   const notifications = useMemo(
-    () => (profile ? buildDynamicReminders(profile, totals, waterCups) : []),
-    [profile, totals, waterCups]
+    () => buildDynamicReminders(activeProfile, totals, waterCups),
+    [activeProfile, totals, waterCups]
   );
 
   useEffect(() => {
@@ -608,51 +625,13 @@ export default function App() {
     </>
   );
 
-  if (!profile) {
-    return (
-      <>
-        <OnboardingScreen
-          authEmail={authUser?.email ?? null}
-          onOpenAuth={() => handleOpenAuthModal('login')}
-          onComplete={(newProfile) => {
-            setProfile(newProfile);
-            const nextWeights = upsertWeightEntry(
-              weightHistory,
-              todayKey,
-              newProfile.weightKg,
-              newProfile.heightCm
-            );
-            setWeightHistory(nextWeights);
-            setActiveTab('dashboard');
-            window.scrollTo({ top: 0, behavior: 'auto' });
-            showToast(
-              `Chào ${newProfile.name}! Mục tiêu của bạn là ${formatViNumber(
-                newProfile.targetCalories
-              )} kcal/ngày.`
-            );
-            if (authUser?.emailVerified) {
-              void saveProfileToFirestore(authUser.uid, newProfile, reminderSettings);
-              void saveWeightToFirestore(
-                authUser.uid,
-                todayKey,
-                newProfile.weightKg,
-                newProfile.bmi
-              );
-            }
-          }}
-        />
-        {authModals}
-      </>
-    );
-  }
-
   const handleAddWaterCup = () => {
     requireAuth('ghi nhận lượng nước uống hôm nay', () => {
       const current = waterByDate[todayKey] ?? 0;
-      const next = Math.min(profile.waterTargetCups, current + 1);
+      const next = Math.min(activeProfile.waterTargetCups, current + 1);
       if (next === current) {
         showToast(
-          `Bạn đã uống đủ ${formatWaterLiters(profile.waterTargetCups)}L nước hôm nay rồi!`
+          `Bạn đã uống đủ ${formatWaterLiters(activeProfile.waterTargetCups)}L nước hôm nay rồi!`
         );
         return;
       }
@@ -665,7 +644,7 @@ export default function App() {
 
   const handleSetWaterCups = (cups: number) => {
     requireAuth('cập nhật lượng nước uống hôm nay', () => {
-      const next = Math.max(0, Math.min(profile.waterTargetCups, cups));
+      const next = Math.max(0, Math.min(activeProfile.waterTargetCups, cups));
       setWaterByDate((prev) => ({ ...prev, [todayKey]: next }));
       if (authUser?.emailVerified) {
         void saveWaterToFirestore(authUser.uid, todayKey, next);
@@ -676,7 +655,7 @@ export default function App() {
   const handleUpdateReminderSettings = (next: ReminderSettings) => {
     requireAuth('lưu cài đặt nhắc nhở dinh dưỡng', () => {
       setReminderSettings(next);
-      if (authUser?.emailVerified) {
+      if (authUser?.emailVerified && profile) {
         void saveProfileToFirestore(authUser.uid, profile, next);
       }
     });
@@ -735,11 +714,11 @@ export default function App() {
       weightHistory,
       todayKey,
       safeWeight,
-      profile.heightCm
+      activeProfile.heightCm
     );
     const updatedProfile = buildUserProfile(
-      { ...profile, weightKg: safeWeight },
-      profile.createdAt
+      { ...activeProfile, weightKg: safeWeight },
+      activeProfile.createdAt
     );
     setWeightHistory(nextWeights);
     setProfile(updatedProfile);
@@ -760,9 +739,9 @@ export default function App() {
     action: 'liked' | 'disliked' | 'tried'
   ) => {
     const updatedProfile: UserProfile = {
-      ...profile,
+      ...activeProfile,
       suggestionFeedback: recordSuggestionFeedback(
-        profile.suggestionFeedback,
+        activeProfile.suggestionFeedback,
         dishName,
         action
       ),
@@ -779,13 +758,15 @@ export default function App() {
     setWaterByDate({});
     setWeightHistory([]);
     setActiveTab('dashboard');
+    showToast('Đã đặt lại dữ liệu về trạng thái ban đầu');
   };
 
   return (
     <div className="min-h-dvh w-full bg-[#F7F2E3] flex justify-center">
       <div className="relative w-full max-w-[390px] md:max-w-[1140px] min-h-dvh bg-[#F7F2E3] md:px-[28px] lg:px-[36px]">
         <DesktopTopNav
-          profile={profile}
+          profile={activeProfile}
+          hasCustomProfile={hasCustomProfile}
           totals={totals}
           waterCups={waterCups}
           activeTab={activeTab}
@@ -801,7 +782,8 @@ export default function App() {
         <main>
           {activeTab === 'dashboard' && (
             <DashboardScreen
-              profile={profile}
+              profile={activeProfile}
+              hasCustomProfile={hasCustomProfile}
               totals={totals}
               todayMeals={todayMeals}
               waterCups={waterCups}
@@ -833,7 +815,7 @@ export default function App() {
           {activeTab === 'suggestions' && (
             <MealSuggestionsScreen
               key={suggestionPrefill.key}
-              profile={profile}
+              profile={activeProfile}
               totals={totals}
               defaultSlot={getNextDefaultSlot(todayMeals)}
               initialMode={suggestionPrefill.mode}
@@ -848,7 +830,7 @@ export default function App() {
 
           {activeTab === 'guide' && (
             <GuideHandbookScreen
-              profile={profile}
+              profile={activeProfile}
               defaultSlot={getNextDefaultSlot(todayMeals)}
               onBack={() => setActiveTab('dashboard')}
               onNavigate={handleNavigate}
@@ -877,7 +859,7 @@ export default function App() {
 
           {activeTab === 'reports' && (
             <ReportsScreen
-              profile={profile}
+              profile={activeProfile}
               totals={totals}
               mealsByDate={mealsByDate}
               weightHistory={weightHistory}
@@ -888,7 +870,7 @@ export default function App() {
           {activeTab === 'history' && (
             <HistoryScreen
               mealsByDate={mealsByDate}
-              targetCalories={profile.targetCalories}
+              targetCalories={activeProfile.targetCalories}
               todayKey={todayKey}
               onDeleteMeal={handleDeleteMeal}
               onUpdateMeal={handleUpdateMeal}
@@ -898,7 +880,8 @@ export default function App() {
 
           {activeTab === 'profile' && (
             <ProfileScreen
-              profile={profile}
+              profile={activeProfile}
+              hasCustomProfile={hasCustomProfile}
               streakDays={streakDays}
               authUser={authUser}
               cloudSyncStatus={cloudSyncStatus}
@@ -907,29 +890,31 @@ export default function App() {
               onResendVerification={() => void handleResendVerification()}
               onCheckVerification={() => void handleCheckVerification()}
               onUpdateProfile={(next) => {
-                requireAuth('lưu thay đổi hồ sơ dinh dưỡng', () => {
-                  setProfile(next);
-                  const changedBody =
-                    next.weightKg !== profile.weightKg ||
-                    next.heightCm !== profile.heightCm ||
-                    weightHistory.length === 0;
+                setProfile(next);
+                const changedBody =
+                  !profile ||
+                  next.weightKg !== profile.weightKg ||
+                  next.heightCm !== profile.heightCm ||
+                  weightHistory.length === 0;
+                if (changedBody) {
+                  setWeightHistory((prev) =>
+                    upsertWeightEntry(prev, todayKey, next.weightKg, next.heightCm)
+                  );
+                }
+                showToast(
+                  `Đã lưu hồ sơ của ${next.name} (${formatViNumber(next.targetCalories)} kcal/ngày)`
+                );
+                if (authUser?.emailVerified) {
+                  void saveProfileToFirestore(authUser.uid, next, reminderSettings);
                   if (changedBody) {
-                    setWeightHistory((prev) =>
-                      upsertWeightEntry(prev, todayKey, next.weightKg, next.heightCm)
+                    void saveWeightToFirestore(
+                      authUser.uid,
+                      todayKey,
+                      next.weightKg,
+                      next.bmi
                     );
                   }
-                  if (authUser?.emailVerified) {
-                    void saveProfileToFirestore(authUser.uid, next, reminderSettings);
-                    if (changedBody) {
-                      void saveWeightToFirestore(
-                        authUser.uid,
-                        todayKey,
-                        next.weightKg,
-                        next.bmi
-                      );
-                    }
-                  }
-                });
+                }
               }}
               onOpenGuide={() => setActiveTab('guide')}
               onResetAllData={handleResetAllData}
@@ -966,7 +951,7 @@ export default function App() {
 
         {isCompanionOpen && (
           <MascotCompanionModal
-            profile={profile}
+            profile={activeProfile}
             totals={totals}
             waterCups={waterCups}
             streakDays={streakDays}
