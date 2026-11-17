@@ -27,6 +27,7 @@ import { NotificationsPopover } from './NotificationsPopover';
 
 interface DesktopTopNavProps {
   profile: UserProfile;
+  hasCustomProfile?: boolean;
   totals: DailyTotals;
   waterCups: number;
   activeTab: AppTab;
@@ -42,6 +43,7 @@ interface DesktopTopNavProps {
 
 export function DesktopTopNav({
   profile,
+  hasCustomProfile = true,
   totals,
   waterCups,
   activeTab,
@@ -88,9 +90,19 @@ export function DesktopTopNav({
           <p className="text-[12px] font-semibold text-[#6B5D47] m-0 mt-[3px] flex items-center gap-[6px] tabular-nums flex-wrap">
             <span>{formatViDateHeader()}</span>
             <span aria-hidden="true" className="text-[#C5B890]">·</span>
-            <span>BMI {profile.bmi}</span>
-            <span aria-hidden="true" className="text-[#C5B890]">·</span>
-            <span>Mục tiêu {formatViNumber(profile.targetCalories)} kcal/ngày</span>
+            {hasCustomProfile ? (
+              <>
+                <span>BMI {profile.bmi}</span>
+                <span aria-hidden="true" className="text-[#C5B890]">·</span>
+                <span>Mục tiêu {formatViNumber(profile.targetCalories)} kcal/ngày</span>
+              </>
+            ) : (
+              <>
+                <span>Chưa thiết lập hồ sơ</span>
+                <span aria-hidden="true" className="text-[#C5B890]">·</span>
+                <span>Mức tham khảo {formatViNumber(profile.targetCalories)} kcal/ngày</span>
+              </>
+            )}
           </p>
         </div>
 
