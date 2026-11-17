@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type {
   ActivityLevel,
   BudgetLevel,
@@ -32,6 +32,7 @@ import type { User } from 'firebase/auth';
 
 interface ProfileScreenProps {
   profile: UserProfile;
+  hasCustomProfile?: boolean;
   streakDays: number;
   authUser: User | null;
   cloudSyncStatus: 'guest' | 'unverified' | 'syncing' | 'synced';
@@ -46,6 +47,7 @@ interface ProfileScreenProps {
 
 export function ProfileScreen({
   profile,
+  hasCustomProfile = true,
   streakDays,
   authUser,
   cloudSyncStatus,
@@ -57,13 +59,17 @@ export function ProfileScreen({
   onOpenGuide,
   onResetAllData,
 }: ProfileScreenProps) {
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(!hasCustomProfile);
 
-  const [name, setName] = useState(profile.name);
+  const [name, setName] = useState(hasCustomProfile ? profile.name : '');
   const [gender, setGender] = useState<Gender>(profile.gender);
   const [ageInput, setAgeInput] = useState(String(profile.age));
-  const [heightInput, setHeightInput] = useState(String(profile.heightCm));
-  const [weightInput, setWeightInput] = useState(String(profile.weightKg));
+  const [heightInput, setHeightInput] = useState(
+    hasCustomProfile ? String(profile.heightCm) : ''
+  );
+  const [weightInput, setWeightInput] = useState(
+    hasCustomProfile ? String(profile.weightKg) : ''
+  );
   const [goal, setGoal] = useState<UserGoal>(profile.goal);
   const [activityLevel, setActivityLevel] = useState<ActivityLevel>(
     profile.activityLevel
@@ -87,15 +93,37 @@ export function ProfileScreen({
     profile.healthConditions ?? []
   );
   const [savedNotice, setSavedNotice] = useState(false);
+  const [editorError, setEditorError] = useState<string | null>(null);
   const [legalDoc, setLegalDoc] = useState<LegalDocType | null>(null);
+
+  useEffect(() => {
+    setName(hasCustomProfile ? profile.name : '');
+    setGender(profile.gender);
+    setAgeInput(String(profile.age));
+    setHeightInput(hasCustomProfile ? String(profile.heightCm) : '');
+    setWeightInput(hasCustomProfile ? String(profile.weightKg) : '');
+    setGoal(profile.goal);
+    setActivityLevel(profile.activityLevel);
+    setDietaryTags(profile.dietaryTags);
+    setDietaryNote(profile.dietaryNote);
+    setDislikedFoods(profile.dislikedFoods ?? '');
+    setBudgetLevel(profile.budgetLevel);
+    setCookingTime(profile.cookingTime);
+    setCookingSkill(profile.cookingSkill);
+    setKitchenTools(profile.kitchenTools ?? []);
+    setHealthConditions(profile.healthConditions ?? []);
+    if (hasCustomProfile) {
+      setIsEditorOpen(false);
+    }
+  }, [hasCustomProfile, profile]);
 
   const missingFields = useMemo(
     () =>
       getMissingProfileFields({
-        name: isEditorOpen ? name : profile.name,
+        name: isEditorOpen ? name : hasCustomProfile ? profile.name : '',
         age: isEditorOpen ? Number(ageInput) : profile.age,
-        heightCm: isEditorOpen ? Number(heightInput) : profile.heightCm,
-        weightKg: isEditorOpen ? Number(weightInput) : profile.weightKg,
+        heightCm: isEditorOpen ? Number(heightInput) : hasCustomProfile ? profile.heightCm : 0,
+        weightKg: isEditorOpen ? Number(weightInput) : hasCustomProfile ? profile.weightKg : 0,
         budgetLevel: isEditorOpen ? budgetLevel : profile.budgetLevel,
         cookingTime: isEditorOpen ? cookingTime : profile.cookingTime,
         cookingSkill: isEditorOpen ? cookingSkill : profile.cookingSkill,
@@ -104,6 +132,7 @@ export function ProfileScreen({
       }),
     [
       isEditorOpen,
+      hasCustomProfile,
       name,
       ageInput,
       heightInput,
@@ -130,16 +159,31 @@ export function ProfileScreen({
   };
 
   const handleRecalculate = () => {
+    const cleanName = name.trim();
     const a = Number(ageInput);
     const h = Number(heightInput);
     const w = Number(weightInput);
-    if (!Number.isFinite(a) || a < 14 || a > 90) return;
-    if (!Number.isFinite(h) || h < 120 || h > 220) return;
-    if (!Number.isFinite(w) || w < 30 || w > 200) return;
+    if (!cleanName) {
+      setEditorError('Vui lòng nhập tên gọi của bạn nhé.');
+      return;
+    }
+    if (!Number.isFinite(a) || a < 14 || a > 90) {
+      setEditorError('Vui lòng nhập tuổi hợp lệ từ 14 đến 90.');
+      return;
+    }
+    if (!Number.isFinite(h) || h < 120 || h > 220) {
+      setEditorError('Vui lòng nhập chiều cao hợp lệ từ 120 đến 220 cm.');
+      return;
+    }
+    if (!Number.isFinite(w) || w < 30 || w > 200) {
+      setEditorError('Vui lòng nhập cân nặng hợp lệ từ 30 đến 200 kg.');
+      return;
+    }
 
+    setEditorError(null);
     const updated = buildUserProfile(
       {
-        name: name.trim() || profile.name,
+        name: cleanName,
         gender,
         age: a,
         heightCm: h,
@@ -308,15 +352,23 @@ export function ProfileScreen({
         <MamMascot3D size={56} />
         <div className="min-w-0">
           <h2 className="text-[17px] font-extrabold text-[#2D2416] m-0">
-            {profile.name}
+            {hasCustomProfile ? profile.name : 'Chưa thiết lập chỉ số'}
           </h2>
-          <p className="text-[12px] font-medium text-[#6B5D47] m-0 mt-[2px]">
-            {profile.gender === 'female' ? 'Nữ' : 'Nam'} · {profile.age} tuổi · BMI{' '}
-            <strong className="text-[#2D2416]">{profile.bmi}</strong> ({profile.bmiCategory})
-          </p>
-          <p className="text-[11px] font-semibold text-[#9E8E78] m-0 mt-[2px]">
-            {getGoalLabel(profile.goal)} · {getActivityLabel(profile.activityLevel)} · {streakDays} ngày streak
-          </p>
+          {hasCustomProfile ? (
+            <>
+              <p className="text-[12px] font-medium text-[#6B5D47] m-0 mt-[2px]">
+                {profile.gender === 'female' ? 'Nữ' : 'Nam'} · {profile.age} tuổi · BMI{' '}
+                <strong className="text-[#2D2416]">{profile.bmi}</strong> ({profile.bmiCategory})
+              </p>
+              <p className="text-[11px] font-semibold text-[#9E8E78] m-0 mt-[2px]">
+                {getGoalLabel(profile.goal)} · {getActivityLabel(profile.activityLevel)} · {streakDays} ngày streak
+              </p>
+            </>
+          ) : (
+            <p className="text-[12px] font-medium text-[#6B5D47] m-0 mt-[3px] leading-snug">
+              Đang dùng mức tham khảo 1.760 kcal/ngày. Điền chiều cao, cân nặng và mục tiêu bên cạnh để cá nhân hóa cho riêng bạn.
+            </p>
+          )}
         </div>
       </section>
 
@@ -333,10 +385,12 @@ export function ProfileScreen({
         >
           <div className="min-w-0">
             <p className="text-[13px] font-extrabold text-[#2D2416] m-0">
-              Chỉnh sửa hồ sơ & chỉ số
+              {hasCustomProfile ? 'Chỉnh sửa hồ sơ & chỉ số' : 'Điền hồ sơ & chỉ số cá nhân'}
             </p>
             <p className="text-[11px] font-medium text-[#6B5D47] m-0 mt-[2px] whitespace-nowrap">
-              {collapsedPreviewText}
+              {hasCustomProfile
+                ? collapsedPreviewText
+                : 'Chưa nhập tên, chiều cao & cân nặng'}
             </p>
           </div>
 
@@ -719,6 +773,15 @@ export function ProfileScreen({
                 className="w-full px-[9px] py-[7px] rounded-[10px] border-[1.5px] border-[#DDD0B0] bg-[#FFFDF5] text-[12px] font-medium text-[#2D2416]"
               />
             </div>
+
+            {editorError && (
+              <p
+                role="alert"
+                className="text-[12px] font-semibold text-[#C94A4A] bg-[#FFE8E8] border border-[#FF6B6B]/40 rounded-[10px] px-[10px] py-[7px] m-0"
+              >
+                {editorError}
+              </p>
+            )}
 
             <button
               type="button"
