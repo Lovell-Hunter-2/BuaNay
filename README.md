@@ -82,7 +82,10 @@ Dashboard `/admin` được thiết kế đồng bộ hoàn toàn theo phong cá
 ## 📁 Cấu trúc thư mục chính
 
 ```text
-├── server.ts                    # Express server + AI multi-provider failover & Open-Meteo proxy
+├── api/                         # Vercel Serverless Functions (/api/analyze-meal, suggest-meals, weather, health, admin/telemetry)
+├── server/
+│   └── apiApp.ts                # Core Express API, AI multi-provider failover & Open-Meteo proxy
+├── server.ts                    # Node/Express entrypoint gắn Vite (dev) hoặc dist/ (prod)
 ├── firestore.rules              # Security Rules kiểm soát RBAC admin/moderator & kickedUsers
 ├── firebase-blueprint.json      # Schema chuẩn hóa các collection trên Firestore
 ├── vercel.json                  # Rewrite SPA cho /admin, /privacy, /terms
@@ -143,5 +146,5 @@ Các biến môi trường hỗ trợ (cấu hình phía server):
 
 ## 🌐 Triển khai (Deployment)
 
-- **Full-stack (Node.js / Cloud Run / Render / Railway)**: Dùng `npm run build` rồi chạy `npm start` để giữ đầy đủ API proxy `/api/analyze-meal`, `/api/suggest-meals`, `/api/weather` và `/api/admin/telemetry`.
-- **Static SPA (Vercel)**: Đã cấu hình sẵn `vercel.json` để rewrite `/admin`, `/privacy`, `/terms` về `/index.html`; riêng phần thời tiết Open-Meteo tự động fallback gọi trực tiếp từ trình duyệt khi không có backend proxy.
+- **Vercel (Vite + Serverless Functions)**: Đẩy toàn bộ repo (bao gồm thư mục `api/`, `server/`, `vercel.json`) lên GitHub, khai báo các biến môi trường ở phần **Production** trong Vercel Project Settings và Redeploy; cả frontend lẫn toàn bộ route `/api/*` sẽ tự động chạy đầy đủ.
+- **Node.js Full-stack (Cloud Run / Render / Railway)**: Dùng `npm run build` rồi chạy `npm start` (`node server.ts`).
