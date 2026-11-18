@@ -1,49 +1,14 @@
-import 'dotenv/config';
 import express from 'express';
-import type { NextFunction, Request, Response } from 'express';
 import { GoogleGenAI, ThinkingLevel, Type } from '@google/genai';
 
 export const MODEL_NAME = 'gemini-4-hydrogen';
 
-interface AnalyzeMealBody {
-  description?: string;
-  contexts?: string[];
-  slot?: string;
-  imageDataUrl?: string;
-}
-
-interface GeminiMealAnalysis {
-  name: string;
-  portionEstimate: string;
-  itemsDetected: string[];
-  calories: number;
-  protein: number;
-  carbs: number;
-  fiber: number;
-  fat: number;
-  sodiumMg: number;
-  sugarG: number;
-  isHealthy: boolean;
-  summaryNote: string;
-}
-
-interface OpenAiFallbackProvider {
-  id: 'groq' | 'openrouter' | 'cloudflare';
-  apiKey: string;
-  endpoint: string;
-  model: string;
-  visionModel?: string;
-  extraHeaders?: Record<string, string>;
-}
-
-type ProviderId = 'gemini' | 'groq' | 'openrouter' | 'cloudflare';
-
-function hasValidGeminiKey(): boolean {
+function hasValidGeminiKey() {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   return Boolean(apiKey && apiKey !== 'MY_GEMINI_API_KEY');
 }
 
-function getGeminiClient(): GoogleGenAI {
+function getGeminiClient() {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
     throw new Error('MISSING_GEMINI_API_KEY');
@@ -59,8 +24,8 @@ function getGeminiClient(): GoogleGenAI {
   });
 }
 
-function getFallbackProviders(): OpenAiFallbackProvider[] {
-  const providers: OpenAiFallbackProvider[] = [];
+function getFallbackProviders() {
+  const providers = [];
 
   const groqKey = process.env.GROQ_API_KEY?.trim();
   if (groqKey) {
@@ -122,18 +87,18 @@ function getProviderAvailability() {
   };
 }
 
-const providerCooldownUntil: Record<ProviderId, number> = {
+const providerCooldownUntil = {
   gemini: 0,
   groq: 0,
   openrouter: 0,
   cloudflare: 0,
 };
 
-function isProviderInCooldown(provider: ProviderId, now = Date.now()): boolean {
+function isProviderInCooldown(provider, now = Date.now()) {
   return (providerCooldownUntil[provider] ?? 0) > now;
 }
 
-function classifyCooldownMs(err: unknown): number {
+function classifyCooldownMs(err) {
   const msg = err instanceof Error ? err.message : String(err);
   const low = msg.toLowerCase();
   if (
@@ -155,28 +120,14 @@ function classifyCooldownMs(err: unknown): number {
   return 0;
 }
 
-function markProviderCooldown(provider: ProviderId, err: unknown) {
+function markProviderCooldown(provider, err) {
   const durationMs = classifyCooldownMs(err);
   if (durationMs > 0) {
     providerCooldownUntil[provider] = Date.now() + durationMs;
   }
 }
 
-const runtimeTelemetry: {
-  startedAt: string;
-  analyzeCalls: number;
-  analyzeSuccess: number;
-  analyzeFallbackSuccess: number;
-  analyzeErrors: number;
-  suggestCalls: number;
-  suggestSuccess: number;
-  suggestFallbackSuccess: number;
-  suggestErrors: number;
-  providerUsage: Record<ProviderId, number>;
-  lastModelUsed: string | null;
-  lastCallAt: string | null;
-  recentErrors: Array<{ at: string; route: string; message: string }>;
-} = {
+const runtimeTelemetry = {
   startedAt: new Date().toISOString(),
   analyzeCalls: 0,
   analyzeSuccess: 0,
@@ -200,17 +151,9 @@ const runtimeTelemetry: {
 const DEFAULT_OPEN_METEO_URL =
   'https://api.open-meteo.com/v1/forecast?latitude=21.0285&longitude=105.8542&hourly=temperature_2m&current=temperature_2m,is_day&timezone=Asia%2FBangkok';
 
-let weatherCache: {
-  fetchedAt: number;
-  payload: unknown;
-} | null = null;
+let weatherCache = null;
 
-function recordTelemetrySuccess(
-  route: 'analyze' | 'suggest',
-  provider: ProviderId,
-  model: string,
-  usedFallback: boolean
-) {
+function recordTelemetrySuccess(route, provider, model, usedFallback) {
   runtimeTelemetry.providerUsage[provider] =
     (runtimeTelemetry.providerUsage[provider] ?? 0) + 1;
   runtimeTelemetry.lastModelUsed = model;
@@ -224,7 +167,7 @@ function recordTelemetrySuccess(
   }
 }
 
-function recordTelemetryError(route: string, err: unknown) {
+function recordTelemetryError(route, err) {
   const msg = err instanceof Error ? err.message : String(err);
   runtimeTelemetry.lastCallAt = new Date().toISOString();
   if (route === '/api/analyze-meal') {
@@ -238,9 +181,7 @@ function recordTelemetryError(route: string, err: unknown) {
   ].slice(0, 8);
 }
 
-function parseDataUrl(
-  dataUrl: string
-): { mimeType: string; data: string } | null {
+function parseDataUrl(dataUrl) {
   const match = /^data:([^;]+);base64,(.+)$/s.exec(dataUrl.trim());
   if (!match) return null;
   const mimeType = match[1];
@@ -249,12 +190,7 @@ function parseDataUrl(
   return { mimeType, data };
 }
 
-function buildMealPrompt(params: {
-  description: string;
-  contexts: string[];
-  slot: string;
-  hasImage: boolean;
-}): string {
+function buildMealPrompt(params) {
   const contextText =
     params.contexts.length > 0
       ? params.contexts.join(', ')
@@ -352,8 +288,8 @@ const MEAL_RESPONSE_SCHEMA = {
   ],
 };
 
-function sanitizeAnalysis(raw: Partial<GeminiMealAnalysis>): GeminiMealAnalysis {
-  const toNonNegInt = (val: unknown, fallback: number) => {
+function sanitizeAnalysis(raw) {
+  const toNonNegInt = (val, fallback) => {
     const num = Number(val);
     return Number.isFinite(num) && num >= 0 ? Math.round(num) : fallback;
   };
@@ -369,7 +305,7 @@ function sanitizeAnalysis(raw: Partial<GeminiMealAnalysis>): GeminiMealAnalysis 
 
   const itemsDetected = Array.isArray(raw.itemsDetected)
     ? raw.itemsDetected
-        .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+        .filter((item) => typeof item === 'string' && item.trim().length > 0)
         .slice(0, 6)
     : [];
 
@@ -398,7 +334,7 @@ function sanitizeAnalysis(raw: Partial<GeminiMealAnalysis>): GeminiMealAnalysis 
   };
 }
 
-function extractJsonText(raw: string): string {
+function extractJsonText(raw) {
   const trimmed = raw.trim();
   if (!trimmed) return '';
   const fencedMatch = /```(?:json)?\s*([\s\S]*?)```/i.exec(trimmed);
@@ -411,23 +347,17 @@ function extractJsonText(raw: string): string {
   return candidate;
 }
 
-function buildSchemaInstruction(schema: Record<string, unknown>): string {
+function buildSchemaInstruction(schema) {
   return [
     'CHỈ TRẢ VỀ DUY NHẤT 1 JSON OBJECT HỢP LỆ (không kèm markdown fence hay giải thích thừa), tuân thủ đúng cấu trúc JSON Schema sau:',
     JSON.stringify(schema),
   ].join('\n');
 }
 
-async function callOpenAiCompatibleJson(
-  provider: OpenAiFallbackProvider,
-  parts: Array<{ inlineData: { mimeType: string; data: string } } | { text: string }>,
-  responseSchema: Record<string, unknown>
-): Promise<{ text: string; model: string }> {
-  const imagePart = parts.find(
-    (p): p is { inlineData: { mimeType: string; data: string } } => 'inlineData' in p
-  );
+async function callOpenAiCompatibleJson(provider, parts, responseSchema) {
+  const imagePart = parts.find((p) => 'inlineData' in p);
   const textContent = parts
-    .filter((p): p is { text: string } => 'text' in p)
+    .filter((p) => 'text' in p)
     .map((p) => p.text)
     .join('\n\n');
 
@@ -449,7 +379,7 @@ async function callOpenAiCompatibleJson(
       ]
     : promptWithSchema;
 
-  const doRequest = async (useJsonMode: boolean) => {
+  const doRequest = async (useJsonMode) => {
     const res = await fetch(provider.endpoint, {
       method: 'POST',
       headers: {
@@ -478,9 +408,7 @@ async function callOpenAiCompatibleJson(
       throw new Error(`${provider.id}_HTTP_${res.status}: ${errBody.slice(0, 180)}`);
     }
 
-    const payload = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string | null } }>;
-    };
+    const payload = await res.json();
     const rawContent = payload.choices?.[0]?.message?.content ?? '';
     return extractJsonText(rawContent);
   };
@@ -504,11 +432,8 @@ async function callOpenAiCompatibleJson(
   return { text: jsonText, model: `${provider.id}:${model}` };
 }
 
-async function generateJsonWithRetry(
-  parts: Array<{ inlineData: { mimeType: string; data: string } } | { text: string }>,
-  responseSchema: Record<string, unknown>
-): Promise<{ text: string; model: string; usedFallback: boolean; provider: ProviderId }> {
-  const isKeyAuthError = (err: unknown) => {
+async function generateJsonWithRetry(parts, responseSchema) {
+  const isKeyAuthError = (err) => {
     const msg = err instanceof Error ? err.message : String(err);
     return (
       msg.includes('401') ||
@@ -518,7 +443,7 @@ async function generateJsonWithRetry(
     );
   };
 
-  const isTransientError = (err: unknown) => {
+  const isTransientError = (err) => {
     const msg = err instanceof Error ? err.message : String(err);
     const low = msg.toLowerCase();
     return (
@@ -534,7 +459,7 @@ async function generateJsonWithRetry(
     );
   };
 
-  let lastErr: unknown = null;
+  let lastErr = null;
   const now = Date.now();
   const geminiReady = hasValidGeminiKey();
   const fallbacks = getFallbackProviders();
@@ -546,7 +471,7 @@ async function generateJsonWithRetry(
 
   if (geminiReady && (!respectCooldown || !isProviderInCooldown('gemini', now))) {
     const ai = getGeminiClient();
-    const callModel = async (model: string, withLowThinking: boolean) => {
+    const callModel = async (model, withLowThinking) => {
       return ai.models.generateContent({
         model,
         contents: { parts },
@@ -560,7 +485,7 @@ async function generateJsonWithRetry(
       });
     };
 
-    const attempts: Array<{ model: string; withLowThinking: boolean; delayMs: number }> = [
+    const attempts = [
       { model: MODEL_NAME, withLowThinking: true, delayMs: 0 },
       { model: 'gemini-3.1-flash-lite', withLowThinking: false, delayMs: 120 },
     ];
@@ -623,7 +548,7 @@ async function generateJsonWithRetry(
   throw lastErr ?? new Error('MISSING_AI_API_KEY');
 }
 
-function handleGeminiRouteError(err: unknown, res: Response, tag: string) {
+function handleGeminiRouteError(err, res, tag) {
   const message = err instanceof Error ? err.message : String(err);
   console.error(tag, err);
 
@@ -676,23 +601,21 @@ function handleGeminiRouteError(err: unknown, res: Response, tag: string) {
 export function createApiApp() {
   const app = express();
 
-  // Vercel Serverless may pre-parse req.body before invoking the Express handler
-  app.use((req: Request, _res: Response, next: NextFunction) => {
-    const reqWithBodyFlag = req as Request & { _body?: boolean };
+  app.use((req, _res, next) => {
     if (
       req.body &&
       typeof req.body === 'object' &&
       !Buffer.isBuffer(req.body) &&
-      !reqWithBodyFlag._body
+      !req._body
     ) {
-      reqWithBodyFlag._body = true;
+      req._body = true;
     }
     next();
   });
 
   app.use(express.json({ limit: '12mb' }));
 
-  app.get('/api/health', (_req: Request, res: Response) => {
+  app.get('/api/health', (_req, res) => {
     res.json({
       ok: true,
       model: MODEL_NAME,
@@ -700,7 +623,7 @@ export function createApiApp() {
     });
   });
 
-  app.get('/api/admin/telemetry', (_req: Request, res: Response) => {
+  app.get('/api/admin/telemetry', (_req, res) => {
     res.json({
       ok: true,
       model: MODEL_NAME,
@@ -709,7 +632,7 @@ export function createApiApp() {
     });
   });
 
-  app.get('/api/weather', async (_req: Request, res: Response) => {
+  app.get('/api/weather', async (_req, res) => {
     try {
       const nowMs = Date.now();
       if (weatherCache && nowMs - weatherCache.fetchedAt < 10 * 60 * 1000) {
@@ -730,7 +653,7 @@ export function createApiApp() {
       if (!weatherRes.ok) {
         throw new Error(`OPEN_METEO_HTTP_${weatherRes.status}`);
       }
-      const payload = (await weatherRes.json()) as unknown;
+      const payload = await weatherRes.json();
       weatherCache = { fetchedAt: nowMs, payload };
       res.json({ ok: true, cached: false, weather: payload });
     } catch (err) {
@@ -748,14 +671,14 @@ export function createApiApp() {
     }
   });
 
-  app.post('/api/analyze-meal', async (req: Request, res: Response) => {
+  app.post('/api/analyze-meal', async (req, res) => {
     try {
       runtimeTelemetry.analyzeCalls += 1;
-      const body = (req.body ?? {}) as AnalyzeMealBody;
+      const body = req.body ?? {};
       const description =
         typeof body.description === 'string' ? body.description.trim() : '';
       const contexts = Array.isArray(body.contexts)
-        ? body.contexts.filter((c): c is string => typeof c === 'string')
+        ? body.contexts.filter((c) => typeof c === 'string')
         : [];
       const slot = typeof body.slot === 'string' ? body.slot.trim() : '';
       const imagePart =
@@ -778,10 +701,7 @@ export function createApiApp() {
         hasImage: Boolean(imagePart),
       });
 
-      const parts: Array<
-        | { inlineData: { mimeType: string; data: string } }
-        | { text: string }
-      > = [];
+      const parts = [];
       if (imagePart) {
         parts.push({ inlineData: imagePart });
       }
@@ -802,73 +722,19 @@ export function createApiApp() {
       }
 
       recordTelemetrySuccess('analyze', provider, usedModel, usedFallback);
-      const parsed = JSON.parse(rawText) as Partial<GeminiMealAnalysis>;
+      const parsed = JSON.parse(rawText);
       const result = sanitizeAnalysis(parsed);
       res.json({ analysis: result, model: usedModel });
-    } catch (err: unknown) {
+    } catch (err) {
       recordTelemetryError('/api/analyze-meal', err);
       handleGeminiRouteError(err, res, '[/api/analyze-meal error]');
     }
   });
 
-  app.post('/api/suggest-meals', async (req: Request, res: Response) => {
+  app.post('/api/suggest-meals', async (req, res) => {
     try {
       runtimeTelemetry.suggestCalls += 1;
-      const body = (req.body ?? {}) as {
-        mode?: 'menu' | 'swap' | 'report_insight' | 'companion_chat';
-        diningMode?: 'eat_out' | 'home_cook';
-        budgetRange?: 'under_50k' | '50_80k' | '85_150k' | 'over_150k';
-        customBudgetVnd?: number;
-        availableIngredients?: string;
-        profile?: {
-          name?: string;
-          gender?: string;
-          age?: number;
-          heightCm?: number;
-          weightKg?: number;
-          bmi?: number;
-          bmiCategory?: string;
-          goal?: string;
-          activityLevel?: string;
-          dietaryTags?: string[];
-          dietaryNote?: string;
-          dislikedFoods?: string;
-          budgetLevel?: string;
-          cookingTime?: string;
-          cookingSkill?: string;
-          kitchenTools?: string[];
-          healthConditions?: string[];
-          suggestionFeedback?: {
-            liked?: string[];
-            disliked?: string[];
-            tried?: string[];
-          };
-          targetCalories?: number;
-          targets?: { protein?: number; carbs?: number; fiber?: number; fat?: number };
-        };
-        remaining?: {
-          calories?: number;
-          protein?: number;
-          carbs?: number;
-          fiber?: number;
-          fat?: number;
-        };
-        cravingDish?: string;
-        preferredSlot?: string;
-        period?: 'week' | 'month';
-        reportStats?: {
-          loggedDaysCount?: number;
-          totalMealsCount?: number;
-          uniqueDishesCount?: number;
-          avgCalories?: number;
-          avgMacros?: { protein?: number; carbs?: number; fiber?: number; fat?: number };
-          slotCalorieShare?: Record<string, number>;
-          deficientNutrients?: string[];
-        };
-        question?: string;
-        waterCups?: number;
-      };
-
+      const body = req.body ?? {};
       const mode = body.mode ?? 'menu';
       const p = body.profile ?? {};
       const rem = body.remaining ?? {};
@@ -878,13 +744,13 @@ export function createApiApp() {
         ? p.healthConditions.filter((h) => h !== 'Bình thường').join(', ')
         : '';
       const liked = Array.isArray(p.suggestionFeedback?.liked)
-        ? p.suggestionFeedback!.liked.slice(0, 8).join(', ')
+        ? p.suggestionFeedback.liked.slice(0, 8).join(', ')
         : '';
       const dislikedFeedback = Array.isArray(p.suggestionFeedback?.disliked)
-        ? p.suggestionFeedback!.disliked.slice(0, 10).join(', ')
+        ? p.suggestionFeedback.disliked.slice(0, 10).join(', ')
         : '';
       const tried = Array.isArray(p.suggestionFeedback?.tried)
-        ? p.suggestionFeedback!.tried.slice(0, 8).join(', ')
+        ? p.suggestionFeedback.tried.slice(0, 8).join(', ')
         : '';
 
       const customBudget =
@@ -1168,10 +1034,7 @@ export function createApiApp() {
         return;
       }
       recordTelemetrySuccess('suggest', provider, usedModel, usedFallback);
-      const parsed = JSON.parse(rawText) as {
-        summaryTip?: string;
-        suggestions?: Array<Record<string, unknown>>;
-      };
+      const parsed = JSON.parse(rawText);
       const suggestions = Array.isArray(parsed.suggestions)
         ? parsed.suggestions.map((s) => ({
             ...s,
@@ -1183,41 +1046,44 @@ export function createApiApp() {
         suggestions,
         model: usedModel,
       });
-    } catch (err: unknown) {
+    } catch (err) {
       recordTelemetryError('/api/suggest-meals', err);
       handleGeminiRouteError(err, res, '[/api/suggest-meals error]');
     }
   });
 
-  app.use('/api', (_req: Request, res: Response) => {
+  app.use('/api', (_req, res) => {
     res.status(404).json({ error: 'Không tìm thấy đường dẫn API yêu cầu.' });
   });
 
-  app.use(
-    '/api',
-    (
-      err: unknown,
-      _req: Request,
-      res: Response,
-      _next: NextFunction
-    ) => {
-      const status =
-        typeof (err as { status?: unknown })?.status === 'number'
-          ? (err as { status: number }).status
-          : 500;
-      if (status === 413) {
-        res.status(413).json({
-          error: 'Ảnh tải lên hơi nặng. Bạn thử chọn ảnh dung lượng nhỏ hơn nhé!',
-        });
-        return;
-      }
-      res.status(status >= 400 ? status : 500).json({
-        error: 'Yêu cầu dữ liệu chưa hợp lệ. Bạn thử lại giúp nhé!',
+  app.use('/api', (err, _req, res, _next) => {
+    const status =
+      typeof err?.status === 'number' ? err.status : 500;
+    if (status === 413) {
+      res.status(413).json({
+        error: 'Ảnh tải lên hơi nặng. Bạn thử chọn ảnh dung lượng nhỏ hơn nhé!',
       });
+      return;
     }
-  );
+    res.status(status >= 400 ? status : 500).json({
+      error: 'Yêu cầu dữ liệu chưa hợp lệ. Bạn thử lại giúp nhé!',
+    });
+  });
 
   return app;
 }
 
 export const apiApp = createApiApp();
+
+export function createVercelExpressHandler() {
+  return function handler(req, res) {
+    if (typeof res?.once === 'function') {
+      return new Promise((resolve) => {
+        res.once('finish', resolve);
+        res.once('close', resolve);
+        apiApp(req, res);
+      });
+    }
+    return apiApp(req, res);
+  };
+}
