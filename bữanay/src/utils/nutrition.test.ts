@@ -188,6 +188,11 @@ test('Handbook meal guides, swap pairs, hand portion rules, and goal tips cover 
   assert.equal(APP_GUIDE_STEPS.length, 4);
   assert.equal(HAND_PORTION_RULES.length, 4);
   assert.ok(HANDBOOK_SWAP_PAIRS.every((p) => p.fromCalories > p.toCalories));
+  assert.ok(
+    HANDBOOK_SWAP_PAIRS.every(
+      (p) => p.nutritionBadge.trim().length > 0 && p.whyBetter.length <= 85
+    )
+  );
 });
 
 test('PWA install state detection handles iOS Safari, Android native prompt, fallback, and installed states', () => {
