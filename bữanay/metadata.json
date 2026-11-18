@@ -1,6 +1,0 @@
-{
-  "name": "BữaNay",
-  "description": "Ứng dụng theo dõi dinh dưỡng và ghi nhận bữa ăn thông minh dành cho người Việt trẻ.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
