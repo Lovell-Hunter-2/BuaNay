@@ -8,6 +8,7 @@ import type {
   Gender,
   MacroValues,
   MascotMood,
+  MealBudgetRange,
   MealEntry,
   MealSlot,
   MealsByDate,
@@ -111,6 +112,151 @@ export const BUDGET_OPTIONS: Array<{
   { id: 'balanced', label: 'Vừa phải (45–80k)', subtitle: 'Đa dạng cơm, bún, đồ healthy' },
   { id: 'flexible', label: 'Thoải mái (>80k)', subtitle: 'Không giới hạn ngân sách' },
 ];
+
+export const MEAL_BUDGET_RANGE_OPTIONS: Array<{
+  id: MealBudgetRange;
+  label: string;
+  shortLabel: string;
+  minVnd: number;
+  maxVnd: number | null;
+  fallbackBudgetLevel: BudgetLevel;
+}> = [
+  {
+    id: 'under_50k',
+    label: 'Dưới 50.000đ',
+    shortLabel: 'Dưới 50k',
+    minVnd: 0,
+    maxVnd: 49999,
+    fallbackBudgetLevel: 'economy',
+  },
+  {
+    id: '50_80k',
+    label: '50.000đ – 80.000đ',
+    shortLabel: '50 - 80k',
+    minVnd: 50000,
+    maxVnd: 80000,
+    fallbackBudgetLevel: 'balanced',
+  },
+  {
+    id: '85_150k',
+    label: '85.000đ – 150.000đ',
+    shortLabel: '85 - 150k',
+    minVnd: 85000,
+    maxVnd: 150000,
+    fallbackBudgetLevel: 'flexible',
+  },
+  {
+    id: 'over_150k',
+    label: 'Trên 150.000đ',
+    shortLabel: 'Trên 150k',
+    minVnd: 150001,
+    maxVnd: null,
+    fallbackBudgetLevel: 'flexible',
+  },
+];
+
+export function budgetLevelToMealRange(level?: BudgetLevel): MealBudgetRange {
+  if (level === 'economy') return 'under_50k';
+  if (level === 'flexible') return '85_150k';
+  return '50_80k';
+}
+
+export function mealRangeToBudgetLevel(
+  range?: MealBudgetRange,
+  customBudgetVnd?: number | null
+): BudgetLevel {
+  if (typeof customBudgetVnd === 'number' && customBudgetVnd > 0) {
+    if (customBudgetVnd < 50000) return 'economy';
+    if (customBudgetVnd <= 80000) return 'balanced';
+    return 'flexible';
+  }
+  return (
+    MEAL_BUDGET_RANGE_OPTIONS.find((r) => r.id === range)?.fallbackBudgetLevel ??
+    'balanced'
+  );
+}
+
+/**
+ * Parses user-entered budget values such as:
+ * "45", "45k", "65.000", "120000", "90.000đ", "150 nghìn"
+ * Bare numbers under 1000 are interpreted in thousands of VND (e.g. 65 -> 65,000đ).
+ */
+export function normalizeCustomBudgetVnd(rawInput: string): number | null {
+  const cleaned = rawInput.trim().toLowerCase();
+  if (!cleaned) return null;
+
+  const hasThousandSuffix = /(?:k|nghin|nghìn)\b/.test(cleaned);
+  const strippedCurrency = cleaned
+    .replace(/vnđ|vnd|đ|nghìn|nghin|k/g, '')
+    .trim();
+
+  if (!strippedCurrency || !/\d/.test(strippedCurrency)) return null;
+
+  let value = 0;
+  if (hasThousandSuffix) {
+    const normalizedNum = strippedCurrency.replace(/\s+/g, '').replace(',', '.');
+    const parsed = Number(normalizedNum);
+    if (!Number.isFinite(parsed) || parsed <= 0) return null;
+    value = Math.round(parsed * 1000);
+  } else {
+    const digitsOnly = strippedCurrency.replace(/[.,\s]/g, '');
+    if (!/^\d+$/.test(digitsOnly)) return null;
+    const parsed = Number(digitsOnly);
+    if (!Number.isFinite(parsed) || parsed <= 0) return null;
+    value = parsed < 1000 ? parsed * 1000 : parsed;
+  }
+
+  if (value < 5000 || value > 5000000) return null;
+  return Math.round(value);
+}
+
+export function parseDishCostVndRange(
+  estimatedCostVnd?: string,
+  fallbackBudgetLevel?: BudgetLevel
+): { min: number; max: number } {
+  if (estimatedCostVnd && estimatedCostVnd.trim()) {
+    const raw = estimatedCostVnd.toLowerCase();
+    const matches = [...raw.matchAll(/(\d+(?:[.,]\d+)?)\s*(k)?/g)];
+    const values: number[] = [];
+    for (const m of matches) {
+      const token = m[1];
+      const hasK = Boolean(m[2]);
+      if (hasK) {
+        const n = Number(token.replace(',', '.'));
+        if (Number.isFinite(n) && n > 0) values.push(Math.round(n * 1000));
+      } else {
+        const digits = token.replace(/[.,]/g, '');
+        const n = Number(digits);
+        if (Number.isFinite(n) && n >= 1000) {
+          values.push(Math.round(n));
+        } else if (Number.isFinite(n) && n > 0 && n < 1000 && raw.includes('k')) {
+          values.push(Math.round(n * 1000));
+        }
+      }
+    }
+    if (values.length > 0) {
+      return {
+        min: Math.min(...values),
+        max: Math.max(...values),
+      };
+    }
+  }
+
+  if (fallbackBudgetLevel === 'economy') return { min: 20000, max: 45000 };
+  if (fallbackBudgetLevel === 'flexible') return { min: 85000, max: 140000 };
+  return { min: 45000, max: 80000 };
+}
+
+export function formatMealBudgetSummary(
+  budgetRange?: MealBudgetRange,
+  customBudgetVnd?: number | null
+): string {
+  if (typeof customBudgetVnd === 'number' && customBudgetVnd > 0) {
+    return `tự chọn ~${formatViNumber(customBudgetVnd)}đ`;
+  }
+  const found = MEAL_BUDGET_RANGE_OPTIONS.find((r) => r.id === budgetRange);
+  return found ? found.shortLabel : '50 - 80k';
+}
 
 export const COOKING_TIME_OPTIONS: Array<{
   id: CookingTime;
