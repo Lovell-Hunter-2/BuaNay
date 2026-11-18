@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { loadDishBank } from '../data/dishes';
 import type {
   BudgetLevel,
   FoodSwapResponse,
+  MealBudgetRange,
   MealDiningMode,
   MealEntry,
   MealSlot,
@@ -16,11 +17,14 @@ import {
   type CuisineFilter,
 } from '../utils/dishMatcher';
 import {
-  BUDGET_OPTIONS,
+  MEAL_BUDGET_RANGE_OPTIONS,
   MEAL_SLOTS,
   QUICK_AVAILABLE_INGREDIENTS,
+  budgetLevelToMealRange,
   formatViNumber,
   getGoalLabel,
+  mealRangeToBudgetLevel,
+  normalizeCustomBudgetVnd,
   parseApiJson,
   type DailyTotals,
 } from '../utils/nutrition';
@@ -69,9 +73,20 @@ export function MealSuggestionsScreen({
 }: MealSuggestionsScreenProps) {
   const [mode, setMode] = useState<'menu' | 'swap'>(initialMode);
   const [diningMode, setDiningMode] = useState<MealDiningMode>('eat_out');
-  const [budgetOverride, setBudgetOverride] = useState<BudgetLevel>(
-    profile.budgetLevel ?? 'balanced'
+  const [budgetRange, setBudgetRange] = useState<MealBudgetRange>(() =>
+    budgetLevelToMealRange(profile.budgetLevel)
   );
+  const [customBudgetInput, setCustomBudgetInput] = useState('');
+  const customBudgetVnd = useMemo(
+    () => normalizeCustomBudgetVnd(customBudgetInput),
+    [customBudgetInput]
+  );
+  const effectiveBudgetLevel: BudgetLevel = useMemo(
+    () => mealRangeToBudgetLevel(budgetRange, customBudgetVnd),
+    [budgetRange, customBudgetVnd]
+  );
+  const hasInvalidCustomBudget =
+    customBudgetInput.trim().length > 0 && customBudgetVnd === null;
   const [availableIngredients, setAvailableIngredients] = useState('');
   const [preferredSlot, setPreferredSlot] = useState<MealSlot>(
     initialSlot ?? defaultSlot
@@ -128,7 +143,7 @@ export function MealSuggestionsScreen({
   const fetchMenuFromGemini = async () => {
     const effectiveProfile: UserProfile = {
       ...profile,
-      budgetLevel: budgetOverride,
+      budgetLevel: effectiveBudgetLevel,
     };
     const res = await fetch('/api/suggest-meals', {
       method: 'POST',
@@ -136,6 +151,8 @@ export function MealSuggestionsScreen({
       body: JSON.stringify({
         mode: 'menu',
         diningMode,
+        budgetRange: customBudgetVnd ? undefined : budgetRange,
+        customBudgetVnd: customBudgetVnd ?? undefined,
         availableIngredients:
           diningMode === 'home_cook' ? availableIngredients.trim() : '',
         profile: effectiveProfile,
@@ -166,7 +183,7 @@ export function MealSuggestionsScreen({
         setVarietySeed(nextSeed);
         const effectiveProfile: UserProfile = {
           ...profile,
-          budgetLevel: budgetOverride,
+          budgetLevel: effectiveBudgetLevel,
         };
         let tier1 = pickTier1MenuSuggestions({
           dishes,
@@ -174,7 +191,9 @@ export function MealSuggestionsScreen({
           remaining,
           diningMode,
           preferredSlot,
-          budgetOverride,
+          budgetOverride: effectiveBudgetLevel,
+          budgetRange: customBudgetVnd ? undefined : budgetRange,
+          customBudgetVnd,
           availableIngredients:
             diningMode === 'home_cook' ? availableIngredients.trim() : '',
           excludeNames: shownDishNames,
@@ -190,7 +209,9 @@ export function MealSuggestionsScreen({
             remaining,
             diningMode,
             preferredSlot,
-            budgetOverride,
+            budgetOverride: effectiveBudgetLevel,
+            budgetRange: customBudgetVnd ? undefined : budgetRange,
+            customBudgetVnd,
             availableIngredients:
               diningMode === 'home_cook' ? availableIngredients.trim() : '',
             excludeNames: [],
@@ -241,7 +262,7 @@ export function MealSuggestionsScreen({
         let localSwap = pickTier1FoodSwapsSmart({
           dishes,
           cravingDish: cleanCraving,
-          profile: { ...profile, budgetLevel: budgetOverride },
+          profile: { ...profile, budgetLevel: effectiveBudgetLevel },
           excludeNames: prevSwaps,
           varietySeed: nextSeed,
         });
@@ -251,7 +272,7 @@ export function MealSuggestionsScreen({
           localSwap = pickTier1FoodSwapsSmart({
             dishes,
             cravingDish: cleanCraving,
-            profile: { ...profile, budgetLevel: budgetOverride },
+            profile: { ...profile, budgetLevel: effectiveBudgetLevel },
             excludeNames: [],
             varietySeed: nextSeed + 13,
           });
@@ -283,7 +304,9 @@ export function MealSuggestionsScreen({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'swap',
-          profile: { ...profile, budgetLevel: budgetOverride },
+          profile: { ...profile, budgetLevel: effectiveBudgetLevel },
+          budgetRange: customBudgetVnd ? undefined : budgetRange,
+          customBudgetVnd: customBudgetVnd ?? undefined,
           remaining,
           cravingDish: cravingDish.trim(),
         }),
@@ -476,28 +499,88 @@ export function MealSuggestionsScreen({
 
           {diningMode === 'eat_out' ? (
             <div className="mb-[12px]">
-              <p className="text-[11px] font-bold tracking-[0.04em] text-[#9E8E78] m-0 mb-[6px]">
-                NGÂN SÁCH BỮA NÀY
-              </p>
-              <div className="grid grid-cols-3 gap-[6px]">
-                {BUDGET_OPTIONS.map((b) => (
-                  <button
-                    key={b.id}
-                    type="button"
-                    onClick={() => setBudgetOverride(b.id)}
-                    className={`py-[7px] px-[6px] rounded-[10px] text-[11px] border-[1.5px] cursor-pointer ${
-                      budgetOverride === b.id
-                        ? 'bg-[#FFEEDD] border-[#FF8A3D] text-[#CC5F1A] font-bold'
-                        : 'bg-[#FFFDF5] border-[#DDD0B0] text-[#6B5D47] font-semibold'
+              <div className="flex items-center justify-between gap-[6px] mb-[6px]">
+                <p className="text-[11px] font-bold tracking-[0.04em] text-[#9E8E78] m-0">
+                  NGÂN SÁCH BỮA NÀY
+                </p>
+                {customBudgetVnd !== null && (
+                  <span className="text-[10px] font-extrabold text-[#CC5F1A] bg-[#FFEEDD] rounded-full px-[8px] py-[2px] tabular-nums">
+                    ~{formatViNumber(customBudgetVnd)}đ
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-[6px]">
+                {MEAL_BUDGET_RANGE_OPTIONS.map((b) => {
+                  const isActive = customBudgetVnd === null && budgetRange === b.id;
+                  return (
+                    <button
+                      key={b.id}
+                      type="button"
+                      onClick={() => {
+                        setBudgetRange(b.id);
+                        setCustomBudgetInput('');
+                        setShownDishNames([]);
+                      }}
+                      className={`py-[8px] px-[8px] rounded-[10px] text-[12px] border-[1.5px] cursor-pointer transition-colors ${
+                        isActive
+                          ? 'bg-[#FFEEDD] border-[#FF8A3D] text-[#CC5F1A] font-bold'
+                          : 'bg-[#FFFDF5] border-[#DDD0B0] text-[#6B5D47] font-semibold hover:border-[#C5B890]'
+                      }`}
+                    >
+                      {b.shortLabel}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-[8px]">
+                <label
+                  htmlFor="custom-budget-input"
+                  className="block text-[10px] font-bold text-[#9E8E78] mb-[4px]"
+                >
+                  Hoặc nhập ngân sách tự chọn (VD: 65, 95k, 120.000)
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    id="custom-budget-input"
+                    type="text"
+                    inputMode="numeric"
+                    value={customBudgetInput}
+                    onChange={(e) => {
+                      setCustomBudgetInput(e.target.value);
+                      setShownDishNames([]);
+                    }}
+                    placeholder="Nhập mức giá tối đa (VNĐ hoặc k)..."
+                    className={`w-full pl-[11px] pr-[58px] py-[8px] rounded-[10px] border-[1.5px] bg-[#FFFDF5] text-[12px] font-semibold text-[#2D2416] placeholder:text-[#9E8E78] focus:outline-none ${
+                      hasInvalidCustomBudget
+                        ? 'border-[#FF6B6B]'
+                        : customBudgetVnd !== null
+                        ? 'border-[#FF8A3D]'
+                        : 'border-[#DDD0B0] focus:border-[#FF8A3D]'
                     }`}
-                  >
-                    {b.id === 'economy'
-                      ? 'Tiết kiệm'
-                      : b.id === 'balanced'
-                      ? 'Vừa túi'
-                      : 'Thoải mái'}
-                  </button>
-                ))}
+                  />
+                  {customBudgetInput ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCustomBudgetInput('');
+                        setShownDishNames([]);
+                      }}
+                      aria-label="Xóa ngân sách tự chọn"
+                      className="absolute right-[8px] px-[7px] py-[2px] rounded-full bg-[#F2EBD8] text-[10px] font-bold text-[#6B5D47] hover:text-[#2D2416] cursor-pointer"
+                    >
+                      Xóa
+                    </button>
+                  ) : (
+                    <span className="absolute right-[10px] text-[10px] font-bold text-[#9E8E78] pointer-events-none">
+                      VNĐ
+                    </span>
+                  )}
+                </div>
+                {hasInvalidCustomBudget && (
+                  <p className="text-[10px] font-semibold text-[#C94A4A] m-0 mt-[3px]">
+                    Nhập từ 5.000đ trở lên (ví dụ: 45 hoặc 65.000).
+                  </p>
+                )}
               </div>
             </div>
           ) : (
