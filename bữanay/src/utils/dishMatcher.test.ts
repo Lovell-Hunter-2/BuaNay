@@ -8,7 +8,11 @@ import {
   pickTier1MenuSuggestions,
   tryAnswerCompanionFromLocalBank,
 } from './dishMatcher';
-import { buildUserProfile } from './nutrition';
+import {
+  buildUserProfile,
+  normalizeCustomBudgetVnd,
+  parseDishCostVndRange,
+} from './nutrition';
 import type { DishBankItem } from '../types/nutrition';
 
 const VALID_SLOTS = new Set(['Sáng', 'Trưa', 'Xế', 'Tối']);
@@ -298,4 +302,130 @@ test('Zero-token JSON bank lookup works across meal text analysis, smart swaps, 
     streakDays: 3,
   });
   assert.equal(openMiss, null);
+});
+
+test('VND price-range presets and custom budget normalization filter eat-out dishes accurately', async () => {
+  assert.equal(normalizeCustomBudgetVnd('45'), 45000);
+  assert.equal(normalizeCustomBudgetVnd('65k'), 65000);
+  assert.equal(normalizeCustomBudgetVnd('120.000'), 120000);
+  assert.equal(normalizeCustomBudgetVnd('95.000đ'), 95000);
+  assert.equal(normalizeCustomBudgetVnd('150 nghìn'), 150000);
+  assert.equal(normalizeCustomBudgetVnd(''), null);
+  assert.equal(normalizeCustomBudgetVnd('2000'), null);
+  assert.equal(normalizeCustomBudgetVnd('abc'), null);
+
+  assert.deepEqual(parseDishCostVndRange('35.000đ'), { min: 35000, max: 35000 });
+  assert.deepEqual(parseDishCostVndRange('~35.000đ - 45.000đ'), {
+    min: 35000,
+    max: 45000,
+  });
+  assert.deepEqual(parseDishCostVndRange('185.000đ'), { min: 185000, max: 185000 });
+
+  const dishes = await loadDishBank();
+  const profile = buildUserProfile({
+    name: 'Thuận',
+    gender: 'male',
+    age: 23,
+    heightCm: 175,
+    weightKg: 62,
+    goal: 'maintain',
+    activityLevel: 'moderate',
+    dietaryTags: [],
+    dietaryNote: '',
+  });
+  const remaining = { calories: 1600, protein: 80, carbs: 180, fiber: 20, fat: 50 };
+
+  // 1. Dưới 50k
+  const rUnder50 = pickTier1MenuSuggestions({
+    dishes,
+    profile,
+    remaining,
+    diningMode: 'eat_out',
+    preferredSlot: 'Trưa',
+    budgetOverride: 'economy',
+    budgetRange: 'under_50k',
+  });
+  assert.equal(rUnder50.suggestions.length, 3);
+  assert.ok(rUnder50.summaryTip.includes('Dưới 50k'));
+  for (const s of rUnder50.suggestions) {
+    const cost = parseDishCostVndRange(s.estimatedCostVnd);
+    assert.ok(cost.max < 50000, `Expected <50k dish, got ${s.name} (${s.estimatedCostVnd})`);
+  }
+
+  // 2. 50 - 80k
+  const r50to80 = pickTier1MenuSuggestions({
+    dishes,
+    profile,
+    remaining,
+    diningMode: 'eat_out',
+    preferredSlot: 'Trưa',
+    budgetOverride: 'balanced',
+    budgetRange: '50_80k',
+  });
+  assert.equal(r50to80.suggestions.length, 3);
+  for (const s of r50to80.suggestions) {
+    const cost = parseDishCostVndRange(s.estimatedCostVnd);
+    assert.ok(
+      cost.max >= 50000 && cost.min <= 80000,
+      `Expected 50-80k dish, got ${s.name} (${s.estimatedCostVnd})`
+    );
+  }
+
+  // 3. 85 - 150k
+  const r85to150 = pickTier1MenuSuggestions({
+    dishes,
+    profile,
+    remaining,
+    diningMode: 'eat_out',
+    preferredSlot: 'Trưa',
+    budgetOverride: 'flexible',
+    budgetRange: '85_150k',
+  });
+  assert.equal(r85to150.suggestions.length, 3);
+  for (const s of r85to150.suggestions) {
+    const cost = parseDishCostVndRange(s.estimatedCostVnd);
+    assert.ok(
+      cost.max >= 85000 && cost.min <= 150000,
+      `Expected 85-150k dish, got ${s.name} (${s.estimatedCostVnd})`
+    );
+  }
+
+  // 4. Trên 150k
+  const rOver150 = pickTier1MenuSuggestions({
+    dishes,
+    profile,
+    remaining,
+    diningMode: 'eat_out',
+    preferredSlot: 'Trưa',
+    budgetOverride: 'flexible',
+    budgetRange: 'over_150k',
+  });
+  assert.equal(rOver150.suggestions.length, 3);
+  for (const s of rOver150.suggestions) {
+    const cost = parseDishCostVndRange(s.estimatedCostVnd);
+    assert.ok(
+      cost.max > 150000,
+      `Expected >150k dish, got ${s.name} (${s.estimatedCostVnd})`
+    );
+  }
+
+  // 5. Custom budget (e.g. 65.000đ)
+  const rCustom65 = pickTier1MenuSuggestions({
+    dishes,
+    profile,
+    remaining,
+    diningMode: 'eat_out',
+    preferredSlot: 'Trưa',
+    budgetOverride: 'balanced',
+    customBudgetVnd: 65000,
+  });
+  assert.equal(rCustom65.suggestions.length, 3);
+  assert.ok(rCustom65.summaryTip.includes('65.000đ'));
+  for (const s of rCustom65.suggestions) {
+    const cost = parseDishCostVndRange(s.estimatedCostVnd);
+    assert.ok(
+      cost.max <= 65000,
+      `Expected dish <= 65k, got ${s.name} (${s.estimatedCostVnd})`
+    );
+  }
 });
