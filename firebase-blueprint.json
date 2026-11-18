@@ -1,0 +1,732 @@
+{
+  "entities": {
+    "UserAccountRoot": {
+      "title": "UserAccountRoot",
+      "description": "Root account marker document without PII for relational ownership checks.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "createdAt", "updatedAt"]
+    },
+    "UserPrivateAccount": {
+      "title": "UserPrivateAccount",
+      "description": "Isolated private PII account metadata readable and writable only by the verified owner.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 160
+        },
+        "authProvider": {
+          "type": "string",
+          "enum": ["google.com", "password", "unknown"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "authProvider", "createdAt", "updatedAt"]
+    },
+    "UserNutritionProfile": {
+      "title": "UserNutritionProfile",
+      "description": "Personal body metrics, dietary goals, kitchen context, and reminder preferences for a verified user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["female", "male"]
+        },
+        "age": {
+          "type": "number"
+        },
+        "heightCm": {
+          "type": "number"
+        },
+        "weightKg": {
+          "type": "number"
+        },
+        "goal": {
+          "type": "string",
+          "enum": ["lose_fat", "maintain", "gain_weight", "build_muscle"]
+        },
+        "activityLevel": {
+          "type": "string",
+          "enum": ["sedentary", "light", "moderate", "active"]
+        },
+        "dietaryTags": {
+          "type": "array"
+        },
+        "dietaryNote": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "dislikedFoods": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "budgetLevel": {
+          "type": "string",
+          "enum": ["economy", "balanced", "flexible"]
+        },
+        "cookingTime": {
+          "type": "string",
+          "enum": ["no_cook", "under_15", "15_to_30", "flexible"]
+        },
+        "cookingSkill": {
+          "type": "string",
+          "enum": ["basic", "intermediate", "confident"]
+        },
+        "kitchenTools": {
+          "type": "array"
+        },
+        "healthConditions": {
+          "type": "array"
+        },
+        "likedDishes": {
+          "type": "array"
+        },
+        "dislikedDishes": {
+          "type": "array"
+        },
+        "triedDishes": {
+          "type": "array"
+        },
+        "bmi": {
+          "type": "number"
+        },
+        "bmiCategory": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "bmr": {
+          "type": "number"
+        },
+        "tdee": {
+          "type": "number"
+        },
+        "targetCalories": {
+          "type": "number"
+        },
+        "targetProtein": {
+          "type": "number"
+        },
+        "targetCarbs": {
+          "type": "number"
+        },
+        "targetFiber": {
+          "type": "number"
+        },
+        "targetFat": {
+          "type": "number"
+        },
+        "waterTargetCups": {
+          "type": "number"
+        },
+        "remindMeals": {
+          "type": "boolean"
+        },
+        "remindWater": {
+          "type": "boolean"
+        },
+        "profileCreatedAt": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "name",
+        "gender",
+        "age",
+        "heightCm",
+        "weightKg",
+        "goal",
+        "activityLevel",
+        "dietaryTags",
+        "dietaryNote",
+        "dislikedFoods",
+        "budgetLevel",
+        "cookingTime",
+        "cookingSkill",
+        "kitchenTools",
+        "healthConditions",
+        "likedDishes",
+        "dislikedDishes",
+        "triedDishes",
+        "bmi",
+        "bmiCategory",
+        "bmr",
+        "tdee",
+        "targetCalories",
+        "targetProtein",
+        "targetCarbs",
+        "targetFiber",
+        "targetFat",
+        "waterTargetCups",
+        "remindMeals",
+        "remindWater",
+        "profileCreatedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MealEntryRecord": {
+      "title": "MealEntryRecord",
+      "description": "Single logged meal entry belonging to an authenticated user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 64
+        },
+        "dateKey": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "maxLength": 10
+        },
+        "slot": {
+          "type": "string",
+          "enum": ["Sáng", "Trưa", "Xế", "Tối"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "time": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "calories": {
+          "type": "number"
+        },
+        "protein": {
+          "type": "number"
+        },
+        "carbs": {
+          "type": "number"
+        },
+        "fiber": {
+          "type": "number"
+        },
+        "fat": {
+          "type": "number"
+        },
+        "sodiumMg": {
+          "type": "number"
+        },
+        "sugarG": {
+          "type": "number"
+        },
+        "contexts": {
+          "type": "array"
+        },
+        "isHealthy": {
+          "type": "boolean"
+        },
+        "portionEstimate": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "summaryNote": {
+          "type": "string",
+          "maxLength": 280
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "id",
+        "dateKey",
+        "slot",
+        "name",
+        "time",
+        "calories",
+        "protein",
+        "carbs",
+        "fiber",
+        "fat",
+        "sodiumMg",
+        "sugarG",
+        "contexts",
+        "isHealthy",
+        "portionEstimate",
+        "summaryNote",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WaterLogRecord": {
+      "title": "WaterLogRecord",
+      "description": "Daily water cup counter belonging to an authenticated user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "dateKey": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "maxLength": 10
+        },
+        "cups": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "dateKey", "cups", "createdAt", "updatedAt"]
+    },
+    "WeightLogRecord": {
+      "title": "WeightLogRecord",
+      "description": "Daily weight and BMI check-in belonging to an authenticated user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "dateKey": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "maxLength": 10
+        },
+        "weightKg": {
+          "type": "number"
+        },
+        "bmi": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "dateKey", "weightKg", "bmi", "createdAt", "updatedAt"]
+    },
+    "AdminRoleRecord": {
+      "title": "AdminRoleRecord",
+      "description": "Staff role assignment document keyed by normalized lowercase verified email.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 160
+        },
+        "uid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 160
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "moderator"]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "addedByUid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "addedByEmail": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "uid", "email", "role", "label", "addedByUid", "addedByEmail", "createdAt", "updatedAt"]
+    },
+    "KickedUserRecord": {
+      "title": "KickedUserRecord",
+      "description": "Account blocked/kicked by an admin from accessing BữaNay sync.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "kickedByUid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "kickedByEmail": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "displayName", "reason", "kickedByUid", "kickedByEmail", "createdAt", "updatedAt"]
+    },
+    "CatalogDishRecord": {
+      "title": "CatalogDishRecord",
+      "description": "Staff-managed dish catalog entry with admin approval status for moderator submissions.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "slots": {
+          "type": "array"
+        },
+        "diningMode": {
+          "type": "string",
+          "enum": ["eat_out", "home_cook"]
+        },
+        "cuisine": {
+          "type": "string",
+          "enum": ["vietnam", "healthy_intl", "drink"]
+        },
+        "portionEstimate": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "calories": {
+          "type": "number"
+        },
+        "protein": {
+          "type": "number"
+        },
+        "carbs": {
+          "type": "number"
+        },
+        "fiber": {
+          "type": "number"
+        },
+        "fat": {
+          "type": "number"
+        },
+        "budgetLevel": {
+          "type": "string",
+          "enum": ["economy", "balanced", "flexible"]
+        },
+        "estimatedCostVnd": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "prepMinutes": {
+          "type": "number"
+        },
+        "whyItFits": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "swapTip": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "status": {
+          "type": "string",
+          "enum": ["approved", "pending", "rejected"]
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "submittedByEmail": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "submittedByRole": {
+          "type": "string",
+          "enum": ["admin", "moderator"]
+        },
+        "updatedByUid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slots",
+        "diningMode",
+        "cuisine",
+        "portionEstimate",
+        "calories",
+        "protein",
+        "carbs",
+        "fiber",
+        "fat",
+        "budgetLevel",
+        "estimatedCostVnd",
+        "prepMinutes",
+        "whyItFits",
+        "swapTip",
+        "status",
+        "isActive",
+        "submittedByEmail",
+        "submittedByRole",
+        "updatedByUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AppRuntimeConfig": {
+      "title": "AppRuntimeConfig",
+      "description": "Global announcement banner and AI mode configuration controlled by admins.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 32
+        },
+        "bannerEnabled": {
+          "type": "boolean"
+        },
+        "bannerTitle": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "bannerMessage": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "bannerTone": {
+          "type": "string",
+          "enum": ["info", "warning", "success"]
+        },
+        "aiMode": {
+          "type": "string",
+          "enum": ["full_ai", "offline_bank_only"]
+        },
+        "updatedByUid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "bannerEnabled",
+        "bannerTitle",
+        "bannerMessage",
+        "bannerTone",
+        "aiMode",
+        "updatedByUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminAuditLog": {
+      "title": "AdminAuditLog",
+      "description": "Immutable staff action audit trail.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 64
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 280
+        },
+        "actorUid": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "actorEmail": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "action", "target", "detail", "actorUid", "actorEmail", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserAccountRoot" },
+      "description": "Root user document (no PII) anchoring subcollection ownership."
+    },
+    "/users/{userId}/private/{privateDocId}": {
+      "schema": { "$ref": "#/entities/UserPrivateAccount" },
+      "description": "Private account document storing email & provider for owner or staff."
+    },
+    "/users/{userId}/profile/{profileDocId}": {
+      "schema": { "$ref": "#/entities/UserNutritionProfile" },
+      "description": "Personal nutrition profile and reminder settings."
+    },
+    "/users/{userId}/meals/{mealId}": {
+      "schema": { "$ref": "#/entities/MealEntryRecord" },
+      "description": "Individual logged meal entries indexed by user and dateKey."
+    },
+    "/users/{userId}/waterLogs/{dateKey}": {
+      "schema": { "$ref": "#/entities/WaterLogRecord" },
+      "description": "Daily water intake cups per YYYY-MM-DD dateKey."
+    },
+    "/users/{userId}/weightLogs/{dateKey}": {
+      "schema": { "$ref": "#/entities/WeightLogRecord" },
+      "description": "Daily weight and BMI records per YYYY-MM-DD dateKey."
+    },
+    "/admins/{adminKey}": {
+      "schema": { "$ref": "#/entities/AdminRoleRecord" },
+      "description": "Staff authorization registry keyed by normalized lowercase email."
+    },
+    "/kickedUsers/{userId}": {
+      "schema": { "$ref": "#/entities/KickedUserRecord" },
+      "description": "Blocked users kicked by admins."
+    },
+    "/catalogDishes/{dishId}": {
+      "schema": { "$ref": "#/entities/CatalogDishRecord" },
+      "description": "Nutrition dish catalog; admin publishes immediately, moderator submissions stay pending until admin approves."
+    },
+    "/appConfig/{configId}": {
+      "schema": { "$ref": "#/entities/AppRuntimeConfig" },
+      "description": "Public runtime app announcement and AI mode settings managed by admins."
+    },
+    "/adminLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
+      "description": "Immutable audit log of staff actions."
+    }
+  }
+}

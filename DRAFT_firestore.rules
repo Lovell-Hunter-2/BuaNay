@@ -1,0 +1,627 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Pillar 4.1: Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function hasVerifiedEmail() {
+      return isVerifiedUser()
+        && request.auth.token.email is string
+        && request.auth.token.email.size() >= 5;
+    }
+
+    function authEmailLower() {
+      return request.auth.token.email.lower();
+    }
+
+    function isBootstrappedAdmin() {
+      return hasVerifiedEmail() && authEmailLower() == 'taikhoanphubg4@gmail.com';
+    }
+
+    function hasRoleDoc() {
+      return hasVerifiedEmail()
+        && exists(/databases/$(database)/documents/admins/$(authEmailLower()));
+    }
+
+    function getRoleDoc() {
+      return get(/databases/$(database)/documents/admins/$(authEmailLower())).data;
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin()
+        || (hasRoleDoc() && getRoleDoc().role == 'admin');
+    }
+
+    function isModerator() {
+      return hasRoleDoc() && getRoleDoc().role == 'moderator';
+    }
+
+    function isStaff() {
+      return isAdmin() || isModerator();
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidEmailDocId(id) {
+      return id is string
+        && id.size() >= 5
+        && id.size() <= 160
+        && id.matches('^[^/\\s]+@[^/\\s]+\\.[^/\\s]+$');
+    }
+
+    function isValidDateKey(key) {
+      return key is string && key.size() == 10 && key.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isKickedUser(userId) {
+      return exists(/databases/$(database)/documents/kickedUsers/$(userId));
+    }
+
+    function isValidStringList(arr, maxLen) {
+      return arr is list && arr.size() <= maxLen && (arr.size() == 0 || (arr[0] is string && arr[0].size() <= 120));
+    }
+
+    function hasParentUser(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function isValidUserRoot(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'displayName', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPrivateAccount(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'authProvider', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'email', 'authProvider', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 160
+        && data.authProvider is string && data.authProvider in ['google.com', 'password', 'unknown']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidNutritionProfile(data, userId) {
+      return data.keys().hasAll([
+          'uid', 'name', 'gender', 'age', 'heightCm', 'weightKg',
+          'goal', 'activityLevel', 'dietaryTags', 'dietaryNote', 'dislikedFoods',
+          'budgetLevel', 'cookingTime', 'cookingSkill', 'kitchenTools', 'healthConditions',
+          'likedDishes', 'dislikedDishes', 'triedDishes',
+          'bmi', 'bmiCategory', 'bmr', 'tdee', 'targetCalories',
+          'targetProtein', 'targetCarbs', 'targetFiber', 'targetFat',
+          'waterTargetCups', 'remindMeals', 'remindWater', 'profileCreatedAt',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid', 'name', 'gender', 'age', 'heightCm', 'weightKg',
+          'goal', 'activityLevel', 'dietaryTags', 'dietaryNote', 'dislikedFoods',
+          'budgetLevel', 'cookingTime', 'cookingSkill', 'kitchenTools', 'healthConditions',
+          'likedDishes', 'dislikedDishes', 'triedDishes',
+          'bmi', 'bmiCategory', 'bmr', 'tdee', 'targetCalories',
+          'targetProtein', 'targetCarbs', 'targetFiber', 'targetFat',
+          'waterTargetCups', 'remindMeals', 'remindWater', 'profileCreatedAt',
+          'createdAt', 'updatedAt'
+        ])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 60
+        && data.gender is string && data.gender in ['female', 'male']
+        && data.age is number && data.age >= 14 && data.age <= 90
+        && data.heightCm is number && data.heightCm >= 120 && data.heightCm <= 220
+        && data.weightKg is number && data.weightKg >= 30 && data.weightKg <= 200
+        && data.goal is string && data.goal in ['lose_fat', 'maintain', 'gain_weight', 'build_muscle']
+        && data.activityLevel is string && data.activityLevel in ['sedentary', 'light', 'moderate', 'active']
+        && isValidStringList(data.dietaryTags, 15)
+        && data.dietaryNote is string && data.dietaryNote.size() <= 240
+        && data.dislikedFoods is string && data.dislikedFoods.size() <= 240
+        && data.budgetLevel is string && data.budgetLevel in ['economy', 'balanced', 'flexible']
+        && data.cookingTime is string && data.cookingTime in ['no_cook', 'under_15', '15_to_30', 'flexible']
+        && data.cookingSkill is string && data.cookingSkill in ['basic', 'intermediate', 'confident']
+        && isValidStringList(data.kitchenTools, 15)
+        && isValidStringList(data.healthConditions, 15)
+        && isValidStringList(data.likedDishes, 30)
+        && isValidStringList(data.dislikedDishes, 30)
+        && isValidStringList(data.triedDishes, 30)
+        && data.bmi is number && data.bmi >= 10 && data.bmi <= 80
+        && data.bmiCategory is string && data.bmiCategory.size() >= 1 && data.bmiCategory.size() <= 40
+        && data.bmr is number && data.bmr >= 500 && data.bmr <= 6000
+        && data.tdee is number && data.tdee >= 700 && data.tdee <= 8000
+        && data.targetCalories is number && data.targetCalories >= 900 && data.targetCalories <= 7000
+        && data.targetProtein is number && data.targetProtein >= 10 && data.targetProtein <= 600
+        && data.targetCarbs is number && data.targetCarbs >= 10 && data.targetCarbs <= 1000
+        && data.targetFiber is number && data.targetFiber >= 5 && data.targetFiber <= 150
+        && data.targetFat is number && data.targetFat >= 10 && data.targetFat <= 400
+        && data.waterTargetCups is number && data.waterTargetCups >= 4 && data.waterTargetCups <= 25
+        && data.remindMeals is bool
+        && data.remindWater is bool
+        && data.profileCreatedAt is string && data.profileCreatedAt.size() >= 10 && data.profileCreatedAt.size() <= 40
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidMealEntry(data, userId, mealId) {
+      return data.keys().hasAll([
+          'uid', 'id', 'dateKey', 'slot', 'name', 'time',
+          'calories', 'protein', 'carbs', 'fiber', 'fat',
+          'sodiumMg', 'sugarG', 'contexts', 'isHealthy',
+          'portionEstimate', 'summaryNote', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid', 'id', 'dateKey', 'slot', 'name', 'time',
+          'calories', 'protein', 'carbs', 'fiber', 'fat',
+          'sodiumMg', 'sugarG', 'contexts', 'isHealthy',
+          'portionEstimate', 'summaryNote', 'createdAt', 'updatedAt'
+        ])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.id is string && data.id == mealId && isValidId(data.id)
+        && isValidDateKey(data.dateKey)
+        && data.slot is string && data.slot in ['Sáng', 'Trưa', 'Xế', 'Tối']
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 120
+        && data.time is string && data.time.size() >= 1 && data.time.size() <= 16
+        && data.calories is number && data.calories >= 0 && data.calories <= 10000
+        && data.protein is number && data.protein >= 0 && data.protein <= 500
+        && data.carbs is number && data.carbs >= 0 && data.carbs <= 1000
+        && data.fiber is number && data.fiber >= 0 && data.fiber <= 300
+        && data.fat is number && data.fat >= 0 && data.fat <= 500
+        && data.sodiumMg is number && data.sodiumMg >= 0 && data.sodiumMg <= 20000
+        && data.sugarG is number && data.sugarG >= 0 && data.sugarG <= 500
+        && isValidStringList(data.contexts, 10)
+        && data.isHealthy is bool
+        && data.portionEstimate is string && data.portionEstimate.size() <= 120
+        && data.summaryNote is string && data.summaryNote.size() <= 280
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidWaterLog(data, userId, dateKey) {
+      return data.keys().hasAll(['uid', 'dateKey', 'cups', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'dateKey', 'cups', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.dateKey is string && data.dateKey == dateKey && isValidDateKey(data.dateKey)
+        && data.cups is number && data.cups >= 0 && data.cups <= 30
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidWeightLog(data, userId, dateKey) {
+      return data.keys().hasAll(['uid', 'dateKey', 'weightKg', 'bmi', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'dateKey', 'weightKg', 'bmi', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.dateKey is string && data.dateKey == dateKey && isValidDateKey(data.dateKey)
+        && data.weightKg is number && data.weightKg >= 30 && data.weightKg <= 200
+        && data.bmi is number && data.bmi >= 10 && data.bmi <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidAdminRecord(data, adminKey) {
+      return data.keys().hasAll([
+          'id', 'uid', 'email', 'role', 'label', 'addedByUid', 'addedByEmail', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'uid', 'email', 'role', 'label', 'addedByUid', 'addedByEmail', 'createdAt', 'updatedAt'
+        ])
+        && data.id is string && data.id == adminKey && isValidEmailDocId(data.id)
+        && data.uid is string && data.uid.size() <= 128 && (data.uid == '' || isValidId(data.uid))
+        && data.email is string && data.email == adminKey && isValidEmailDocId(data.email)
+        && data.role is string && data.role in ['admin', 'moderator']
+        && data.label is string && data.label.size() >= 1 && data.label.size() <= 80
+        && data.addedByUid is string && isValidId(data.addedByUid)
+        && data.addedByEmail is string && data.addedByEmail.size() >= 3 && data.addedByEmail.size() <= 160
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidKickedUser(data, userId) {
+      return data.keys().hasAll([
+          'uid', 'email', 'displayName', 'reason', 'kickedByUid', 'kickedByEmail', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'reason', 'kickedByUid', 'kickedByEmail', 'createdAt', 'updatedAt'
+        ])
+        && data.uid is string && data.uid == userId && isValidId(data.uid)
+        && data.email is string && data.email.size() <= 160
+        && data.displayName is string && data.displayName.size() <= 80
+        && data.reason is string && data.reason.size() <= 240
+        && data.kickedByUid is string && isValidId(data.kickedByUid)
+        && data.kickedByEmail is string && data.kickedByEmail.size() <= 160
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCatalogDish(data, dishId) {
+      return data.keys().hasAll([
+          'id', 'name', 'slots', 'diningMode', 'cuisine', 'portionEstimate',
+          'calories', 'protein', 'carbs', 'fiber', 'fat',
+          'budgetLevel', 'estimatedCostVnd', 'prepMinutes',
+          'whyItFits', 'swapTip', 'isActive', 'status',
+          'updatedByUid', 'submittedByEmail', 'submittedByRole', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'name', 'slots', 'diningMode', 'cuisine', 'portionEstimate',
+          'calories', 'protein', 'carbs', 'fiber', 'fat',
+          'budgetLevel', 'estimatedCostVnd', 'prepMinutes',
+          'whyItFits', 'swapTip', 'isActive', 'status',
+          'updatedByUid', 'submittedByEmail', 'submittedByRole', 'createdAt', 'updatedAt'
+        ])
+        && data.id is string && data.id == dishId && dishId.size() <= 64 && isValidId(data.id)
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 120
+        && data.slots is list && data.slots.size() >= 1 && data.slots.size() <= 4
+        && data.slots.hasOnly(['Sáng', 'Trưa', 'Xế', 'Tối'])
+        && data.diningMode is string && data.diningMode in ['eat_out', 'home_cook']
+        && data.cuisine is string && data.cuisine in ['vietnam', 'healthy_intl', 'drink']
+        && data.portionEstimate is string && data.portionEstimate.size() >= 1 && data.portionEstimate.size() <= 120
+        && data.calories is number && data.calories >= 0 && data.calories <= 3000
+        && data.protein is number && data.protein >= 0 && data.protein <= 250
+        && data.carbs is number && data.carbs >= 0 && data.carbs <= 400
+        && data.fiber is number && data.fiber >= 0 && data.fiber <= 100
+        && data.fat is number && data.fat >= 0 && data.fat <= 200
+        && data.budgetLevel is string && data.budgetLevel in ['economy', 'balanced', 'flexible']
+        && data.estimatedCostVnd is string && data.estimatedCostVnd.size() <= 60
+        && data.prepMinutes is number && data.prepMinutes >= 0 && data.prepMinutes <= 180
+        && data.whyItFits is string && data.whyItFits.size() <= 200
+        && data.swapTip is string && data.swapTip.size() <= 200
+        && data.isActive is bool
+        && data.status is string && data.status in ['approved', 'pending', 'rejected']
+        && (data.status == 'approved' || data.isActive == false)
+        && data.updatedByUid is string && isValidId(data.updatedByUid)
+        && data.submittedByEmail is string && data.submittedByEmail.size() <= 160
+        && data.submittedByRole is string && data.submittedByRole in ['admin', 'moderator']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidAppRuntimeConfig(data, configId) {
+      return data.keys().hasAll([
+          'id', 'bannerEnabled', 'bannerTitle', 'bannerMessage', 'bannerTone',
+          'aiMode', 'updatedByUid', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'bannerEnabled', 'bannerTitle', 'bannerMessage', 'bannerTone',
+          'aiMode', 'updatedByUid', 'createdAt', 'updatedAt'
+        ])
+        && data.id is string && data.id == configId && configId == 'runtime'
+        && data.bannerEnabled is bool
+        && data.bannerTitle is string && data.bannerTitle.size() <= 80
+        && data.bannerMessage is string && data.bannerMessage.size() <= 240
+        && data.bannerTone is string && data.bannerTone in ['info', 'warning', 'success']
+        && data.aiMode is string && data.aiMode in ['full_ai', 'offline_bank_only']
+        && data.updatedByUid is string && isValidId(data.updatedByUid)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidAdminAuditLog(data, logId) {
+      return data.keys().hasAll([
+          'id', 'action', 'target', 'detail', 'actorUid', 'actorEmail', 'createdAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'action', 'target', 'detail', 'actorUid', 'actorEmail', 'createdAt'
+        ])
+        && data.id is string && data.id == logId && logId.size() <= 64 && isValidId(data.id)
+        && data.action is string && data.action.size() >= 1 && data.action.size() <= 60
+        && data.target is string && data.target.size() >= 1 && data.target.size() <= 120
+        && data.detail is string && data.detail.size() <= 280
+        && data.actorUid is string && isValidId(data.actorUid)
+        && data.actorEmail is string && data.actorEmail.size() <= 160
+        && data.createdAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isStaff());
+      allow list: if isStaff();
+      allow create: if isValidId(userId)
+        && isOwner(userId)
+        && !isKickedUser(userId)
+        && isValidUserRoot(incoming(), userId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && isOwner(userId)
+        && !isKickedUser(userId)
+        && isValidUserRoot(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'updatedAt']);
+      allow delete: if isValidId(userId) && (isOwner(userId) || isAdmin());
+
+      match /private/{privateDocId} {
+        allow get: if isValidId(userId) && privateDocId == 'account' && (isOwner(userId) || isStaff());
+        allow list: if false;
+        allow create: if isValidId(userId)
+          && privateDocId == 'account'
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidPrivateAccount(incoming(), userId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && hasParentUser(userId);
+        allow update: if isValidId(userId)
+          && privateDocId == 'account'
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidPrivateAccount(incoming(), userId)
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['email', 'authProvider', 'updatedAt'])
+          && hasParentUser(userId);
+        allow delete: if isValidId(userId) && privateDocId == 'account' && (isOwner(userId) || isAdmin());
+      }
+
+      match /profile/{profileDocId} {
+        allow get: if isValidId(userId) && profileDocId == 'nutrition' && (isOwner(userId) || isStaff());
+        allow list: if false;
+        allow create: if isValidId(userId)
+          && profileDocId == 'nutrition'
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidNutritionProfile(incoming(), userId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && hasParentUser(userId);
+        allow update: if isValidId(userId)
+          && profileDocId == 'nutrition'
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidNutritionProfile(incoming(), userId)
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().profileCreatedAt == existing().profileCreatedAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'name', 'gender', 'age', 'heightCm', 'weightKg',
+            'goal', 'activityLevel', 'dietaryTags', 'dietaryNote', 'dislikedFoods',
+            'budgetLevel', 'cookingTime', 'cookingSkill', 'kitchenTools', 'healthConditions',
+            'likedDishes', 'dislikedDishes', 'triedDishes',
+            'bmi', 'bmiCategory', 'bmr', 'tdee', 'targetCalories',
+            'targetProtein', 'targetCarbs', 'targetFiber', 'targetFat',
+            'waterTargetCups', 'remindMeals', 'remindWater', 'updatedAt'
+          ])
+          && hasParentUser(userId);
+        allow delete: if isValidId(userId) && profileDocId == 'nutrition' && (isOwner(userId) || isAdmin());
+      }
+
+      match /meals/{mealId} {
+        allow get: if isValidId(userId) && isValidId(mealId) && (isOwner(userId) || isStaff());
+        allow list: if isValidId(userId) && ((isOwner(userId) && existing().uid == request.auth.uid) || isStaff());
+        allow create: if isValidId(userId)
+          && isValidId(mealId)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidMealEntry(incoming(), userId, mealId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && hasParentUser(userId);
+        allow update: if isValidId(userId)
+          && isValidId(mealId)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidMealEntry(incoming(), userId, mealId)
+          && incoming().uid == existing().uid
+          && incoming().id == existing().id
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'dateKey', 'slot', 'name', 'time',
+            'calories', 'protein', 'carbs', 'fiber', 'fat',
+            'sodiumMg', 'sugarG', 'contexts', 'isHealthy',
+            'portionEstimate', 'summaryNote', 'updatedAt'
+          ])
+          && hasParentUser(userId);
+        allow delete: if isValidId(userId) && isValidId(mealId) && (isOwner(userId) || isAdmin());
+      }
+
+      match /waterLogs/{dateKey} {
+        allow get: if isValidId(userId) && isValidDateKey(dateKey) && (isOwner(userId) || isStaff());
+        allow list: if isValidId(userId) && ((isOwner(userId) && existing().uid == request.auth.uid) || isStaff());
+        allow create: if isValidId(userId)
+          && isValidDateKey(dateKey)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidWaterLog(incoming(), userId, dateKey)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && hasParentUser(userId);
+        allow update: if isValidId(userId)
+          && isValidDateKey(dateKey)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidWaterLog(incoming(), userId, dateKey)
+          && incoming().uid == existing().uid
+          && incoming().dateKey == existing().dateKey
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['cups', 'updatedAt'])
+          && hasParentUser(userId);
+        allow delete: if isValidId(userId) && isValidDateKey(dateKey) && (isOwner(userId) || isAdmin());
+      }
+
+      match /weightLogs/{dateKey} {
+        allow get: if isValidId(userId) && isValidDateKey(dateKey) && (isOwner(userId) || isStaff());
+        allow list: if isValidId(userId) && ((isOwner(userId) && existing().uid == request.auth.uid) || isStaff());
+        allow create: if isValidId(userId)
+          && isValidDateKey(dateKey)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidWeightLog(incoming(), userId, dateKey)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && hasParentUser(userId);
+        allow update: if isValidId(userId)
+          && isValidDateKey(dateKey)
+          && isOwner(userId)
+          && !isKickedUser(userId)
+          && isValidWeightLog(incoming(), userId, dateKey)
+          && incoming().uid == existing().uid
+          && incoming().dateKey == existing().dateKey
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['weightKg', 'bmi', 'updatedAt'])
+          && hasParentUser(userId);
+        allow delete: if isValidId(userId) && isValidDateKey(dateKey) && (isOwner(userId) || isAdmin());
+      }
+    }
+
+    match /admins/{adminKey} {
+      allow get: if isValidEmailDocId(adminKey)
+        && (isStaff() || (hasVerifiedEmail() && authEmailLower() == adminKey));
+      allow list: if isStaff();
+      allow create: if isValidEmailDocId(adminKey)
+        && adminKey != 'taikhoanphubg4@gmail.com'
+        && isAdmin()
+        && isValidAdminRecord(incoming(), adminKey)
+        && incoming().addedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidEmailDocId(adminKey)
+        && adminKey != 'taikhoanphubg4@gmail.com'
+        && isAdmin()
+        && isValidAdminRecord(incoming(), adminKey)
+        && incoming().id == existing().id
+        && incoming().email == existing().email
+        && incoming().addedByUid == existing().addedByUid
+        && incoming().addedByEmail == existing().addedByEmail
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['uid', 'role', 'label', 'updatedAt']);
+      allow delete: if isValidEmailDocId(adminKey)
+        && adminKey != 'taikhoanphubg4@gmail.com'
+        && isAdmin()
+        && !(hasVerifiedEmail() && authEmailLower() == adminKey);
+    }
+
+    match /kickedUsers/{userId} {
+      allow get: if isValidId(userId) && (isStaff() || isOwner(userId));
+      allow list: if isStaff();
+      allow create: if isValidId(userId)
+        && isAdmin()
+        && userId != request.auth.uid
+        && isValidKickedUser(incoming(), userId)
+        && incoming().kickedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && isAdmin()
+        && userId != request.auth.uid
+        && isValidKickedUser(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().kickedByUid == request.auth.uid
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'email', 'displayName', 'reason', 'kickedByUid', 'kickedByEmail', 'updatedAt'
+        ]);
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    match /catalogDishes/{dishId} {
+      allow get: if isValidId(dishId)
+        && (resource == null || existing().isActive == true || isStaff());
+      allow list: if isStaff() || existing().isActive == true;
+      allow create: if isValidId(dishId)
+        && isValidCatalogDish(incoming(), dishId)
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          (isAdmin() && incoming().status in ['approved', 'pending'] && incoming().submittedByRole == 'admin')
+          || (isModerator() && incoming().status == 'pending' && incoming().isActive == false && incoming().submittedByRole == 'moderator')
+        );
+      allow update: if isValidId(dishId)
+        && isValidCatalogDish(incoming(), dishId)
+        && incoming().id == existing().id
+        && incoming().createdAt == existing().createdAt
+        && incoming().submittedByEmail == existing().submittedByEmail
+        && incoming().submittedByRole == existing().submittedByRole
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().updatedAt == request.time
+        && (
+          (
+            isAdmin()
+            && incoming().diff(existing()).affectedKeys().hasOnly([
+              'name', 'slots', 'diningMode', 'cuisine', 'portionEstimate',
+              'calories', 'protein', 'carbs', 'fiber', 'fat',
+              'budgetLevel', 'estimatedCostVnd', 'prepMinutes',
+              'whyItFits', 'swapTip', 'isActive', 'status', 'updatedByUid', 'updatedAt'
+            ])
+          )
+          || (
+            isModerator()
+            && existing().status == 'pending'
+            && existing().updatedByUid == request.auth.uid
+            && incoming().status == 'pending'
+            && incoming().isActive == false
+            && incoming().diff(existing()).affectedKeys().hasOnly([
+              'name', 'slots', 'diningMode', 'cuisine', 'portionEstimate',
+              'calories', 'protein', 'carbs', 'fiber', 'fat',
+              'budgetLevel', 'estimatedCostVnd', 'prepMinutes',
+              'whyItFits', 'swapTip', 'updatedByUid', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if isValidId(dishId) && isAdmin();
+    }
+
+    match /appConfig/{configId} {
+      allow get: if configId == 'runtime';
+      allow list: if isStaff();
+      allow create: if configId == 'runtime'
+        && isAdmin()
+        && isValidAppRuntimeConfig(incoming(), configId)
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if configId == 'runtime'
+        && isAdmin()
+        && isValidAppRuntimeConfig(incoming(), configId)
+        && incoming().id == existing().id
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'bannerEnabled', 'bannerTitle', 'bannerMessage', 'bannerTone',
+          'aiMode', 'updatedByUid', 'updatedAt'
+        ]);
+      allow delete: if false;
+    }
+
+    match /adminLogs/{logId} {
+      allow get, list: if isStaff();
+      allow create: if isValidId(logId)
+        && isStaff()
+        && isValidAdminAuditLog(incoming(), logId)
+        && incoming().actorUid == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update, delete: if false;
+    }
+  }
+}

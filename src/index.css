@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+:root {
+  --bg:           #F7F2E3;
+  --bg2:          #EDE5CC;
+  --card:         #FFFDF5;
+  --card2:        #F2EBD8;
+  --mascot-bg:    #FFF9ED;
+
+  --border:       #DDD0B0;
+  --border-dark:  #C5B890;
+  --shadow:       0 2px 12px rgba(45, 36, 22, 0.08);
+  --shadow-sm:    0 1px 4px rgba(45, 36, 22, 0.06);
+
+  --text:         #2D2416;
+  --text2:        #6B5D47;
+  --text3:        #9E8E78;
+
+  --primary:      #06D6A0;
+  --primary-deep: #037A5B;
+  --primary-soft: #D4F7EE;
+  --accent:       #FF8A3D;
+  --accent-deep:  #CC5F1A;
+  --accent-soft:  #FFEEDD;
+
+  --protein:      #FF6B6B;
+  --protein-soft: #FFE8E8;
+  --carbs:        #E8A500;
+  --carbs-soft:   #FFF3CC;
+  --fiber:        #2EC4B6;
+  --fiber-soft:   #D4F4F2;
+  --fat:          #9D7BFF;
+  --fat-soft:     #EDE6FF;
+
+  --water:        #4FC3F7;
+  --water-deep:   #0284C7;
+
+  --radius:       20px;
+  --radius-sm:    12px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+[role="button"],
+.no-select {
+  user-select: none;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Soft Neo-Brutalism Surfaces */
+.neo-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 3px 0 var(--border-dark), var(--shadow);
+  border-radius: var(--radius);
+}
+
+.neo-cta {
+  border: 1.5px solid var(--border-dark);
+  box-shadow: 0 3px 0 #CC5F1A;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.neo-cta:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #CC5F1A;
+}
+
+/* Macro hover */
+.macro-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.macro-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 36, 22, 0.08);
+}
+
+/* Animations */
+@keyframes fillBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-fill-bar {
+  transform-origin: left center;
+  animation: fillBar 0.9s ease-out forwards;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-enter {
+  opacity: 0;
+  animation: cardEnter 0.4s ease-out forwards;
+}
+
+@keyframes ctaPulse {
+  0%, 75%, 100% {
+    box-shadow: 0 4px 0 #CC5F1A, 0 6px 16px rgba(255, 138, 61, 0.35);
+  }
+  87% {
+    box-shadow: 0 4px 0 #CC5F1A, 0 6px 22px rgba(255, 138, 61, 0.62);
+  }
+}
+
+.animate-cta-pulse {
+  animation: ctaPulse 4s ease-in-out infinite;
+}
+
+@keyframes screenFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-screen-fade {
+  animation: screenFade 0.2s ease-out forwards;
+}
+
+@keyframes navTap {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-nav-tap {
+  animation: navTap 0.15s ease-out;
+}
+
+/* Hide scrollbars cleanly on horizontal chip row */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fill-bar,
+  .animate-card-enter,
+  .animate-cta-pulse,
+  .animate-screen-fade,
+  .animate-nav-tap {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
