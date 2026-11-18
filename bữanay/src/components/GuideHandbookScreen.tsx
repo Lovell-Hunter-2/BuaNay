@@ -255,7 +255,7 @@ export function GuideHandbookScreen({
         <div className="flex flex-col gap-[16px]">
           <div>
             <p className="text-[11px] font-bold tracking-[0.04em] text-[#9E8E78] m-0 mb-[8px]">
-              BẢNG ĐỔI MÓN THÔNG MINH (TIẾT KIỆM CALO)
+              ĐỔI MÓN TỐI ƯU DINH DƯỠNG
             </p>
             <div className="flex items-center gap-[6px] overflow-x-auto no-scrollbar pb-[4px] mb-[10px]">
               {swapCategories.map((cat) => (
@@ -276,52 +276,49 @@ export function GuideHandbookScreen({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[12px]">
-              {visibleSwaps.map((pair) => {
-                const saved = pair.fromCalories - pair.toCalories;
-                return (
-                  <article key={pair.id} className="neo-card p-[14px] flex flex-col justify-between">
-                    <div className="flex items-center justify-between gap-[8px]">
-                      <span className="text-[10px] font-bold tracking-[0.04em] text-[#9E8E78]">
-                        {pair.category.toUpperCase()}
-                      </span>
-                      <span className="text-[11px] font-extrabold text-[#037A5B] bg-[#D4F7EE] rounded-full px-[9px] py-[2px] tabular-nums whitespace-nowrap">
-                        Tiết kiệm -{saved} kcal
-                      </span>
-                    </div>
+              {visibleSwaps.map((pair) => (
+                <article key={pair.id} className="neo-card p-[13px] flex flex-col justify-between">
+                  <div className="flex items-center justify-between gap-[8px]">
+                    <span className="text-[10px] font-bold tracking-[0.04em] text-[#9E8E78]">
+                      {pair.category.toUpperCase()}
+                    </span>
+                    <span className="text-[11px] font-extrabold text-[#037A5B] bg-[#D4F7EE] rounded-full px-[9px] py-[2px] whitespace-nowrap">
+                      {pair.nutritionBadge}
+                    </span>
+                  </div>
 
-                    <div className="mt-[8px] flex flex-col gap-[4px]">
-                      <p className="text-[12px] font-semibold text-[#C94A4A] m-0">
-                        Thay vì: {pair.fromDish} ({pair.fromCalories} kcal)
-                      </p>
-                      <p className="text-[13px] font-extrabold text-[#037A5B] m-0">
-                        Chọn: {pair.toDish} ({pair.toCalories} kcal)
-                      </p>
-                    </div>
-
-                    <p className="text-[12px] font-medium text-[#2D2416] m-0 mt-[8px] leading-relaxed">
-                      {pair.whyBetter}
+                  <div className="mt-[7px] flex flex-col gap-[3px]">
+                    <p className="text-[12px] font-semibold text-[#C94A4A] m-0">
+                      Thay vì: {pair.fromDish}
                     </p>
-                    <p className="text-[11px] font-semibold text-[#6B5D47] bg-[#F2EBD8] rounded-[10px] px-[10px] py-[7px] m-0 mt-[7px] leading-snug">
-                      Cách gọi/chế biến: {pair.howToApply}
+                    <p className="text-[13px] font-extrabold text-[#037A5B] m-0">
+                      Chọn: {pair.toDish}
                     </p>
+                  </div>
 
-                    <button
-                      type="button"
-                      onClick={() => onAskAiSwap(pair.fromDish)}
-                      className="mt-[9px] text-left text-[12px] font-bold text-[#CC5F1A] hover:underline cursor-pointer bg-transparent border-0 p-0"
-                    >
-                      Hỏi AI gợi ý thêm lựa chọn thay thế →
-                    </button>
-                  </article>
-                );
-              })}
+                  <p className="text-[12px] font-medium text-[#2D2416] m-0 mt-[6px] leading-snug">
+                    {pair.whyBetter}
+                  </p>
+                  <p className="text-[11px] font-semibold text-[#6B5D47] bg-[#F2EBD8] rounded-[10px] px-[10px] py-[6px] m-0 mt-[6px] leading-snug">
+                    Mẹo: {pair.howToApply}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => onAskAiSwap(pair.fromDish)}
+                    className="mt-[7px] text-left text-[12px] font-bold text-[#CC5F1A] hover:underline cursor-pointer bg-transparent border-0 p-0"
+                  >
+                    Tìm thêm món thay thế →
+                  </button>
+                </article>
+              ))}
             </div>
           </div>
 
           {/* Hand Portion Guide */}
           <section aria-label="Quy tắc bàn tay ước lượng khẩu phần">
             <p className="text-[11px] font-bold tracking-[0.04em] text-[#9E8E78] m-0 mb-[8px]">
-              ƯỚC LƯỢNG KHẨU PHẦN BẰNG BÀN TAY (KHÔNG CẦN CÂN)
+              ƯỚC LƯỢNG KHẨU PHẦN BẰNG BÀN TAY
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-[10px]">
               {HAND_PORTION_RULES.map((rule) => (
@@ -349,13 +346,13 @@ export function GuideHandbookScreen({
 
           {/* Dining Out Practical Rules */}
           <section
-            aria-label="Mẹo ăn ngoài quán không bể kèo calo"
+            aria-label="Mẹo ăn ngoài đủ chất"
             className="neo-card p-[14px]"
           >
-            <h2 className="text-[14px] font-extrabold text-[#2D2416] m-0 mb-[8px]">
-              Mẹo ăn ngoài quán vẫn giữ dáng
+            <h2 className="text-[14px] font-extrabold text-[#2D2416] m-0 mb-[7px]">
+              Mẹo ăn ngoài đủ chất
             </h2>
-            <ul className="m-0 pl-[16px] flex flex-col gap-[6px] text-[12px] font-medium text-[#2D2416] leading-relaxed">
+            <ul className="m-0 pl-[16px] flex flex-col gap-[5px] text-[12px] font-medium text-[#2D2416] leading-snug">
               {DINING_OUT_TIPS.map((tip, i) => (
                 <li key={i}>{tip}</li>
               ))}
