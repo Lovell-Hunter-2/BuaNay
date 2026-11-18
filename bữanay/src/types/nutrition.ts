@@ -21,6 +21,12 @@ export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active';
 
 export type BudgetLevel = 'economy' | 'balanced' | 'flexible';
 
+export type MealBudgetRange =
+  | 'under_50k'
+  | '50_80k'
+  | '85_150k'
+  | 'over_150k';
+
 export type CookingTime = 'no_cook' | 'under_15' | '15_to_30' | 'flexible';
 
 export type CookingSkill = 'basic' | 'intermediate' | 'confident';
