@@ -1238,6 +1238,12 @@ export async function parseApiJson<T>(response: Response): Promise<T> {
   try {
     return JSON.parse(trimmed) as T;
   } catch {
+    if (response.status === 413) {
+      throw new Error('Ảnh hơi lớn so với giới hạn truyền tải. Bạn thử chọn ảnh khác nhé!');
+    }
+    if (response.status >= 500) {
+      throw new Error('Máy chủ AI đang gặp sự cố tạm thời. Bạn thử lại sau vài giây nhé!');
+    }
     throw new Error('Dữ liệu trả về chưa đúng định dạng. Bạn thử bấm lại nhé!');
   }
 }
