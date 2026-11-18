@@ -84,7 +84,7 @@ Dashboard `/admin` được thiết kế đồng bộ hoàn toàn theo phong cá
 ```text
 ├── api/                         # Vercel Serverless Functions (/api/analyze-meal, suggest-meals, weather, health, admin/telemetry)
 ├── server/
-│   └── apiApp.ts                # Core Express API, AI multi-provider failover & Open-Meteo proxy
+│   └── apiApp.mjs               # Core Express API, AI multi-provider failover & Open-Meteo proxy
 ├── server.ts                    # Node/Express entrypoint gắn Vite (dev) hoặc dist/ (prod)
 ├── firestore.rules              # Security Rules kiểm soát RBAC admin/moderator & kickedUsers
 ├── firebase-blueprint.json      # Schema chuẩn hóa các collection trên Firestore
