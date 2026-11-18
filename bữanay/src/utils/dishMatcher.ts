@@ -7,11 +7,16 @@ import type {
   DishCuisine,
   FoodSwapItem,
   FoodSwapResponse,
+  MealBudgetRange,
   MealDiningMode,
   MealSlot,
   MealSuggestion,
   UserProfile,
 } from '../types/nutrition';
+import {
+  formatMealBudgetSummary,
+  parseDishCostVndRange,
+} from './nutrition';
 
 export type CuisineFilter = 'all' | DishCuisine;
 
@@ -293,6 +298,8 @@ export function pickTier1MenuSuggestions(params: {
   diningMode: MealDiningMode;
   preferredSlot: MealSlot;
   budgetOverride: BudgetLevel;
+  budgetRange?: MealBudgetRange;
+  customBudgetVnd?: number | null;
   availableIngredients?: string;
   excludeNames?: string[];
   cuisineFilter?: CuisineFilter;
@@ -305,6 +312,8 @@ export function pickTier1MenuSuggestions(params: {
     diningMode,
     preferredSlot,
     budgetOverride,
+    budgetRange,
+    customBudgetVnd = null,
     availableIngredients = '',
     excludeNames = [],
     cuisineFilter = 'all',
@@ -362,11 +371,27 @@ export function pickTier1MenuSuggestions(params: {
     }
     if (dislikedSet.has(normalizeText(dish.name))) return false;
 
-    if (
-      strictBudget &&
-      BUDGET_RANK[dish.budgetLevel] > BUDGET_RANK[budgetOverride]
-    ) {
-      return false;
+    const dishCost = parseDishCostVndRange(dish.estimatedCostVnd, dish.budgetLevel);
+
+    if (strictBudget) {
+      if (typeof customBudgetVnd === 'number' && customBudgetVnd > 0) {
+        if (dishCost.max > customBudgetVnd) {
+          return false;
+        }
+      } else if (budgetRange) {
+        if (budgetRange === 'under_50k' && dishCost.max >= 50000) return false;
+        if (budgetRange === '50_80k' && (dishCost.max < 50000 || dishCost.min > 80000)) {
+          return false;
+        }
+        if (budgetRange === '85_150k' && (dishCost.max < 85000 || dishCost.min > 150000)) {
+          return false;
+        }
+        if (budgetRange === 'over_150k' && dishCost.max <= 150000) {
+          return false;
+        }
+      } else if (BUDGET_RANK[dish.budgetLevel] > BUDGET_RANK[budgetOverride]) {
+        return false;
+      }
     }
 
     if (diningMode === 'home_cook' && dish.tools.length > 0 && userTools.length > 0) {
@@ -467,8 +492,33 @@ export function pickTier1MenuSuggestions(params: {
     if (wantsLowSugar && (dish.sugarG ?? 0) <= 6) score += 8;
     if (wantsFlexVeg && isLikelyVegetarianFriendly(dish)) score += 22;
 
-    // 6. Budget preference
-    if (dish.budgetLevel === budgetOverride) score += 6;
+    // 6. Budget preference (VND range / custom VND target / legacy BudgetLevel)
+    const dishCost = parseDishCostVndRange(dish.estimatedCostVnd, dish.budgetLevel);
+    if (typeof customBudgetVnd === 'number' && customBudgetVnd > 0) {
+      if (dishCost.max <= customBudgetVnd) {
+        score += 18;
+        if (dishCost.max >= customBudgetVnd * 0.55) {
+          score += 10;
+        } else if (customBudgetVnd >= 80000 && dishCost.max < customBudgetVnd * 0.35) {
+          score -= 8;
+        }
+      } else {
+        score -= Math.min(30, Math.round((dishCost.max - customBudgetVnd) / 3000));
+      }
+    } else if (budgetRange) {
+      const fitsRange =
+        (budgetRange === 'under_50k' && dishCost.max < 50000) ||
+        (budgetRange === '50_80k' && dishCost.max >= 50000 && dishCost.min <= 80000) ||
+        (budgetRange === '85_150k' && dishCost.max >= 85000 && dishCost.min <= 150000) ||
+        (budgetRange === 'over_150k' && dishCost.max > 150000);
+      if (fitsRange) {
+        score += 24;
+      } else {
+        score -= 14;
+      }
+    } else if (dish.budgetLevel === budgetOverride) {
+      score += 6;
+    }
 
     // 7. Home-cook time match
     if (diningMode === 'home_cook' && profile.cookingTime) {
@@ -533,6 +583,10 @@ export function pickTier1MenuSuggestions(params: {
 
   const slotLabel = preferredSlot.toLowerCase();
   const modeLabel = diningMode === 'home_cook' ? 'tự nấu' : 'ăn ngoài';
+  const budgetNote =
+    diningMode === 'eat_out' && (budgetRange || (customBudgetVnd && customBudgetVnd > 0))
+      ? ` Ngân sách ${formatMealBudgetSummary(budgetRange, customBudgetVnd)}.`
+      : '';
   const ingNote =
     ingredientTokens.length > 0 && maxIngredientMatchesFound > 0
       ? ` Có ưu tiên món tận dụng "${ingredientTokens.slice(0, 3).join(', ')}".`
@@ -540,7 +594,7 @@ export function pickTier1MenuSuggestions(params: {
 
   const summaryTip = `3 gợi ý ${modeLabel} phù hợp cho bữa ${slotLabel} — cân đối với mục tiêu ${formatKcalNumber(
     profile.targetCalories
-  )} kcal/ngày (còn lại ~${formatKcalNumber(remaining.calories)} kcal).${ingNote}`;
+  )} kcal/ngày (còn lại ~${formatKcalNumber(remaining.calories)} kcal).${budgetNote}${ingNote}`;
 
   return {
     suggestions: picked.map((d) => toMealSuggestion(d, preferredSlot)),
