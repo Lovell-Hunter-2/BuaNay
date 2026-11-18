@@ -33,8 +33,22 @@ interface GeminiMealAnalysis {
   summaryNote: string;
 }
 
+interface OpenAiFallbackProvider {
+  id: 'groq' | 'cerebras' | 'openrouter' | 'mistral';
+  apiKey: string;
+  endpoint: string;
+  model: string;
+  visionModel?: string;
+  extraHeaders?: Record<string, string>;
+}
+
+function hasValidGeminiKey(): boolean {
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  return Boolean(apiKey && apiKey !== 'MY_GEMINI_API_KEY');
+}
+
 function getGeminiClient(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
   if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
     throw new Error('MISSING_GEMINI_API_KEY');
   }
@@ -47,6 +61,70 @@ function getGeminiClient(): GoogleGenAI {
       },
     },
   });
+}
+
+function getFallbackProviders(): OpenAiFallbackProvider[] {
+  const providers: OpenAiFallbackProvider[] = [];
+
+  const groqKey = process.env.GROQ_API_KEY?.trim();
+  if (groqKey) {
+    providers.push({
+      id: 'groq',
+      apiKey: groqKey,
+      endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+      model: process.env.GROQ_MODEL?.trim() || 'llama-3.3-70b-versatile',
+      visionModel:
+        process.env.GROQ_VISION_MODEL?.trim() ||
+        'meta-llama/llama-4-scout-17b-16e-instruct',
+    });
+  }
+
+  const cerebrasKey = process.env.CEREBRAS_API_KEY?.trim();
+  if (cerebrasKey) {
+    providers.push({
+      id: 'cerebras',
+      apiKey: cerebrasKey,
+      endpoint: 'https://api.cerebras.ai/v1/chat/completions',
+      model: process.env.CEREBRAS_MODEL?.trim() || 'llama-3.3-70b',
+    });
+  }
+
+  const openRouterKey = process.env.OPENROUTER_API_KEY?.trim();
+  if (openRouterKey) {
+    providers.push({
+      id: 'openrouter',
+      apiKey: openRouterKey,
+      endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+      model: process.env.OPENROUTER_MODEL?.trim() || 'openrouter/free',
+      visionModel: process.env.OPENROUTER_VISION_MODEL?.trim() || 'openrouter/free',
+      extraHeaders: {
+        'HTTP-Referer': process.env.APP_URL?.trim() || 'https://buanay.app',
+        'X-Title': 'BuaNay Nutrition',
+      },
+    });
+  }
+
+  const mistralKey = process.env.MISTRAL_API_KEY?.trim();
+  if (mistralKey) {
+    providers.push({
+      id: 'mistral',
+      apiKey: mistralKey,
+      endpoint: 'https://api.mistral.ai/v1/chat/completions',
+      model: process.env.MISTRAL_MODEL?.trim() || 'mistral-small-latest',
+    });
+  }
+
+  return providers;
+}
+
+function getProviderAvailability() {
+  return {
+    gemini: hasValidGeminiKey(),
+    groq: Boolean(process.env.GROQ_API_KEY?.trim()),
+    cerebras: Boolean(process.env.CEREBRAS_API_KEY?.trim()),
+    openrouter: Boolean(process.env.OPENROUTER_API_KEY?.trim()),
+    mistral: Boolean(process.env.MISTRAL_API_KEY?.trim()),
+  };
 }
 
 function parseDataUrl(
@@ -209,25 +287,116 @@ function sanitizeAnalysis(raw: Partial<GeminiMealAnalysis>): GeminiMealAnalysis 
   };
 }
 
-async function generateJsonWithRetry(
-  ai: GoogleGenAI,
+function extractJsonText(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return '';
+  const fencedMatch = /```(?:json)?\s*([\s\S]*?)```/i.exec(trimmed);
+  const candidate = fencedMatch ? fencedMatch[1].trim() : trimmed;
+  const firstBrace = candidate.indexOf('{');
+  const lastBrace = candidate.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    return candidate.slice(firstBrace, lastBrace + 1);
+  }
+  return candidate;
+}
+
+function buildSchemaInstruction(schema: Record<string, unknown>): string {
+  return [
+    'CHỈ TRẢ VỀ DUY NHẤT 1 JSON OBJECT HỢP LỆ (không kèm markdown fence hay giải thích thừa), tuân thủ đúng cấu trúc JSON Schema sau:',
+    JSON.stringify(schema),
+  ].join('\n');
+}
+
+async function callOpenAiCompatibleJson(
+  provider: OpenAiFallbackProvider,
   parts: Array<{ inlineData: { mimeType: string; data: string } } | { text: string }>,
   responseSchema: Record<string, unknown>
 ): Promise<{ text: string; model: string }> {
-  const callModel = async (model: string, withLowThinking: boolean) => {
-    return ai.models.generateContent({
-      model,
-      contents: { parts },
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema,
-        ...(withLowThinking
-          ? { thinkingConfig: { thinkingLevel: ThinkingLevel.LOW } }
-          : {}),
+  const imagePart = parts.find(
+    (p): p is { inlineData: { mimeType: string; data: string } } => 'inlineData' in p
+  );
+  const textContent = parts
+    .filter((p): p is { text: string } => 'text' in p)
+    .map((p) => p.text)
+    .join('\n\n');
+
+  const model = imagePart ? provider.visionModel : provider.model;
+  if (!model) {
+    throw new Error(`${provider.id}_NO_VISION_MODEL`);
+  }
+
+  const promptWithSchema = `${textContent}\n\n${buildSchemaInstruction(responseSchema)}`;
+  const userContent = imagePart
+    ? [
+        { type: 'text', text: promptWithSchema },
+        {
+          type: 'image_url',
+          image_url: {
+            url: `data:${imagePart.inlineData.mimeType};base64,${imagePart.inlineData.data}`,
+          },
+        },
+      ]
+    : promptWithSchema;
+
+  const doRequest = async (useJsonMode: boolean) => {
+    const res = await fetch(provider.endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${provider.apiKey}`,
+        ...(provider.extraHeaders ?? {}),
       },
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: 'system',
+            content:
+              'Bạn là trợ lý dinh dưỡng chuyên nghiệp cho ứng dụng BữaNay. Luôn trả lời bằng tiếng Việt và chỉ xuất ra JSON hợp lệ.',
+          },
+          { role: 'user', content: userContent },
+        ],
+        temperature: 0.4,
+        ...(useJsonMode ? { response_format: { type: 'json_object' } } : {}),
+      }),
+      signal: AbortSignal.timeout(15000),
     });
+
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      throw new Error(`${provider.id}_HTTP_${res.status}: ${errBody.slice(0, 180)}`);
+    }
+
+    const payload = (await res.json()) as {
+      choices?: Array<{ message?: { content?: string | null } }>;
+    };
+    const rawContent = payload.choices?.[0]?.message?.content ?? '';
+    return extractJsonText(rawContent);
   };
 
+  let jsonText = '';
+  try {
+    jsonText = await doRequest(true);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes('_HTTP_400')) {
+      jsonText = await doRequest(false);
+    } else {
+      throw err;
+    }
+  }
+
+  if (!jsonText) {
+    throw new Error(`${provider.id}_EMPTY_RESPONSE`);
+  }
+  JSON.parse(jsonText);
+  return { text: jsonText, model: `${provider.id}:${model}` };
+}
+
+async function generateJsonWithRetry(
+  parts: Array<{ inlineData: { mimeType: string; data: string } } | { text: string }>,
+  responseSchema: Record<string, unknown>
+): Promise<{ text: string; model: string }> {
   const isTransientError = (err: unknown) => {
     const msg = err instanceof Error ? err.message : String(err);
     const low = msg.toLowerCase();
@@ -237,6 +406,8 @@ async function generateJsonWithRetry(
       msg.includes('high demand') ||
       msg.includes('429') ||
       msg.includes('RESOURCE_EXHAUSTED') ||
+      msg.includes('403') ||
+      msg.includes('API_KEY_INVALID') ||
       low.includes('timeout') ||
       low.includes('aborted') ||
       low.includes('etimedout') ||
@@ -244,38 +415,71 @@ async function generateJsonWithRetry(
     );
   };
 
-  const attempts: Array<{ model: string; withLowThinking: boolean; delayMs: number }> = [
-    { model: MODEL_NAME, withLowThinking: true, delayMs: 0 },
-    { model: 'gemini-3.1-flash-lite', withLowThinking: false, delayMs: 150 },
-  ];
-
   let lastErr: unknown = null;
-  for (const attempt of attempts) {
-    if (attempt.delayMs > 0) {
-      await new Promise((r) => setTimeout(r, attempt.delayMs));
-    }
-    try {
-      const response = await callModel(attempt.model, attempt.withLowThinking);
-      return { text: (response.text ?? '').trim(), model: attempt.model };
-    } catch (err) {
-      lastErr = err;
-      if (!isTransientError(err)) {
-        throw err;
+
+  if (hasValidGeminiKey()) {
+    const ai = getGeminiClient();
+    const callModel = async (model: string, withLowThinking: boolean) => {
+      return ai.models.generateContent({
+        model,
+        contents: { parts },
+        config: {
+          responseMimeType: 'application/json',
+          responseSchema,
+          ...(withLowThinking
+            ? { thinkingConfig: { thinkingLevel: ThinkingLevel.LOW } }
+            : {}),
+        },
+      });
+    };
+
+    const attempts: Array<{ model: string; withLowThinking: boolean; delayMs: number }> = [
+      { model: MODEL_NAME, withLowThinking: true, delayMs: 0 },
+      { model: 'gemini-3.1-flash-lite', withLowThinking: false, delayMs: 150 },
+    ];
+
+    for (const attempt of attempts) {
+      if (attempt.delayMs > 0) {
+        await new Promise((r) => setTimeout(r, attempt.delayMs));
       }
+      try {
+        const response = await callModel(attempt.model, attempt.withLowThinking);
+        const text = (response.text ?? '').trim();
+        if (text) {
+          return { text, model: attempt.model };
+        }
+      } catch (err) {
+        lastErr = err;
+        if (!isTransientError(err)) {
+          break;
+        }
+      }
+    }
+  } else {
+    lastErr = new Error('MISSING_GEMINI_API_KEY');
+  }
+
+  const fallbacks = getFallbackProviders();
+  for (const provider of fallbacks) {
+    try {
+      return await callOpenAiCompatibleJson(provider, parts, responseSchema);
+    } catch (err) {
+      console.warn(`[AI fallback ${provider.id} failed]`, err instanceof Error ? err.message : err);
+      lastErr = err;
     }
   }
 
-  throw lastErr ?? new Error('EMPTY_RESPONSE');
+  throw lastErr ?? new Error('MISSING_AI_API_KEY');
 }
 
 function handleGeminiRouteError(err: unknown, res: Response, tag: string) {
   const message = err instanceof Error ? err.message : String(err);
   console.error(tag, err);
 
-  if (message === 'MISSING_GEMINI_API_KEY') {
+  if (message === 'MISSING_GEMINI_API_KEY' || message === 'MISSING_AI_API_KEY') {
     res.status(503).json({
       error:
-        'Chưa cấu hình GEMINI_API_KEY trên máy chủ. Vui lòng kiểm tra mục Settings > Secrets trong AI Studio.',
+        'Chưa cấu hình khóa API AI trên máy chủ (GEMINI_API_KEY hoặc GROQ_API_KEY / OPENROUTER_API_KEY). Vui lòng kiểm tra biến môi trường.',
     });
     return;
   }
@@ -323,7 +527,11 @@ async function startServer() {
   app.use(express.json({ limit: '12mb' }));
 
   app.get('/api/health', (_req: Request, res: Response) => {
-    res.json({ ok: true, model: MODEL_NAME });
+    res.json({
+      ok: true,
+      model: MODEL_NAME,
+      providers: getProviderAvailability(),
+    });
   });
 
   app.post('/api/analyze-meal', async (req: Request, res: Response) => {
@@ -348,7 +556,6 @@ async function startServer() {
         return;
       }
 
-      const ai = getGeminiClient();
       const promptText = buildMealPrompt({
         description,
         contexts,
@@ -366,7 +573,6 @@ async function startServer() {
       parts.push({ text: promptText });
 
       const { text: rawText, model: usedModel } = await generateJsonWithRetry(
-        ai,
         parts,
         MEAL_RESPONSE_SCHEMA
       );
@@ -391,6 +597,8 @@ async function startServer() {
       const body = (req.body ?? {}) as {
         mode?: 'menu' | 'swap' | 'report_insight' | 'companion_chat';
         diningMode?: 'eat_out' | 'home_cook';
+        budgetRange?: 'under_50k' | '50_80k' | '85_150k' | 'over_150k';
+        customBudgetVnd?: number;
         availableIngredients?: string;
         profile?: {
           name?: string;
@@ -459,7 +667,23 @@ async function startServer() {
         ? p.suggestionFeedback!.tried.slice(0, 8).join(', ')
         : '';
 
-      const ai = getGeminiClient();
+      const customBudget =
+        typeof body.customBudgetVnd === 'number' &&
+        Number.isFinite(body.customBudgetVnd) &&
+        body.customBudgetVnd >= 5000
+          ? Math.round(body.customBudgetVnd)
+          : null;
+      const budgetConstraintText = customBudget
+        ? `Ngân sách tự chọn tối đa mỗi phần: ~${customBudget.toLocaleString('vi-VN')}đ`
+        : body.budgetRange === 'under_50k'
+        ? 'Ngân sách mỗi phần ăn: Dưới 50.000đ'
+        : body.budgetRange === '50_80k'
+        ? 'Ngân sách mỗi phần ăn: Từ 50.000đ đến 80.000đ'
+        : body.budgetRange === '85_150k'
+        ? 'Ngân sách mỗi phần ăn: Từ 85.000đ đến 150.000đ'
+        : body.budgetRange === 'over_150k'
+        ? 'Ngân sách mỗi phần ăn: Trên 150.000đ (có thể gợi ý món cao cấp, giàu đạm chất lượng)'
+        : `Ngân sách: ${p.budgetLevel || 'balanced'}`;
 
       const profileSummary = [
         `Người dùng: ${p.name || 'Bạn'}, ${p.gender === 'male' ? 'Nam' : 'Nữ'}, ${p.age ?? 24} tuổi, cao ${p.heightCm ?? 165}cm, nặng ${p.weightKg ?? 58}kg.`,
@@ -469,7 +693,7 @@ async function startServer() {
         `Nhu cầu còn lại hôm nay: ${rem.calories ?? 0} kcal, Đạm ${rem.protein ?? 0}g, Tinh bột ${rem.carbs ?? 0}g, Chất xơ ${rem.fiber ?? 0}g, Chất béo ${rem.fat ?? 0}g.`,
         `Thói quen & dị ứng: ${dietaryTags || 'Không có'}; Ghi chú thêm: ${p.dietaryNote || 'Không có'}.`,
         `Thực phẩm không thích (tránh gợi ý): ${p.dislikedFoods || 'Không có'}.`,
-        `Ngân sách: ${p.budgetLevel || 'balanced'}; Thời gian nấu: ${p.cookingTime || 'under_15'}; Trình độ nấu: ${p.cookingSkill || 'basic'}; Dụng cụ có sẵn: ${kitchenTools || 'Bếp cơ bản'}.`,
+        `${budgetConstraintText}; Thời gian nấu: ${p.cookingTime || 'under_15'}; Trình độ nấu: ${p.cookingSkill || 'basic'}; Dụng cụ có sẵn: ${kitchenTools || 'Bếp cơ bản'}.`,
         `Tình trạng sức khỏe lưu ý: ${healthConditions || 'Bình thường'}.`,
         liked ? `Món đã thích trước đây: ${liked}.` : '',
         dislikedFeedback ? `Món từng đánh giá KHÔNG HỢP (tuyệt đối tránh lặp lại): ${dislikedFeedback}.` : '',
@@ -506,7 +730,6 @@ async function startServer() {
         };
 
         const { text: rawText, model: usedModel } = await generateJsonWithRetry(
-          ai,
           [{ text: chatPrompt }],
           chatSchema
         );
@@ -544,7 +767,6 @@ async function startServer() {
         };
 
         const { text: rawText, model: usedModel } = await generateJsonWithRetry(
-          ai,
           [{ text: reportPrompt }],
           insightSchema
         );
@@ -608,7 +830,6 @@ async function startServer() {
         };
 
         const { text: rawText, model: usedModel } = await generateJsonWithRetry(
-          ai,
           [{ text: swapPrompt }],
           swapSchema
         );
@@ -633,7 +854,7 @@ async function startServer() {
         `Buổi ăn ưu tiên gợi ý: ${body.preferredSlot || 'Phù hợp phần calo còn lại hôm nay'}.`,
         diningMode === 'home_cook'
           ? `HÌNH THỨC: TỰ NẤU TẠI NHÀ. Nguyên liệu người dùng đang có sẵn: "${availableIngredients || 'Chưa nhập (hãy gợi ý món từ nguyên liệu siêu thị bình dân dễ mua)'}". BẮT BUỘC ưu tiên tận dụng tối đa nguyên liệu sẵn có, phù hợp thời gian nấu và dụng cụ đã khai báo, và trả kèm công thức đầy đủ gồm định lượng nguyên liệu + các bước nấu từng bước dễ làm.`
-          : 'HÌNH THỨC: ĂN NGOÀI / ĐẶT MÓN. Hãy gợi ý 3 món Việt Nam dễ mua ngoài quán hoặc đặt giao đồ ăn, hợp đúng ngân sách, tình trạng sức khỏe, sở thích và lượng calo/chất còn lại hôm nay. Kèm khoảng giá ước tính VNĐ.',
+          : `HÌNH THỨC: ĂN NGOÀI / ĐẶT MÓN. Hãy gợi ý 3 món Việt Nam dễ mua ngoài quán hoặc đặt giao đồ ăn, hợp đúng ${budgetConstraintText}, tình trạng sức khỏe, sở thích và lượng calo/chất còn lại hôm nay. Kèm khoảng giá ước tính VNĐ khớp với mức ngân sách yêu cầu.`,
         'Tránh tuyệt đối thực phẩm dị ứng/không thích và các món người dùng đã bấm không hợp.',
         'Trả lời hoàn toàn bằng tiếng Việt.',
       ].join('\n');
@@ -696,7 +917,6 @@ async function startServer() {
       };
 
       const { text: rawText, model: usedModel } = await generateJsonWithRetry(
-        ai,
         [{ text: menuPrompt }],
         menuSchema
       );
