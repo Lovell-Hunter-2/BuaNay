@@ -34,7 +34,7 @@ interface GeminiMealAnalysis {
 }
 
 interface OpenAiFallbackProvider {
-  id: 'groq' | 'cerebras' | 'openrouter' | 'mistral';
+  id: 'groq' | 'cerebras' | 'openrouter' | 'cloudflare' | 'mistral';
   apiKey: string;
   endpoint: string;
   model: string;
@@ -104,6 +104,22 @@ function getFallbackProviders(): OpenAiFallbackProvider[] {
     });
   }
 
+  const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN?.trim();
+  const cloudflareAccountId = process.env.CLOUDFLARE_ACCOUNT_ID?.trim();
+  if (cloudflareToken && cloudflareAccountId) {
+    providers.push({
+      id: 'cloudflare',
+      apiKey: cloudflareToken,
+      endpoint: `https://api.cloudflare.com/client/v4/accounts/${cloudflareAccountId}/ai/v1/chat/completions`,
+      model:
+        process.env.CLOUDFLARE_MODEL?.trim() ||
+        '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+      visionModel:
+        process.env.CLOUDFLARE_VISION_MODEL?.trim() ||
+        '@cf/meta/llama-3.2-11b-vision-instruct',
+    });
+  }
+
   const mistralKey = process.env.MISTRAL_API_KEY?.trim();
   if (mistralKey) {
     providers.push({
@@ -123,6 +139,10 @@ function getProviderAvailability() {
     groq: Boolean(process.env.GROQ_API_KEY?.trim()),
     cerebras: Boolean(process.env.CEREBRAS_API_KEY?.trim()),
     openrouter: Boolean(process.env.OPENROUTER_API_KEY?.trim()),
+    cloudflare: Boolean(
+      process.env.CLOUDFLARE_API_TOKEN?.trim() &&
+        process.env.CLOUDFLARE_ACCOUNT_ID?.trim()
+    ),
     mistral: Boolean(process.env.MISTRAL_API_KEY?.trim()),
   };
 }
@@ -379,7 +399,7 @@ async function callOpenAiCompatibleJson(
     jsonText = await doRequest(true);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    if (msg.includes('_HTTP_400')) {
+    if (msg.includes('_HTTP_400') || msg.includes('_HTTP_422')) {
       jsonText = await doRequest(false);
     } else {
       throw err;
@@ -479,7 +499,7 @@ function handleGeminiRouteError(err: unknown, res: Response, tag: string) {
   if (message === 'MISSING_GEMINI_API_KEY' || message === 'MISSING_AI_API_KEY') {
     res.status(503).json({
       error:
-        'Chưa cấu hình khóa API AI trên máy chủ (GEMINI_API_KEY hoặc GROQ_API_KEY / OPENROUTER_API_KEY). Vui lòng kiểm tra biến môi trường.',
+        'Chưa cấu hình khóa API AI trên máy chủ (GEMINI_API_KEY hoặc GROQ_API_KEY / OPENROUTER_API_KEY / CLOUDFLARE_API_TOKEN). Vui lòng kiểm tra biến môi trường.',
     });
     return;
   }
