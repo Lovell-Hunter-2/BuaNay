@@ -1123,7 +1123,7 @@ function AdminConsoleInner({
                         Phân bố mục tiêu người dùng
                       </h2>
                       <p className="text-[11.5px] font-medium text-[#9E8E78] m-0 mt-[2px]">
-                        Tổng hợp trực tiếp từ Firestore
+                        Tổng hợp trực tiếp từ Database
                       </p>
                     </div>
                     <span className="px-[9px] py-[3px] rounded-full bg-[#FFF9ED] border border-[#DDD0B0] text-[11px] font-extrabold text-[#CC5F1A] tabular-nums">
@@ -1190,10 +1190,10 @@ function AdminConsoleInner({
                   <div className="flex items-center justify-between gap-2">
                     <div>
                       <h2 className="text-[15px] font-extrabold text-[#2D2416] m-0">
-                        Trạng thái AI Providers & Thời tiết
+                        Trạng thái API KEY AI
                       </h2>
                       <p className="text-[11.5px] font-medium text-[#9E8E78] m-0 mt-[2px]">
-                        Model chính: {telemetryData?.model ?? 'gemini-4-hydrogen'}
+                        Nguồn API KEY hiện tại: {telemetryData?.model ?? '05'}
                       </p>
                     </div>
                     <span className="text-[11px] font-semibold text-[#9E8E78] tabular-nums">
